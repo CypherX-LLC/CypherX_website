@@ -17,7 +17,7 @@ analytics:
 
 plugins:
   - jekyll-multiple-languages-plugin
-
+permalink: pretty
 collections:
   portfolio:
 

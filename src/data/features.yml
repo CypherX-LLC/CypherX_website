@@ -1,0 +1,26 @@
+title: What we offer
+subtitle: From smart contracts to dApps, we offer only the cutting-edge in application development...
+items:
+  - title: Smart contract development
+    icon: /svg/01.svg
+    text: dApp development on Ethereum using web3.js and Neo using Python. Smart contract development with solidity.
+
+  - title: Blockchain consultation
+    icon: /svg/02.svg
+    text: Understand the whats, whys, and hows of developing a robust user experience for the blockchain.
+
+  - title: Smart contract auditing
+    icon: /svg/03.svg
+    text: Find and fix design issues, coding errors, and security vulnerabilities with our state-of-the-art auditing tools.
+
+  - title: Tokenisation
+    icon: /svg/04.svg
+    text: Fund your project with token economics. Tokens  help drive scalability, fight inflation, and build utility within your ecosystem.
+
+  - title: DAO consultation
+    icon: /svg/05.svg
+    text: Build organisations without traditional “human” hierarchy. Automate management and administrative functions with smart contracts.
+
+  - title: Individual support
+    icon: /svg/06.svg
+    text: Receive unlimited support for your projects regardless of time or location. Our experts are always available to address your concerns.

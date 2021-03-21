@@ -1,0 +1,28 @@
+---
+title: mdx pages - new
+date: 2020-10-27
+---
+import Mdx from "../components/layout-mdx"
+
+## WTF?
+
+Zаміна gatsby-transformer-remark на 
+
+## gatsby-plugin-mdx
+
+У вашому gatsby-config.jsфайлі замініть gatsby-transformer-remarkна gatsby-plugin-mdx. Більшість допоміжних плагінів gatsby-transformer-remarkвсе ще можуть працювати gatsby-plugin-mdx, оновивши опцію плагінів до gatsbyRemarkPlugins.
+
+gatsby-config.js
+Копіюватиgatsby-config.js: скопіюйте код у буфер обміну
+{
+- resolve: `gatsby-transformer-remark`
++ resolve: `gatsby-plugin-mdx`
+  options: {
+-   plugins: [
++   gatsbyRemarkPlugins: [
+Оновіть розширення файлів
+Там, де знаходяться ваші файли Markdown, зміна їх окремих розширень файлів з .mdна .mdxпідбере їх із новою конфігурацією.
+
+Крім того, ви можете сказати gatsby-plugin-mdx прийняти як файли, так .md і .mdx додавши extensions опцію у своєму gatsby-config.js записі.
+
+export default Mdx 

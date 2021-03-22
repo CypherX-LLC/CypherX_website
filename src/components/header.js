@@ -5,7 +5,7 @@ import Nav from "../components/navigation"
 import "../scss/header.scss"
 
 const Header = ({ siteTitle }) => (
-  <header className="page_header"
+  <header className="page_header wrapper"
     style={{
       background: `transparent`,
       marginBottom: `1.45rem`,

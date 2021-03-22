@@ -16,13 +16,17 @@ const Testimonials = () => {
     );
   });
   return (
-    <section id="testimonials_section" className="testimonials wrapper">
-      <div className="testimonials_head">
-        <h2><img src="/svg/QuoteMark.svg" alt="Quote Mark" />
-          {Testimonis.title}</h2>
-        <p>{Testimonis.subtitle}</p>
+    <section id="testimonials_section" className="testimonials">
+      <div className="wrapper">
+        <div className="testimonials_head">
+          <h2>
+            <img src="/svg/QuoteMark.svg" alt="Quote Mark" />
+            {Testimonis.title}
+          </h2>
+          <p>{Testimonis.subtitle}</p>
+        </div>
+        <div className="testimonials_list">{Items}</div>
       </div>
-      <div className="testimonials_list">{Items}</div>
     </section>
   );
 };

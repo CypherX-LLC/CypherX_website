@@ -4,7 +4,7 @@ import Offer from "../data/offering.yml";
 const Offering = () => {
   const Items = Offer.items.map((offer, key) => {
     return (
-      <div className="testimonial_card" key={key}>
+      <div className="offer_card" key={key}>
         <img src={offer.icon} alt="{offer.title}" />
         <h3>{offer.title} </h3>
         <p>{offer.text}</p>

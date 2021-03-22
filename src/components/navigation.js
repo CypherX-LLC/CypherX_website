@@ -12,7 +12,7 @@ const Nav = () => {
       </div>
     )
   })
-  return <div className="top_nav wrapper">{Items}</div>
+  return <div className="top_nav">{Items}</div>
 }
 
 export default Nav

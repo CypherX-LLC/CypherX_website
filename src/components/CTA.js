@@ -17,9 +17,21 @@ const CallToAction = () => {
         <div className="cta_form">
           <p>{CTA.question}</p>
           <h2>{CTA.subtitle}</h2>
-          <form action={CTA.form_action}>
-            <input type="email" placeholder={CTA.input_label} className="email" /> 
-            <input type="subscribe" value={CTA.subscribe} name={CTA.subscribe} className="subscribe_button" />
+          <form action={CTA.form_action} method="post">
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder={CTA.input_label}
+              className="email"
+            />
+            <input
+              type="submit"
+              value={CTA.subscribe}
+              name={CTA.subscribe}
+              id={CTA.subscribe}
+              className="subscribe_button"
+            />
           </form>
         </div>
       </div>

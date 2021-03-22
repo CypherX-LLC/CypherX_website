@@ -2,10 +2,16 @@ import React from "react";
 import Testimonis from "../data/testimonials.yml";
 
 const Testimonials = () => {
+  const Icon = (prop) => {
+    console.log({prop})
+    return (
+      prop.icon ? <img src={prop.icon} alt="icon" /> : ""
+    )
+  }
   const Items = Testimonis.items.map((tm, key) => {
     return (
       <div className="testimonial_card" key={key}>
-        <img src={tm.icon} alt="{tm.name}" />
+        <Icon icon={tm.icon}/>
         <p className="quote">
           <img src="/svg/QMark.svg" alt="Quote Mark" />
           {tm.quote}{" "}

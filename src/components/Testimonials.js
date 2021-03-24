@@ -3,7 +3,6 @@ import Testimonis from "../data/testimonials.yml";
 
 const Testimonials = () => {
   const Icon = (prop) => {
-    console.log({prop})
     return (
       prop.icon ? <img src={prop.icon} alt="icon" /> : ""
     )

@@ -17,7 +17,14 @@ const CallToAction = () => {
         <div className="cta_form">
           <p>{CTA.question}</p>
           <h2>{CTA.subtitle}</h2>
-          <form action={CTA.form_action} method="post">
+          <form
+            method="post"
+            netlify-honeypot="bot-field"
+            data-netlify="true"
+            name="contact"
+          >
+            <input type="hidden" name="bot-field" />
+            <input type="hidden" name="form-name" value="contact" />
             <input
               type="email"
               name="email"

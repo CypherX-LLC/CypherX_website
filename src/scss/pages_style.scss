@@ -333,8 +333,69 @@ header.page_header {
     }
   }
 }
+
 @media (min-width: 1500px) {
   .wrapper {
     width: 1440px;
   }
+}
+.about {
+}
+.about_top {
+  background: url(/images/intro_bg.jpg) left no-repeat, url(/images/about_bg_right.jpg) right no-repeat;
+  background-size: 55% 100%, 45% 100%;
+  padding-top: 175px;
+  align-items: center;
+  * {
+    text-align: left;
+  }
+}
+.top_grid {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 55% 45%;
+  .top_left {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 180px;
+    h1 {
+      font-weight: 700;
+      font-size: 56px;
+    }
+  }
+  .top_right {
+    padding-left: 100px;
+    padding-right: 100px;
+    align-self: center;
+    margin-top: -110px;
+    h2 {
+      font-size: 48px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 0em;
+    }
+  }
+}
+.team_box {
+  padding: 110px;
+}
+.team_grid {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  .team_card {
+    max-width: 420px;
+    * {
+    text-align: center;
+  }
+  img {
+    display: block;
+    margin:50px auto;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}}
 }

@@ -7,7 +7,7 @@
 
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import "../scss/post.scss"
+import "../scss/post_style.scss"
 
 import Header from "./header"
 

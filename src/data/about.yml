@@ -1,0 +1,19 @@
+title: Mission
+description: 
+  - CypherX was conceived after working extensively in Information Technology, Blockchain, and Software Development. We wish to deliver smart and efficient solutions to our customers as we explore the brand new world of blockchain technology.
+  - Our experience has taught us that creativity and inspired-thinking must be an integral part of any organisation that wants to continually push its horizons and embrace success.
+  - Presently, we are working to expand our Data & Analytics technology to be used at the heart of cryptocurrency and blockchain industries.
+cta: 
+  title: Learn More
+  link: "#"
+subtitle1: CypherX was founded to deliver high quality software at a reasonable budget. 
+subtitle2: Who we are
+members:
+  - title: Selim Erünkut
+    position: Co-founder Software Engineer & Fullstack Developer
+    info: Background in software development, business intelligence, cryptocurrencie technologies, engineering and research and passionate about the dynamics of technological innovation.
+    image: /images/selim.jpg
+  - title: Dr. Gökcen Bas
+    position: Co-founder Industry 4.0 & Blockchain Consultant
+    info: University lecturer. Mathematics researcher.  Background in project implementation, technology-enhanced learning, nanometrology, qualitative and quantitative data analysis, artificial intelligence, management system modeling.
+    image: /images/gokcen_bas.jpg

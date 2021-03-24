@@ -1,10 +1,10 @@
 - title: About
-  link: '/'
+  link: '/about/'
 - title: Reviews
-  link: /reviews/
+  link: "#" #/reviews/
 - title: Blog
-  link: /blog/
+  link: "#" #/blog/
 - title: Contact
-  link: /contact/
+  link: "#" #/contact/
 - title: More
   link: '#'

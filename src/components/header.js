@@ -2,7 +2,7 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 import Nav from "../components/navigation"
-import "../scss/header.scss"
+import "../scss/pages_style.scss"
 
 const Header = ({ siteTitle }) => (
   <header className="page_header wrapper"

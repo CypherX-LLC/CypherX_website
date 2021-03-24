@@ -9,11 +9,12 @@ cta:
 subtitle1: CypherX was founded to deliver high quality software at a reasonable budget. 
 subtitle2: Who we are
 members:
-  - title: Selim Erünkut
-    position: Co-founder Software Engineer & Fullstack Developer
-    info: Background in software development, business intelligence, cryptocurrencie technologies, engineering and research and passionate about the dynamics of technological innovation.
-    image: /images/selim.jpg
   - title: Dr. Gökcen Bas
     position: Co-founder Industry 4.0 & Blockchain Consultant
-    info: University lecturer. Mathematics researcher.  Background in project implementation, technology-enhanced learning, nanometrology, qualitative and quantitative data analysis, artificial intelligence, management system modeling.
+    info: University lecturer. Researcher. Background in high stake project managment, manufacturing for industry 4.0, technology-enhanced learning, nanometrology, qualitative and quantitative data analysis, artificial intelligence, management system modeling.
     image: /images/gokcen_bas.jpg
+  - title: Selim Erünkut
+    position: Co-founder Software Engineer & Fullstack Developer
+    info: Background in software development, cryptocurrency technologies and business intelligence, passionate about the dynamics of technological innovation.
+    image: /images/selim.jpg
+

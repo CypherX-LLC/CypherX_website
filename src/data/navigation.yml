@@ -2,9 +2,5 @@
   link: '/about/'
 - title: Reviews
   link: "#" #/reviews/
-- title: Blog
-  link: "#" #/blog/
 - title: Contact
   link: "#" #/contact/
-- title: More
-  link: '#'

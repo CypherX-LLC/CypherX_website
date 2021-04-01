@@ -11,12 +11,15 @@ const Footer = () => {
           </Link>
       );
     });
-    return <div className="bottom_nav wrapper">{Items}</div>;
+    return <div className="bottom_nav">{Items}</div>;
   };
   return (
     <footer className="page_footer">
       <div className="wrapper footer_grid">
-          <img src="/images/triangular1.png" alt="triangular" />
+        <img
+          src="/images/imgbin_graphics-website-wireframe-wire-frame-model-globe-sphere-png 2.png"
+          alt="triangular"
+        />
         <div className="col_2">
           <Nav />
           <p className="copyright">© 2021 CypherX. All rights reserved.</p>

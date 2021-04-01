@@ -1,7 +1,8 @@
 module.exports = {
   siteMetadata: {
+    logo: `/svg/Logo.svg`,
     title: `CypherX`,
-    subtitle: `CypherX Software. Quality. Security.`,
+    subtitle: `Software. Quality. Security.`,
     description: `We help startups and businesses utilize the capabilities of blockchain technologies. Building software since 2011, we’ve applied our combined expertise in creating innovation that brings new levels of openness, productivity, and automation to our clients' business processes.`,
     author: `@selimerunkut`,
   },
@@ -29,7 +30,7 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-/*     {
+    /*     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `svg`,

@@ -6,7 +6,7 @@ const Footer = () => {
   const Nav = () => {
     const Items = Navigation.map((item, key) => {
       return (
-          <Link to={item.link} className="menuItem" key={key}>
+          <Link to={item.link} className="menuItem_footer" key={key}>
             {item.title}
           </Link>
       );
@@ -18,7 +18,7 @@ const Footer = () => {
       <div className="wrapper footer_grid">
         <img
           src="/images/imgbin_graphics-website-wireframe-wire-frame-model-globe-sphere-png 2.png"
-          alt="triangular"
+          alt="featured"
         />
         <div className="col_2">
           <Nav />

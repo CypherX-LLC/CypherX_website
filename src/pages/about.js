@@ -35,7 +35,7 @@ const About = () => {
             </div>
           </div>
         </div>
-        <div className="team_box wrapper">
+         <div className="team_box wrapper">
           <h2>{aboutData.subtitle2}</h2>
           <div className="team_grid">{Members}</div>
         </div>

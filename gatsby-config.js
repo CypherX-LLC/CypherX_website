@@ -1,6 +1,7 @@
 module.exports = {
   siteMetadata: {
-    logo: `/svg/Logo.svg`,
+    logo: `CypherX`,
+    logo_image: `/svg/Logo.svg`,
     title: `CypherX`,
     subtitle: `Software. Quality. Security.`,
     description: `We help startups and businesses utilize the capabilities of blockchain technologies. Building software since 2011, we’ve applied our combined expertise in creating innovation that brings new levels of openness, productivity, and automation to our clients' business processes.`,
@@ -42,13 +43,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `GypherX website`,
+        short_name: `GypherX`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/android-chrome-192x192.png`, // This path is relative to the root of the site.
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

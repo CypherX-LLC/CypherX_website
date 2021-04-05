@@ -29,10 +29,10 @@ export default function Opening() {
         >
           <div className="container">
             <div className="wrapper intro">
-              <div className="triangular hidden_small">
+              <div className="featured hidden_small">
                 <img
                   src="/images/imgbin_graphics-website-wireframe-wire-frame-model-globe-sphere-png 1.png"
-                  alt="triangular"
+                  alt="featured"
                 />
               </div>
               <div className="text_box">

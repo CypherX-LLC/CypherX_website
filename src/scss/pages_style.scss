@@ -108,7 +108,7 @@ header.page_header {
 .hero_section {
   min-height: 100vh;
   display: flex;
-  background-image: url(/images/intro_bg.jpg);
+  background-image: url(/images/intro_bg.webp);
   /*   background: linear-gradient(110deg, rgba(#f8eaeb, 0.1) 0%, rgba(#f81818, 0.4) 15%, rgba(#e4eef8, 0.2) 40%),
     radial-gradient(closest-side, rgba(#e2d6da, 0.3), rgba(#e4c676, 0.3), rgba(#f69d3c, 0.2)),
     linear-gradient(145deg, rgba(226, 0, 0, 0.3) 30%, rgba(255, 20, 20, 0.2) 50%),
@@ -183,7 +183,7 @@ header.page_header {
 }
 .testimonials {
   min-height: 920px;
-  background: url(/images/intro_bg.jpg) left no-repeat, url(/images/tm_bg.jpg) right no-repeat;
+  background: url(/images/intro_bg.webp) left no-repeat, url(/images/tm_bg.webp) right no-repeat;
   background-size: 43% 100%, 57% 100%;
   .testimonials_head {
     * {
@@ -388,7 +388,7 @@ header.page_header {
 .cta_section {
   padding: 20px;
   display: grid;
-  background-image: url(/images/intro_bg.jpg);
+  background-image: url(/images/intro_bg.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -516,7 +516,7 @@ header.page_header {
   }
 }
 .about_top {
-  background: url(/images/intro_bg.jpg) left no-repeat;
+  background: url(/images/intro_bg.webp) left no-repeat;
   background-size: 100% 100%;
   align-items: center;
   * {
@@ -524,7 +524,7 @@ header.page_header {
   }
   @media (min-width: 1024px) {
     padding-top: 175px;
-    background: url(/images/intro_bg.jpg) left no-repeat, url(/images/about_bg_right.jpg) right no-repeat;
+    background: url(/images/intro_bg.webp) left no-repeat, url(/images/about_bg_right.webp) right no-repeat;
     background-size: 55% 100%, 45% 100%;
   }
 }
@@ -646,7 +646,7 @@ header.page_header {
 
 //////// Contact
 .contact .about_top {
-  background: url(/images/intro_bg.jpg) left no-repeat, url(/images/contact_bg2.jpg) right no-repeat;
+  background: url(/images/intro_bg.webp) left no-repeat, url(/images/contact_bg2.webp) right no-repeat;
   background-size: 55% 100%, 45% 100%;
 }
 .contact_grid {

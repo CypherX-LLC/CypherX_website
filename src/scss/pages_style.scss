@@ -402,52 +402,7 @@ header.page_header {
       max-width: 445px;
     }
   }
-  .cta_form {
-    max-width: 520px;
-    * {
-      text-align: left;
-    }
-    h2 {
-      font-size: 36px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 54px;
-      letter-spacing: 0em;
-    }
-    p {
-      margin: 110px 0 0;
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 54px;
-      letter-spacing: 0em;
-    }
-    input {
-      padding: 10px 20px;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 24px;
-      letter-spacing: 0em;
-      margin-top: 28px;
-      border: none;
-      outline: none;
-    }
-    .email {
-      width: 248px;
-    }
-    .subscribe_button {
-      width: 117px;
-      background: #000;
-      color: #fff;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 20px;
-      letter-spacing: 0px;
-      cursor: pointer;
-    }
-  }
+
   @media (min-width: 1440px) {
     padding: 90px 180px;
     .cta_intro {
@@ -669,6 +624,7 @@ header.page_header {
     background: #000;
     outline: none;
     border: none;
+    cursor: pointer;
   }
 }
 @media (max-width: 768px) {

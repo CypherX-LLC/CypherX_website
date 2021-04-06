@@ -31,13 +31,24 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    /*     {
-      resolve: `gatsby-source-filesystem`,
+    {
+      resolve: "gatsby-plugin-favicons",
       options: {
-        name: `svg`,
-        path: `${__dirname}/src/svg`,
+        logo: "./src/images/android-chrome-512x512.png",
+        appName: "GypherX",
+        //start_url: "/",
+        background: "#fff",
+        icons: {
+          android: true,
+          appleIcon: true,
+          appleStartup: true,
+          coast: false,
+          favicons: true,
+          yandex: false,
+          windows: true,
+        },
       },
-    }, */
+    },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
@@ -45,11 +56,25 @@ module.exports = {
       options: {
         name: `GypherX website`,
         short_name: `GypherX`,
-        start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
-        display: `minimal-ui`,
-        icon: `src/images/android-chrome-192x192.png`, // This path is relative to the root of the site.
+        //start_url: `/`,
+        background_color: `#ffffff`,
+        theme_color: `##ffffff`,
+        display: `standalone`,
+        icons: [
+          {
+            src: "./src/images/android-chrome-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "./src/images/android-chrome-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
+        theme_color: "#ffffff",
+        background_color: "#ffffff",
+        display: "standalone",
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

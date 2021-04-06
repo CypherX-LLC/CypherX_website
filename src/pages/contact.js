@@ -16,14 +16,16 @@ const Contact = () => {
                 method="post"
                 netlify-honeypot="bot-field"
                 data-netlify="true"
+                data-netlify-honeypot="bot-field"
+                data-netlify-recaptcha="true"
                 name="contact"
-                >
+              >
                 <input type="hidden" name="bot-field" />
                 <input type="hidden" name="form-name" value="contact" />
 
-              <div className="contact_grid">
-                <h1>{CTA.title}</h1>
-                <p>{CTA.description}</p>
+                <div className="contact_grid">
+                  <h1>{CTA.title}</h1>
+                  <p>{CTA.description}</p>
                   <input
                     type="text"
                     name="name"
@@ -52,6 +54,7 @@ const Contact = () => {
                     id="send"
                     className="subscribe_button"
                   />
+                  <div data-netlify-recaptcha="true"></div>
                 </div>
               </form>
             </div>

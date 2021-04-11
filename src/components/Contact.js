@@ -1,7 +1,6 @@
 import React from "react";
 import { navigate } from "gatsby";
 import Recaptcha from "react-google-recaptcha";
-import Layout from "../layout";
 
 const RECAPTCHA_KEY = process.env.GATSBY_APP_SITE_RECAPTCHA_KEY;
 //const RECAPTCHA_KEY = "6LcfwqEaAAAAAAsopYYS3eDqx08Y6kGKbb49O5wu";
@@ -21,7 +20,7 @@ function encode(data) {
     .join("&");
 }
 
-export default function Contact() {
+export default function ContactForm() {
   const [state, setState] = React.useState({});
   const recaptchaRef = React.createRef();
   const [buttonDisabled, setButtonDisabled] = React.useState(true);

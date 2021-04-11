@@ -2,8 +2,7 @@ import React from "react";
 //import { Link } from "gatsby";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-import Contact from "../components/Contact.yml";
-import CTA from "../data/contact.yml";
+import ContactForm from "../components/Contact.js";
 
 const Contact = () => {
   return (
@@ -13,7 +12,7 @@ const Contact = () => {
         <div className="about_top">
           <div className="top_grid wrapper">
             <div className="top_left">
-              <Contact />
+              <ContactForm />
             </div>
             <div className="top_right"></div>
           </div>

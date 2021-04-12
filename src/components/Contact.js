@@ -91,6 +91,7 @@ export default function ContactForm() {
           placeholder="Message"
         />
         <Recaptcha
+          className="g-recaptcha"
           ref={recaptchaRef}
           sitekey={RECAPTCHA_KEY}
           onChange={() => setButtonDisabled(false)}

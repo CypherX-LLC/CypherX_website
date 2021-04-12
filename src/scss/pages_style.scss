@@ -625,6 +625,13 @@ header.page_header {
     outline: none;
     border: none;
     cursor: pointer;
+    &:disabled {
+      cursor: none;
+    background: #777;
+    }
+    .g-recaptcha {
+      background: #eee;
+    }
   }
 }
 @media (max-width: 768px) {

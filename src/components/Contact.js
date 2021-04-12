@@ -1,17 +1,11 @@
 import React from "react";
 import { navigate } from "gatsby";
 import Recaptcha from "react-google-recaptcha";
+import CTA from "../data/contact.yml";
 
 const RECAPTCHA_KEY = process.env.GATSBY_APP_SITE_RECAPTCHA_KEY;
-//const RECAPTCHA_KEY = "6LcfwqEaAAAAAAsopYYS3eDqx08Y6kGKbb49O5wu";
 if (typeof RECAPTCHA_KEY === "undefined") {
   console.log("Error!");
-  /* throw new Error(`
-  Env var GATSBY_APP_SITE_RECAPTCHA_KEY is undefined! 
-  You probably forget to set it in your Netlify build environment variables. 
-  Make sure to get a Recaptcha key at https://www.netlify.com/docs/form-handling/#custom-recaptcha-2-with-your-own-settings
-  Note this demo is specifically for Recaptcha v2
-  `) */
 }
 console.log(RECAPTCHA_KEY);
 function encode(data) {
@@ -25,8 +19,6 @@ export default function ContactForm() {
   const recaptchaRef = React.createRef();
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
   console.log(buttonDisabled);
-  //const [name, setName] = React.useState("");
-  //const [value, setValue] = React.useState("");
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -60,48 +52,58 @@ export default function ContactForm() {
   };
 
   return (
-      <form
-        name="contact-recaptcha"
-        method="post"
-        //action="/thanks/"
-        data-netlify="true"
-        data-netlify-recaptcha="true"
-        onSubmit={handleSubmit}
-      >
-        <noscript>
-          <p>This form won’t work with Javascript disabled</p>
-        </noscript>
-        <p>
-          <label>
-            Your name:
-            <br />
-            <input type="text" name="name" onChange={handleChange} />
-          </label>
-        </p>
-        <p>
-          <label>
-            Your email:
-            <br />
-            <input type="email" name="email" onChange={handleChange} />
-          </label>
-        </p>
-        <p>
-          <label>
-            Message:
-            <br />
-            <textarea name="message" onChange={handleChange} />
-          </label>
-        </p>
+    <form
+      name="contact-recaptcha"
+      method="post"
+      netlify-honeypot="bot-field"
+      data-netlify="true"
+      data-netlify-recaptcha="true"
+      onSubmit={handleSubmit}
+      //action="/thanks/"
+    >
+      <noscript>
+        <p>This form won’t work with Javascript disabled</p>
+      </noscript>
+      <input type="hidden" name="bot-field" />
+      <input type="hidden" name="form-name" value="contact" />
+      <div className="contact_grid">
+        <h1>{CTA.title}</h1>
+        <p>{CTA.description}</p>
+        <input
+          type="text"
+          name="name"
+          onChange={handleChange}
+          placeholder="Full name"
+          className="email"
+        />
+        <input
+          type="email"
+          name="email"
+          onChange={handleChange}
+          placeholder="Email"
+          className="email"
+        />
+        <textarea
+          name="message"
+          onChange={handleChange}
+          rows="4"
+          cols="30"
+          placeholder="Message"
+        />
         <Recaptcha
           ref={recaptchaRef}
           sitekey={RECAPTCHA_KEY}
           onChange={() => setButtonDisabled(false)}
         />
-        <p>
-          <button type="submit" disabled={buttonDisabled}>
-            Send
-          </button>
-        </p>
-      </form>
+        className="subscribe_button"
+        <button
+          type="submit"
+          disabled={buttonDisabled}
+          className="subscribe_button"
+        >
+          Send
+        </button>
+      </div>
+    </form>
   );
 }

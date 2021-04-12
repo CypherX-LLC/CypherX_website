@@ -95,7 +95,14 @@ export default function ContactForm() {
           sitekey={RECAPTCHA_KEY}
           onChange={() => setButtonDisabled(false)}
         />
-        className="subscribe_button"
+        <input
+          type="submit"
+          value="Send"
+          name="send"
+          id="send"
+          className="subscribe_button"
+          disabled={buttonDisabled}
+        />
         <button
           type="submit"
           disabled={buttonDisabled}

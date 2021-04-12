@@ -1,8 +1,8 @@
-- title: About
-  link: '/about/'
 - title: Get It Done
   link: /#features
 - title: Reviews
   link: /#testimonials_section
 - title: Contact
   link: /contact
+- title: About
+  link: '/about/'

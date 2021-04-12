@@ -103,13 +103,6 @@ export default function ContactForm() {
           className="subscribe_button"
           disabled={buttonDisabled}
         />
-        <button
-          type="submit"
-          disabled={buttonDisabled}
-          className="subscribe_button"
-        >
-          Send
-        </button>
       </div>
     </form>
   );

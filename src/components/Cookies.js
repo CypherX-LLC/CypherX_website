@@ -13,9 +13,9 @@ const Cookie = () => {
       buttonWrapperClasses="cookieButtons_box"
       declineButtonClasses="rejectButton"
       style={{
-        background: "#F4076D",
+        /* background: "#F4076D",
         height: "240px",
-        borderRadius: "120px 120px 0 0",
+        borderRadius: "120px 120px 0 0", */
         alignContent: "center",
         justifyContent: "center",
         gap: "30px",

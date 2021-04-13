@@ -3,7 +3,6 @@ import { Link } from "gatsby";
 import aboutData from "../data/about.yml";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-/* import Members from "../components/About"; */
 
 const About = () => {
   const Pars = aboutData.description.map((item, k) => {

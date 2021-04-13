@@ -9,11 +9,11 @@ import React from "react";
 import { Link } from "gatsby";
 import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
-
 import Navbar from "./Navbar";
-//import Header from "./header"
 import Footer from "./Footer";
 import "./layout.css";
+import Cookie from "../components/Cookies";
+
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -48,6 +48,7 @@ const Layout = ({ children }) => {
       </header>
       <main>{children}</main>
       <Footer />
+      <Cookie />
     </>
   );
 };

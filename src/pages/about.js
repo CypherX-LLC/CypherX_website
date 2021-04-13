@@ -3,7 +3,7 @@ import { Link } from "gatsby";
 import aboutData from "../data/about.yml";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-/* import Members from "../components/About"; */
+import Cookie from "../components/Cookies";
 
 const About = () => {
   const Pars = aboutData.description.map((item, k) => {
@@ -40,6 +40,7 @@ const About = () => {
           <div className="team_grid">{Members}</div>
         </div>
       </section>
+      <Cookie />
     </Layout>
   );
 };

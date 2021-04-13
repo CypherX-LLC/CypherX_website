@@ -7,7 +7,6 @@ const RECAPTCHA_KEY = process.env.GATSBY_APP_SITE_RECAPTCHA_KEY;
 if (typeof RECAPTCHA_KEY === "undefined") {
   console.log("Error!");
 }
-console.log(RECAPTCHA_KEY);
 function encode(data) {
   return Object.keys(data)
     .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
@@ -18,7 +17,6 @@ export default function ContactForm() {
   const [state, setState] = React.useState({});
   const recaptchaRef = React.createRef();
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
-  console.log(buttonDisabled);
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });

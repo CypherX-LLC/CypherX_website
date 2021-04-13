@@ -627,7 +627,7 @@ header.page_header {
     cursor: pointer;
     &:disabled {
       cursor: none;
-    background: #777;
+      background: #777;
     }
   }
 }
@@ -643,7 +643,36 @@ header.page_header {
 }
 
 ////// Cookies ///////////
-
+.CookieConsent {
+  align-content: center !important;
+  justify-content: center;
+  gap: 30px;
+  .cookieButtons_box {
+    align-self: center;
+    button {
+      border-radius: 15px !important;
+      width: 200px;
+      height: 76px;
+      font-size: 18px;
+    }
+    button:nth-child(2) {
+      background: #000 !important;
+      color: #fff !important;
+    }
+  }
+  .rejectButton {
+    background: #c1c1c3 !important;
+  }
+}
+.cookies_box {
+  max-width: 783px;
+}
 .cookies_text {
   color: #fff;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0em;
+  margin: 0;
 }

@@ -486,7 +486,7 @@ header.page_header {
 .top_grid {
   display: grid;
   min-height: 100vh;
-  gap: 40px;
+  gap: 50px;
   .top_left {
     padding-top: 80px;
     padding-left: 30px;
@@ -518,7 +518,7 @@ header.page_header {
   @media (min-width: 1024px) {
     grid-template-columns: 1fr 1fr;
     .top_right {
-      padding-left: 100px;
+      padding-left: 80px;
       h2 {
         font-size: 48px;
       }

@@ -27,14 +27,14 @@ const About = () => {
             <div className="top_left">
               <h1>{aboutData.title}</h1>
               {Pars}
-              <Link to="{About_data.cta.link}">{aboutData.cta.title}</Link>
+              <Link to={aboutData.cta.link}>{aboutData.cta.title}</Link>
             </div>
             <div className="top_right">
               <h2>{aboutData.subtitle1}</h2>
             </div>
           </div>
         </div>
-         <div className="team_box wrapper">
+        <div className="team_box wrapper">
           <h2>{aboutData.subtitle2}</h2>
           <div className="team_grid">{Members}</div>
         </div>

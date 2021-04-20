@@ -1,11 +1,10 @@
 import React from "react";
-import { navigate } from "gatsby";
 import Recaptcha from "react-google-recaptcha";
 import CTA from "../data/contact.yml";
 
 const RECAPTCHA_KEY = process.env.GATSBY_APP_SITE_RECAPTCHA_KEY;
 if (typeof RECAPTCHA_KEY === "undefined") {
-  console.log("Error!");
+  console.log("Error - RECAPTCHA_KEY not defined");
 }
 function encode(data) {
   return Object.keys(data)

@@ -72,6 +72,7 @@ export default function ContactForm() {
           onChange={handleChange}
           placeholder="Full name"
           className="email"
+          required="required"
         />
         <input
           type="email"
@@ -79,6 +80,7 @@ export default function ContactForm() {
           onChange={handleChange}
           placeholder="Email"
           className="email"
+          required="required"
         />
         <textarea
           name="message"
@@ -86,6 +88,7 @@ export default function ContactForm() {
           rows="4"
           cols="30"
           placeholder="Message"
+          required="required"
         />
         <Recaptcha
           className="g-recaptcha"

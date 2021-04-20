@@ -135,7 +135,6 @@ const NavbarLinks = () => {
           to={item.link}
           onClick={() => {
             setNavbarOpen(!navbarOpen);
-            console.log(navbarOpen);
           }}
         >
           {item.title}

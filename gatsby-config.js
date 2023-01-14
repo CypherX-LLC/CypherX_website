@@ -4,7 +4,7 @@ module.exports = {
     logo_image: `/svg/Logo.svg`,
     title: `CypherX`,
     subtitle: `Software. Quality. Security.`,
-    description: `We help startups and businesses utilize the capabilities of blockchain technologies. Building software since 2011, we’ve applied our combined expertise in creating innovation that brings new levels of openness, productivity, and automation to our clients' business processes.`,
+    description: `We help startups and companies of all sizes, utilize the capabilities of blockchain technologies. Building software since 2011, we’ve applied our combined expertise in creating innovation that brings new levels of openness, productivity, and automation to our clients' business processes.`,
     author: `@selimerunkut`,
   },
   plugins: [

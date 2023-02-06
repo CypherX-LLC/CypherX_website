@@ -6,6 +6,7 @@ const RECAPTCHA_KEY = process.env.GATSBY_APP_SITE_RECAPTCHA_KEY;
 if (typeof RECAPTCHA_KEY === "undefined") {
   console.log("Error - RECAPTCHA_KEY not defined");
 }
+
 function encode(data) {
   return Object.keys(data)
     .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
@@ -39,6 +40,7 @@ export default function ContactForm() {
         () => {
           setButtonDisabled(true);
         }
+
         /* navigate(form.getAttribute('action')) */
       )
       .catch((error) => alert(error));

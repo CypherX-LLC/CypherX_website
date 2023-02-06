@@ -14,7 +14,6 @@ import Footer from "./Footer";
 import "./layout.css";
 import Cookie from "../components/Cookies";
 
-
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -25,11 +24,11 @@ const Layout = ({ children }) => {
         }
       }
     }
+
   `);
 
   return (
-    <>
-      {/* <Header siteLogo={data.site.siteMetadata.logo} /> */}
+    <div className="page_outer">
       <header
         className="page_header wrapper"
         style={{
@@ -49,7 +48,7 @@ const Layout = ({ children }) => {
       <main>{children}</main>
       <Footer />
       <Cookie />
-    </>
+    </div>
   );
 };
 

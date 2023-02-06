@@ -2,6 +2,7 @@ module.exports = {
   siteMetadata: {
     logo: `CypherX`,
     logo_image: `/svg/Logo.svg`,
+    default_image: `/images/imgbin_graphics-website-wireframe-wire-frame-model-globe-sphere-png 1.png`,
     title: `CypherX`,
     subtitle: `Software. Quality. Security.`,
     description: `We help startups and companies of all sizes, utilize the capabilities of blockchain technologies. Building software since 2011, we’ve applied our combined expertise in creating innovation that brings new levels of openness, productivity, and automation to our clients' business processes.`,
@@ -21,7 +22,12 @@ module.exports = {
         path: `${__dirname}/src/posts`,
       },
     },
-    `gatsby-plugin-mdx`,
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        extensions: [`.mdx`, `.md`],
+      },
+    },
     `gatsby-plugin-sass`,
     `gatsby-plugin-react-helmet`,
     {

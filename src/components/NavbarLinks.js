@@ -50,7 +50,6 @@ const NavbarLinks = () => {
           navbarOpen={navbarOpen}
           onClick={() => {
             setNavbarOpen(!navbarOpen);
-            console.log(navbarOpen);
           }}
         >
           {item.title}

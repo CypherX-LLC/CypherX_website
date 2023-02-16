@@ -1,25 +1,29 @@
 title: What we offer
 subtitle: From smart contracts to dApps, we offer only the cutting-edge in application development...
 items:
+  - title: Web3 dApp development
+    icon: /svg/07.svg
+    text: Decentralized apps on Ethereum, Polygone, Avalanche, BSC, Solana, Flow and other chains
+
   - title: Smart contract development
     icon: /svg/01.svg
-    text: dApp development on Ethereum using web3.js and Neo using Python. Smart contract development with solidity.
+    text: NFT, NFT Marketplaces, Tokenization, Decentralized Exchanges, AMM, with smart contracts.
 
-  - title: Blockchain consultation
+  - title: web3 consultation
     icon: /svg/02.svg
-    text: Understand the whats, whys, and hows of developing a robust user experience for the blockchain.
+    text: Understand the whats, whys, and hows of using web3 technologies.
 
   - title: Smart contract auditing
     icon: /svg/03.svg
-    text: Find and fix design issues, coding errors, and security vulnerabilities with our state-of-the-art auditing tools.
+    text: Find and fix architecture issues, coding errors, and security vulnerabilities with our auditing partners.
 
   - title: Tokenisation
     icon: /svg/04.svg
-    text: Fund your project with token economics. Tokens  help drive scalability, fight inflation, and build utility within your ecosystem.
+    text: Fund your project with tokenomics. Tokens help you drive scalability, fight inflation, and build utility within your ecosystem.
 
   - title: DAO consultation
     icon: /svg/05.svg
-    text: Build organisations without traditional “human” hierarchy. Automate management and administrative functions with smart contracts.
+    text: Build organisations without a traditional hierarchy. Automate management and administrative functions with smart contracts.
 
   - title: Individual support
     icon: /svg/06.svg

@@ -1,0 +1,60 @@
+---
+title: "Enforcing NFT Royalties: A Tutorial for Artists"
+date: 2023-02-19
+description: This tutorial explains how to deploy a smart contract on the Ethereum based chains to create digital art tokens with enforced royalty fees..
+image: /images/blog/enforcing-nft-royalties-a-tutorial-for-artists.jpg
+slug: enforcing-nft-royalties-a-tutorial-for-artists
+---
+
+NFTs, or non-fungible tokens, are a unique type of digital asset that can represent anything from art and music to video games and virtual real estate. With the rise of NFTs, creators now have a new way to monetize their work by selling it as a unique digital asset. However, unlike physical artwork, it can be difficult to enforce royalties on NFTs. In this tutorial, we will discuss how to enforce NFT royalties using smart contracts.
+
+Before we get started, it's important to understand what a smart contract is. In simple terms, a smart contract is a self-executing contract with the terms of the agreement between buyer and seller being directly written into lines of code. These contracts can be used to enforce the terms of the agreement automatically, eliminating the need for intermediaries such as lawyers or other third parties.
+
+To enforce NFT royalties using smart contracts, we can use the ERC-721 standard. The ERC-721 standard is a set of rules that define how to create and interact with non-fungible tokens on the Ethereum blockchain. ERC-721 tokens are unique and can't be exchanged for other tokens on a 1:1 basis.
+
+Let's take a look at a simple example of how to enforce NFT royalties using the ERC-721 standard. In this example, we'll create a smart contract that represents a digital art piece.
+
+
+```solidity
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract DigitalArt is ERC721, Ownable {
+    uint256 public constant ROYALTY_FEE = 10; // 10% royalty fee
+    mapping(uint256 => address) private _royaltyRecipients;
+
+    constructor() ERC721("DigitalArt", "DART") {}
+
+    function mint(address to, uint256 tokenId, address royaltyRecipient) public onlyOwner {
+        _mint(to, tokenId);
+        _royaltyRecipients[tokenId] = royaltyRecipient;
+    }
+
+    function _transfer(address from, address to, uint256 tokenId) internal virtual override {
+        address royaltyRecipient = _royaltyRecipients[tokenId];
+        if (royaltyRecipient != address(0)) {
+            uint256 royaltyAmount = (msg.value * ROYALTY_FEE) / 100;
+            payable(royaltyRecipient).transfer(royaltyAmount);
+        }
+        super._transfer(from, to, tokenId);
+    }
+}
+
+```
+
+In this smart contract, we first import the ERC721 and Ownable contracts from the OpenZeppelin library. We then define a constant ROYALTY_FEE of 10% and a mapping _royaltyRecipients that maps a token ID to the address of the royalty recipient.
+
+The mint function allows the contract owner to mint a new digital art token and specify the royalty recipient. The _transfer function is called whenever a token is transferred from one address to another. In this function, we check if the token has a royalty recipient and, if so, calculate the royalty amount based on the ROYALTY_FEE and send it to the royalty recipient.
+
+If you want to find out more on how to create your NFT with royalties 
+[contact us](/contact)
+
+
+
+
+
+
+
+

@@ -1,0 +1,64 @@
+---
+title: "The Limits of Statistical Zero Knowledge Proof"
+date: 2023-02-20
+description: The Limits of Statistical Zero Knowledge Proof refers to the constraints on the power of statistical zero-knowledge proofs, which are less powerful than constant-round interactive proofs and are unlikely to exist for NP-complete problems.
+image: /images/blog/the-limits-of-statistical-zero-knowledge-proof.jpg
+slug: the-limits-of-statistical-zero-knowledge-proof
+---
+
+This blog post is trying to explain the `limitations of statistical zero-knowledge proofs` from Justin Thaler's book [Proofs, Arguments, and Zero-Knowledge](https://people.cs.georgetown.edu/jthaler/ProofsArgsAndZK.pdf)
+
+Any language which can be solved by a statistical zero-knowledge proof with a polynomial time verifier belongs to the complexity class AM ∩ coAM. This means that such proof systems are not more powerful than constant-round (non-zero-knowledge) interactive proofs. Such proof systems are unlikely to exist for any NP-complete problems.
+
+SNARKs (succinct non-interactive arguments of knowledge) with polynomial time verifiers that are capable of solving problems in NEXP, a larger complexity class than NP. SNARKs can efficiently solve NP-complete problems, making them more powerful than statistical zero-knowledge proofs.
+
+tatistical zero-knowledge proof systems are not powerful enough to yield efficient general-purpose protocols for verifiably outsourcing arbitrary witness-checking procedures in zero-knowledge. However, understanding statistical zero-knowledge proofs can provide useful intuition about the power of zero-knowledge, even in the more powerful setting of perfect honest-verifier zero-knowledge arguments.
+
+### Complexity class AM ∩ coAM - further explanation
+
+The complexity class AM ∩ coAM is the intersection of the classes AM and coAM. In computational complexity theory, a class of decision problems is said to belong to AM if there exists a probabilistic polynomial-time algorithm with two-way interaction between a prover and a verifier such that:
+
+If the answer to the problem is "yes," then there exists a proof that convinces the verifier of this fact with high probability.
+If the answer to the problem is "no," then for every proof, the verifier rejects with high probability.
+On the other hand, a class of decision problems belongs to coAM if the complements of those problems (i.e., the problems with the "yes" and "no" answers switched) belong to AM.
+
+The intersection of these two classes, denoted AM ∩ coAM, consists of decision problems for which both the problem and its complement have efficient probabilistic interactive proofs.
+
+### Decision problem in computational complexity theory - further explanation
+
+In computational complexity theory, a decision problem is a problem that can be answered with a "yes" or "no." For example, "is there a Hamiltonian cycle in this graph?" is a decision problem. The complexity of a decision problem refers to the amount of computational resources needed to solve the problem.
+
+The class of decision problems known as AM is defined as follows: A decision problem L belongs to AM if there exists a probabilistic polynomial-time algorithm (a randomized algorithm that runs in polynomial time) with two-way interaction between a prover and a verifier such that:
+
+If the answer to the problem is "yes," then there exists a proof (a string of bits) that convinces the verifier of this fact with high probability. The prover sends the proof to the verifier, and the verifier checks the proof by performing a probabilistic polynomial-time computation. If the proof is correct, the verifier accepts with high probability.
+
+If the answer to the problem is "no," then for every proof, the verifier rejects with high probability. In other words, the verifier is able to detect that any purported proof of a "yes" answer is not valid, and will reject it with high probability.
+
+The two-way interaction between the prover and verifier means that they can exchange messages back and forth to try to convince each other. The algorithm is said to be probabilistic because it makes use of randomness to ensure that the prover cannot cheat with high probability. The algorithm is said to run in polynomial time because both the prover and verifier run in polynomial time with respect to the size of the input to the problem.
+
+The class AM is an important class of decision problems in computational complexity theory. Many natural decision problems, such as graph isomorphism and factoring, are believed to be in AM but have not yet been proven to be in the class.
+
+### Polynomial time - further explanation
+
+In computer science, polynomial time refers to an algorithmic time complexity that is bounded by a polynomial function of the size of the input. In other words, an algorithm is said to run in polynomial time if the number of steps it takes to solve a problem is proportional to some polynomial of the input size, as opposed to an exponential or factorial function of the input size, which would take much longer to solve the problem as the input size grows.
+
+Formally, an algorithm is said to run in polynomial time if the time it takes to solve a problem is bounded by O(n^k), where n is the size of the input and k is some fixed constant. For example, an algorithm that takes n^2 steps to solve a problem with an input of size n is said to run in polynomial time. An algorithm that takes 2^n steps to solve a problem with an input of size n is said to run in exponential time, which is much slower than polynomial time for large values of n.
+
+Polynomial time algorithms are generally considered to be efficient algorithms for solving problems, while exponential time algorithms are considered to be inefficient. Many important problems in computer science, such as sorting, graph traversal, and matrix multiplication, have polynomial time algorithms, which makes them amenable to practical implementation on modern computers.
+
+NP-complete problems are a class of decision problems in computational complexity theory that are both in the complexity class NP (non-deterministic polynomial time) and are "complete" in the sense that every problem in NP can be reduced to them in polynomial time. These problems are considered to be among the most difficult problems in computer science, and no efficient algorithm has been discovered that can solve all of them in polynomial time.
+
+### NP-complete - further explanation
+
+To give an example, the traveling salesman problem is an NP-complete problem where the objective is to find the shortest possible route that visits all given cities and returns to the starting point. While the problem can be solved in polynomial time for small numbers of cities, the number of possible routes grows exponentially with the number of cities, making it infeasible to solve the problem in polynomial time for large inputs. Many other important problems in computer science, such as the graph coloring problem and the knapsack problem, are also NP-complete.
+
+If you want to find out more about our workshops based on zero knowledge technologies 
+[contact us](/contact)
+
+
+
+
+
+
+
+

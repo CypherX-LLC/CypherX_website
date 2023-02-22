@@ -22,7 +22,7 @@ const Footer = () => {
         />
         <div className="col_2">
           <Nav />
-          <p className="copyright">© 2021 CypherX. All rights reserved.</p>
+          <p className="copyright">© {new Date().getFullYear()} CypherX. All rights reserved.</p>
         </div>
       </div>
     </footer>

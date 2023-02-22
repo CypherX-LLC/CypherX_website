@@ -1,55 +1,91 @@
 ---
-title: "Enforcing NFT Royalties: A Tutorial for Artists"
+title: "How not to enforce NFT Royalties: A Tutorial for Artists"
 date: 2023-02-19
-description: This tutorial explains how to deploy a smart contract on the Ethereum based chains to create digital art tokens with enforced royalty fees.
+description: This tutorial explains a smart contract with a Harberger tax concept for Ethereum based chains.
 image: /images/blog/enforcing-nft-royalties-a-tutorial-for-artists.jpg
 slug: enforcing-nft-royalties-a-tutorial-for-artists
 ---
 
-NFTs, or non-fungible tokens, are a unique type of digital asset that can represent anything from art and music to video games and virtual real estate. With the rise of NFTs, creators now have a new way to monetize their work by selling it as a unique digital asset. However, unlike physical artwork, it can be difficult to enforce royalties on NFTs. In this tutorial, we will discuss how to enforce NFT royalties using smart contracts.
+NFTs, or non-fungible tokens, are a unique type of digital asset that can represent anything from art and music to video games and virtual real estate. With the rise of NFTs, creators now have a new way to monetize their work by selling it as a unique digital asset. However, unlike physical artwork, it can be difficult to enforce royalties on NFTs. In this tutorial, we will discuss how to use Harberger tax instead of royalties.
 
-Before we get started, it's important to understand what a smart contract is. In simple terms, a smart contract is a self-executing contract with the terms of the agreement between buyer and seller being directly written into lines of code. These contracts can be used to enforce the terms of the agreement automatically, eliminating the need for intermediaries such as lawyers or other third parties.
+A Harberger tax is a tax system that requires individuals or companies to self-assess the value of their assets and then pay a tax on that assessed value. The unique aspect of the Harberger tax is that the taxpayer is required to make the tax payment even if they are not willing to sell the asset. This tax system is designed to incentivize the efficient use of assets and to prevent underutilization of resources.
 
-To enforce NFT royalties using smart contracts, we can use the ERC-721 standard. The ERC-721 standard is a set of rules that define how to create and interact with non-fungible tokens on the Ethereum blockchain. ERC-721 tokens are unique and can't be exchanged for other tokens on a 1:1 basis.
+A royalty is a payment made to the owner of a property or asset in exchange for the use of that asset. In the context of NFTs, a royalty is typically a percentage of the sale price that the owner of the NFT receives each time the NFT is sold.
 
-Let's take a look at a simple example of how to enforce NFT royalties using the ERC-721 standard. In this example, we'll create a smart contract that represents a digital art piece.
+Combining these concepts, a Harberger tax on NFT royalties would require NFT owners to self-assess the value of their NFTs and pay a tax on that assessed value. Additionally, the tax would be ongoing, requiring the owner to pay a percentage of the royalties they receive each time the NFT is sold. This could potentially incentivize more efficient use of NFTs and prevent underutilization of these unique digital assets.
+
+Let's take a look at a simple example of how to create Harberger tax logic using the ERC-721 standard. In this example, we'll create a smart contract that represents a digital art piece.
 
 
 ```solidity
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract DigitalArt is ERC721, Ownable {
-    uint256 public constant ROYALTY_FEE = 10; // 10% royalty fee
-    mapping(uint256 => address) private _royaltyRecipients;
-
-    constructor() ERC721("DigitalArt", "DART") {}
-
-    function mint(address to, uint256 tokenId, address royaltyRecipient) public onlyOwner {
-        _mint(to, tokenId);
-        _royaltyRecipients[tokenId] = royaltyRecipient;
+contract HarbergerNFT is ERC721 {
+    
+    // Define NFT ownership structure
+    struct NFT {
+        address owner;
+        uint256 value;
+        uint256 royalty;
+        bool forSale;
     }
-
-    function _transfer(address from, address to, uint256 tokenId) internal virtual override {
-        address royaltyRecipient = _royaltyRecipients[tokenId];
-        if (royaltyRecipient != address(0)) {
-            uint256 royaltyAmount = (msg.value * ROYALTY_FEE) / 100;
-            payable(royaltyRecipient).transfer(royaltyAmount);
-        }
-        super._transfer(from, to, tokenId);
+    
+    // Mapping to track NFT ownership
+    mapping (uint256 => NFT) public NFTs;
+    
+    // Harberger tax rate in percent (e.g. 5%)
+    uint256 public harbergerTaxRate = 5;
+    
+    constructor(string memory name, string memory symbol) ERC721(name, symbol) {}
+    
+    // Function to buy an NFT
+    function buyNFT(uint256 tokenId) public payable {
+        // Check that NFT is for sale
+        require(NFTs[tokenId].forSale == true, "NFT not for sale");
+        // Calculate purchase price
+        uint256 purchasePrice = NFTs[tokenId].value + (NFTs[tokenId].value * NFTs[tokenId].royalty / 100);
+        // Apply Harberger tax
+        uint256 harbergerTax = (NFTs[tokenId].value * harbergerTaxRate / 100);
+        NFTs[tokenId].value += harbergerTax;
+        // Transfer NFT ownership
+        _transfer(NFTs[tokenId].owner, msg.sender, tokenId);
+        // Update NFT ownership and forSale status
+        NFTs[tokenId].owner = msg.sender;
+        NFTs[tokenId].forSale = false;
+        // Send payment to previous owner
+        payable(NFTs[tokenId].owner).transfer(purchasePrice - harbergerTax);
+    }
+    
+    // Function to sell an NFT
+    function sellNFT(uint256 tokenId, uint256 salePrice) public {
+        // Check that caller is NFT owner
+        require(msg.sender == NFTs[tokenId].owner, "Caller is not NFT owner");
+        // Update NFT value and forSale status
+        NFTs[tokenId].value = salePrice;
+        NFTs[tokenId].forSale = true;
+    }
+    
+    // Function to set the Harberger tax rate
+    function setHarbergerTaxRate(uint256 newTaxRate) public {
+        // Check that caller is contract owner
+        require(msg.sender == owner(), "Caller is not contract owner");
+        // Update tax rate
+        harbergerTaxRate = newTaxRate;
     }
 }
-
 ```
 
-In this smart contract, we first import the ERC721 and Ownable contracts from the OpenZeppelin library. We then define a constant ROYALTY_FEE of 10% and a mapping _royaltyRecipients that maps a token ID to the address of the royalty recipient.
+In this contract, the ERC721 standard is inherited and the NFT ownership structure is defined in a struct that includes the owner address, the current value of the NFT, the royalty percentage, and a boolean forSale flag indicating whether the NFT is currently available for purchase. The contract includes functions for buying and selling NFTs, with the purchase price calculated as the NFT value plus the royalty percentage, and the Harberger tax calculated as the value multiplied by the Harberger tax rate. The contract owner can also set the Harberger tax rate using the setHarbergerTaxRate function.
 
-The mint function allows the contract owner to mint a new digital art token and specify the royalty recipient. The _transfer function is called whenever a token is transferred from one address to another. In this function, we check if the token has a royalty recipient and, if so, calculate the royalty amount based on the ROYALTY_FEE and send it to the royalty recipient.
 
-If you want to find out more on how to create your NFT with royalties 
+
+If you want to find out more on how to create your NFT with a Harberger tax instead of royalties 
 [contact us](/contact)
+
+<small>inspired by: [Arthur B. twitter thread](https://twitter.com/ArthurB/status/1555597634622062592?s=20)</small>
+
 
 
 

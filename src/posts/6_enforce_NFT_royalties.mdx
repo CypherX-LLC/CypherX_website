@@ -14,6 +14,12 @@ A royalty is a payment made to the owner of a property or asset in exchange for 
 
 Combining these concepts, a Harberger tax on NFT royalties would require NFT owners to self-assess the value of their NFTs and pay a tax on that assessed value. Additionally, the tax would be ongoing, requiring the owner to pay a percentage of the royalties they receive each time the NFT is sold. This could potentially incentivize more efficient use of NFTs and prevent underutilization of these unique digital assets.
 
+Basically, it's like this, you sell a deed, you pay a tax. The longer you hold onto the deed, the more tax you pay. And get this, the contract is gonna keep track of all the taxes you owe and collect it whenever it wants from your prepaid balance.
+
+But here's the kicker, instead of having a separate balance for each deed you own (which would be difficult to implement), the contract keeps track of your total balance for all your deeds. That way, you can just deposit into one balance like a boss and call it a day.
+
+And if you're thinking, "Well, how does the contract know how much tax I owe?" It just looks at the total sales price of all your deeds and when you paid your taxes last.
+
 Let's take a look at a simple example of how to create Harberger tax logic using the ERC-721 standard. In this example, we'll create a smart contract that represents a digital art piece.
 
 
@@ -84,7 +90,7 @@ In this contract, the ERC721 standard is inherited and the NFT ownership structu
 If you want to find out more on how to create your NFT with a Harberger tax instead of royalties 
 [contact us](/contact)
 
-<small>inspired by: [Arthur B. twitter thread](https://twitter.com/ArthurB/status/1555597634622062592?s=20)</small>
+<small>inspired by: [Arthur B. twitter thread](https://twitter.com/ArthurB/status/1555597634622062592?s=20) [This Artwork is Always For Sale](https://medium.com/@simondlr/what-is-harberger-tax-where-does-the-blockchain-fit-in-1329046922c6) [Todd Proebsting](https://programtheblockchain.com/posts/2018/09/19/implementing-harberger-tax-deeds/)</small>
 
 
 

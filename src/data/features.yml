@@ -1,23 +1,23 @@
 title: What we offer
-subtitle: From smart contracts to dApps, we offer only the cutting-edge in application development...
+subtitle: From smart contracts to dApps, we offer application development that suits your needs
 items:
   - title: Web3 dApp development
     icon: /svg/07.svg
-    text: Decentralized apps on Ethereum, Polygone, Avalanche, BSC, Solana, Flow and other chains
+    text: "Crafting dApps on Layer1 (Ethereum, Solana, etc.) & Layer2 (Optimism, Starknet, etc.) chains for seamless deployment and decentralized solutions."
 
   - title: Smart contract development
     icon: /svg/01.svg
     text: NFT, NFT Marketplaces, Tokenization, Decentralized Exchanges, AMM, with smart contracts.
 
-  - title: web3 consultation
+  - title: Web3 consultation
     icon: /svg/02.svg
-    text: Understand the whats, whys, and hows of using web3 technologies.
+    text: "Unlock insights into web3: What, Why, and How, for strategic integration and transformative outcomes."
 
   - title: Smart contract auditing
     icon: /svg/03.svg
     text: Find and fix architecture issues, coding errors, and security vulnerabilities with our auditing partners.
 
-  - title: Tokenisation
+  - title: Token Economics
     icon: /svg/04.svg
     text: Fund your project with tokenomics. Tokens help you drive scalability, fight inflation, and build utility within your ecosystem.
 
@@ -27,8 +27,8 @@ items:
 
   - title: Quality assurance
     icon: /svg/07.svg
-    text: We ensuring your software meets standards through systematic testing, QA processes, and continuous improvement for optimal performance and user satisfaction.
+    text: Ensuring your software meets standards via testing, QA processes, and continuous enhancement for optimal performance and user satisfaction.
 
-  - title: Individual support
+  - title: Code Due Diligence
     icon: /svg/06.svg
-    text: Receive unlimited support for your projects regardless of time or location. Our experts are always available to address your concerns.
+    text: Trust our software expertise for thorough software due diligence, ensuring reliable performance and strategic investment decisions for your business.

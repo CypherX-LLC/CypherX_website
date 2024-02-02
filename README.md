@@ -23,3 +23,18 @@ gatsby serve                        Serve previously built Gatsby site.
 blog articles are here: `src/posts`
 
 images should be placed here: `static/images/blog/` 
+
+## Webpage is also served also on IPFS:
+https://cypherx.eth.limo/
+https://cypherx.eth.link
+
+### IPFS content hash
+https://app.ens.domains/cypherx.eth?tab=records
+
+### How it was deployed to IPFS:
+https://www.youtube.com/watch?v=H-0Drm0-ZeM&ab_channel=SarahBenson
+https://blog.fleek.co/posts/Gatsby-Fleek
+
+#### The official docker image of fleek did not work; used this:
+`https://hub.docker.com/r/futureys/gatsby`
+

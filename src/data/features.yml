@@ -25,6 +25,10 @@ items:
     icon: /svg/05.svg
     text: Build organisations without a traditional hierarchy. Automate management and administrative functions with smart contracts.
 
+  - title: Quality assurance
+    icon: /svg/07.svg
+    text: We ensuring your software meets standards through systematic testing, QA processes, and continuous improvement for optimal performance and user satisfaction.
+
   - title: Individual support
     icon: /svg/06.svg
     text: Receive unlimited support for your projects regardless of time or location. Our experts are always available to address your concerns.

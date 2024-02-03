@@ -28,6 +28,7 @@ items:
   - title: Quality assurance
     icon: /svg/07.svg
     text: We ensuring your software meets standards through systematic testing, QA processes, and continuous improvement for optimal performance and user satisfaction.
+    link: /quality-assurance/
 
   - title: Individual support
     icon: /svg/06.svg

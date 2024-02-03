@@ -23,13 +23,13 @@ module.exports = {
         path: `${__dirname}/src/features/`,
       },
     },
-    {
+    /* {
       resolve: "gatsby-plugin-page-creator",
       options: {
         path: `${__dirname}/src/posts`,
         name: `blog` 
       },
-    },
+    }, */
     {
       resolve: "gatsby-plugin-page-creator",
       options: {
@@ -41,6 +41,7 @@ module.exports = {
       resolve: `gatsby-plugin-mdx`,
       options: {
         extensions: [`.mdx`, `.md`],
+        path: `${__dirname}/src/posts/`,
       },
     },
     `gatsby-plugin-sass`,

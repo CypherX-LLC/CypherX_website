@@ -18,6 +18,7 @@ function PostTemplate({ data: { mdx }, children }) {
     <Layout innerPage={true} headerConfig={header}>
       <div class="post_wrapper">
           <h1>{mdx.frontmatter.title}</h1>
+          <h2>NODE GENERATED</h2>
           <img src={mdx.frontmatter.image} alt={mdx.frontmatter.title} />
           <hr/>
           <MDXProvider components={shortcodes}>

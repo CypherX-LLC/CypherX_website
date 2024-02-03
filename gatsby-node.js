@@ -14,7 +14,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
   });
 };
 
-exports.createPages = async ({ actions, graphql, reporter }) => {
+/* exports.createPages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
   const results = await graphql(`
   query allMdxPages {
@@ -42,7 +42,7 @@ const postTemplate = path.resolve(`./src/templates/detailsPage.js`)
 
 results.data.allMdx.edges.forEach(item => {
   createPage({
-        path: `/features/${item.node.frontmatter.permalink}/`,
+        path: `/adidas/${item.node.frontmatter.permalink}/`,
         component: item.node.internal.contentFilePath,
         context: {
           id: item.node.id,
@@ -50,4 +50,4 @@ results.data.allMdx.edges.forEach(item => {
       })
     }
   )
-}
+} */

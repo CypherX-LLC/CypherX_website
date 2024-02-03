@@ -22,28 +22,29 @@ a {
 const BlogPage = ({ data }) => {
   return (
     <Layout pageTitle="My Blog Posts">
-          <Seo title="Blog" />
+      <Seo title="Blog" />
       <Wrapper>
-          <h1>Blog</h1>
-      <ul className='posts_list'>
-      {
-        data.allMdx.nodes.map(node => {
-          return (
-          <li key={node.id}>
-            {node.frontmatter.image ? <img src={node.frontmatter.image} alt={node.frontmatter.title} /> : <img src={data.site.siteMetadata.default_image} alt={node.frontmatter.title} />}
-            <div className='text_box'>
-            <H2>
-              <Link to={`/blog/${node.frontmatter.slug}`}>
-                {node.frontmatter.title}
-              </Link>
-            </H2>
-            <p>Posted: {node.frontmatter.date}</p>
-            <p>{node.frontmatter.description}</p>
-            </div>
-          </li>)
-        })
-      }
-      </ul>
+        <h1>Blog</h1>
+        <ul className='posts_list'>
+          {
+            data.allMdx.nodes.map(node => {
+              return (
+                <li key={node.id}>
+                  {node.frontmatter.image ? <img src={node.frontmatter.image} alt={node.frontmatter.title} /> : <img src={data.site.siteMetadata.default_image} alt={node.frontmatter.title} />}
+                  <div className='text_box'>
+                    <H2>
+                      <Link to={`/blog/${node.frontmatter.slug}`}>
+                        {node.frontmatter.title}
+                      </Link>
+                    </H2>
+                    <br/>
+                    <p>Posted: {node.frontmatter.date}</p>
+                    <p>{node.frontmatter.description}</p>
+                  </div>
+                </li>)
+            })
+          }
+        </ul>
       </Wrapper>
     </Layout>
   )
@@ -51,7 +52,7 @@ const BlogPage = ({ data }) => {
 
 export const query = graphql`
   query {
-    allMdx(sort: { frontmatter: { date: DESC }}) {
+    allMdx(sort: {frontmatter: {date: DESC}} filter: {frontmatter: {type: {eq: "blog"}}}) {
       nodes {
         frontmatter {
           date(formatString: "MMMM D, YYYY")
@@ -63,7 +64,7 @@ export const query = graphql`
 
         id
       }
-    }
+    } 
 
     site {
       siteMetadata {

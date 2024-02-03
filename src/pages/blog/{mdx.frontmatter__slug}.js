@@ -4,12 +4,12 @@ import Layout from '../../components/Layout'
 import Seo from '../../components/Seo'
 
 const BlogPost = ({ data, children }) => {
-  if (data.slug) {
     return (
       <Layout pageTitle={data.mdx.frontmatter.title}>
         <div className='post_wrapper'>
         <h1>{data.mdx.frontmatter.title}</h1>
         {data.mdx.frontmatter.description ? <b>{data.mdx.frontmatter.description}</b> : "" }
+        <br/><br/>
         <p>{data.mdx.frontmatter.date}</p>
         {data.mdx.frontmatter.image ? 
         <img src={data.mdx.frontmatter.image} alt={data.mdx.frontmatter.title} /> : ""}
@@ -18,7 +18,6 @@ const BlogPost = ({ data, children }) => {
       </Layout>
     )
   }
-}
 
 export const query = graphql`
   query ($id: String) {

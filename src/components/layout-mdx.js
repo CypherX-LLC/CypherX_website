@@ -10,6 +10,8 @@ const Mdx = ({ children }) => {
       <div className="post_wrapper">
         <h1>{meta.title}</h1>
         <br/>
+        {meta.image ? 
+        <img src={meta.image} alt={meta.title} /> : ""}
         {children}
       </div>
     </Layout>

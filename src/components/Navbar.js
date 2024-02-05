@@ -27,6 +27,7 @@ const NavItem = styled(Link)`
 
   :hover {
     color: goldenrod;
+    text-shadow: 1px 1px 1px #000;
     ::after {
       width: 100%;
     }
@@ -37,6 +38,7 @@ const NavItem = styled(Link)`
     font-size: 1.2rem;
     z-index: 6;
   }
+
 `;
 
 const Navigation = styled.nav`
@@ -63,6 +65,7 @@ const Navigation = styled.nav`
     right: 0;
     left: 0;
   }
+
 `;
 
 const Toggle = styled.div`
@@ -74,6 +77,7 @@ const Toggle = styled.div`
   @media (max-width: 768px) {
     display: flex;
   }
+
 `;
 
 const Navbox = styled.div`
@@ -92,6 +96,7 @@ const Navbox = styled.div`
     top: 8vh;
     left: ${(props) => (props.open ? "-100%" : "0")};
   }
+
 `;
 
 const Hamburger = styled.div`
@@ -124,6 +129,7 @@ const Hamburger = styled.div`
     transform: ${(props) => (props.open ? "rotate(90deg) " : "rotate(0deg)")};
     top: 10px;
   }
+
 `;
 const NavbarLinks = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);

@@ -22,6 +22,7 @@ function SEO({ description, lang, meta, title }) {
           }
         }
       }
+
     `
   )
 

@@ -17,15 +17,31 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `features`,
+        path: `${__dirname}/src/features/`,
+      },
+    },
+    /* {
       resolve: "gatsby-plugin-page-creator",
       options: {
         path: `${__dirname}/src/posts`,
+        name: `blog` 
+      },
+    }, */
+    {
+      resolve: "gatsby-plugin-page-creator",
+      options: {
+        path: `${__dirname}/src/features`,
+        name: `features` 
       },
     },
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
         extensions: [`.mdx`, `.md`],
+        path: `${__dirname}/src/posts/`,
       },
     },
     `gatsby-plugin-sass`,

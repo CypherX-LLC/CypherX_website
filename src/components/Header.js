@@ -1,7 +1,7 @@
 import { Link } from "gatsby";
 import PropTypes from "prop-types";
 import React from "react";
-import Nav from "../components/navigation";
+import Nav from "./Navigation";
 import "../scss/pages_style.scss";
 
 const Header = ({ siteLogo }) => (

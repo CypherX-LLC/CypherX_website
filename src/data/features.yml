@@ -28,7 +28,9 @@ items:
   - title: Quality assurance
     icon: /svg/07.svg
     text: Ensuring your software meets standards via testing, QA processes, and continuous enhancement for optimal performance and user satisfaction.
+    link: /quality-assurance/
 
   - title: Code Due Diligence
     icon: /svg/06.svg
     text: Trust our software expertise for thorough software due diligence, ensuring reliable performance and strategic investment decisions for your business.
+    link: /quality-assurance/

@@ -1,8 +1,18 @@
-title: Real Stories from Real Customers
-subtitle: Get inspired by these stories.
+title: "Voices of Satisfaction:"
+subtitle: Our Customer Testimonials
 items:
   - icon:
-    quote: CypherX helped us build an amazing blockchain dApp for our Saas. I couldn’t be more impressed!
+    quote: If you seek consultation on cutting-edge technologies such as AI and Web3, I highly recommend CypherX.
+    name:
+    position:
+
+  - icon:
+    quote: We were thoroughly impressed by CypherX's competence and dedication throughout the implementation of our multichain NFT marketplace.
+    name:
+    position:
+
+  - icon:
+    quote: CypherX helped us build an amazing blockchain dApp for our NFT project. I couldn’t be more impressed!
     name:
     position:
 
@@ -12,6 +22,8 @@ items:
     position:
 
   - icon:
-    quote: CypherX saved us a lot of time in getting our struggling app off the ground. There was some impressive talent shown throughout.
+    quote: CypherX saved us a lot of time in getting our app off the ground. There was some impressive talent shown throughout.
     name:
     position:
+
+

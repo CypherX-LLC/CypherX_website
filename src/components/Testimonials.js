@@ -1,5 +1,5 @@
 import React from "react";
-import Testimonis from "../data/testimonials.yml";
+import Testimonial_data from "../data/testimonials.yml";
 
 const Testimonials = () => {
   const Icon = (prop) => {
@@ -7,7 +7,7 @@ const Testimonials = () => {
       prop.icon ? <img src={prop.icon} alt="icon" /> : ""
     )
   }
-  const Items = Testimonis.items.map((tm, key) => {
+  const Items = Testimonial_data.items.map((tm, key) => {
     return (
       <div className="testimonial_card" key={key}>
         <Icon icon={tm.icon}/>
@@ -26,9 +26,9 @@ const Testimonials = () => {
         <div className="testimonials_head">
           <h2>
             <img src="/svg/QuoteMark.svg" alt="Quote Mark" />
-            {Testimonis.title}
+            {Testimonial_data.title}
           </h2>
-          <p>{Testimonis.subtitle}</p>
+          <h3>{Testimonial_data.subtitle}</h3>
         </div>
         <div className="testimonials_list">{Items}</div>
       </div>

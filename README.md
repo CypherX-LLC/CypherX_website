@@ -7,16 +7,20 @@ created with gatsbyjs
     <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
   </a>
 
+## use correct node version
+`nvm use`
+
 ## install dependencies 
+
 `yarn install`
 
 ## run on localhost
 ```
-gatsby develop                      Start development server. Watches files, rebuilds, and hot reloads if something changes
+yarn develop                      Start development server. Watches files, rebuilds, and hot reloads if something changes
 
-gatsby build                        Build a Gatsby project.
+yarn build                        Build a Gatsby project.
 
-gatsby serve                        Serve previously built Gatsby site.
+yarn serve                        Serve previously built Gatsby site.
 ```
 
 ## blog

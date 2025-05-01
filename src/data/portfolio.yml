@@ -1,0 +1,15 @@
+title: Explore Our Projects
+#subtitle: Our Projects
+items:
+  - title: NFT Marketplace
+    text: A decentralized marketplace for trading digital collectibles
+    link: /nft-marketplace/
+
+  - title: NFT Creation and Drop
+    text: Decentralized lending and borrowing platform with yield farming
+    link: /nft-creation-drop/
+
+  - title: DAO Governance
+    icon: /svg/03.svg
+    text: Custom governance system for decentralized accelerator
+    link: /vesting-staking-contracts/

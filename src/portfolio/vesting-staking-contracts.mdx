@@ -1,0 +1,46 @@
+---
+title: "Vesting Staking Governance Trilemma"
+description: "A decentralized marketplace for trading digital collectibles"
+type: portfolio
+---
+
+import Mdx from "../components/layout-mdx"
+
+## Staking and Vesting System for HyperNEST DAO
+
+### Problem:
+HyperNEST needed a sophisticated token management system that would:
+1. Prevent token dumping through restrictive transfer rules
+2. Incentivize long-term participation with time-locked staking
+3. Enable flexible DAO governance while maintaining economic security
+4. Handle complex reward distribution scenarios
+
+### Solution:
+Built custom Solidity contracts implementing:
+- **Controlled wNEST Transfers**:
+  - Whitelisted contract-to-wallet flows only
+  - Complete restriction of P2P transfers
+- **Time-Based Staking**:
+  - 1-24 month flexible locking periods
+  - Automatic mint/burn mechanism for wNEST conversion
+- **Anti-Gaming Mechanics**:
+  - Full-balance requirement for reward claims
+  - Partial unstake penalty system
+  - Slashing integration for governance violations
+- **Multi-Sig Admin Controls**:
+  - DAO-operated parameter adjustments
+  - Emergency pause functionality
+
+### Impact:
+<ul className="impact-list">
+- Coming soon...  
+</ul>
+### Key Innovations:
+- "Burn-to-claim" reward mechanism prevents gaming
+- Progressive unstaking penalties align with DAO goals
+- Gas-optimized for frequent DAO operations
+
+
+[Contact us](/contact) to discuss your NFT marketplace needs.
+
+export default Mdx

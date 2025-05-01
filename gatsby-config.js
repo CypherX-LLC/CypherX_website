@@ -5,7 +5,7 @@ module.exports = {
     default_image: `/images/imgbin_graphics-website-wireframe-wire-frame-model-globe-sphere-png 1.png`,
     title: `CypherX`,
     subtitle: `Software. Quality. Security.`,
-    description: `We help startups and companies of all sizes, utilize the capabilities of blockchain technologies. Building software since 2011, we’ve applied our combined expertise in creating innovation that brings new levels of openness, productivity, and automation to our clients' business processes.`,
+    description: `We help startups and enterprises grow with fullstack solutions and web3 technologies. Our knowledge expands into Industry 4.0 - smart factories, automation, and precision systems with tailored, future-ready tech.`,
     author: `@selimerunkut`,
   },
   plugins: [
@@ -23,6 +23,13 @@ module.exports = {
         path: `${__dirname}/src/features/`,
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `portfolio`,
+        path: `${__dirname}/src/portfolio/`,
+      },
+    },
     /* {
       resolve: "gatsby-plugin-page-creator",
       options: {
@@ -35,6 +42,13 @@ module.exports = {
       options: {
         path: `${__dirname}/src/features`,
         name: `features` 
+      },
+    },
+    {
+      resolve: "gatsby-plugin-page-creator",
+      options: {
+        path: `${__dirname}/src/portfolio`,
+        name: `portfolio` 
       },
     },
     {

@@ -1,36 +1,22 @@
-title: What we offer
-subtitle: From smart contracts to dApps, we offer application development that suits your needs
+title: What We Offer
+#subtitle: From smart contracts to dApps, we offer application development that suits your needs
 items:
-  - title: Web3 dApp development
-    icon: /svg/07.svg
-    text: "Crafting dApps on Layer1 (Ethereum, Solana, etc.) & Layer2 (Optimism, Starknet, etc.) chains for seamless deployment and decentralized solutions."
+  - title: Web3 Development & Consulting
+    text: "Full-stack dApps, Smart Contracts, DeFi solutions, NFT Marketplaces, Tokenization, Layer 1 & 2 chains, security audits, DAOs and more."
+    link: /web3-dapp-development/
 
-  - title: Smart contract development
-    icon: /svg/01.svg
-    text: NFT, NFT Marketplaces, Tokenization, Decentralized Exchanges, AMM, with smart contracts.
-
-  - title: Web3 consultation
-    icon: /svg/02.svg
-    text: "Unlock insights into web3: What, Why, and How, for strategic integration and transformative outcomes."
-
-  - title: Smart contract auditing
-    icon: /svg/03.svg
-    text: Find and fix architecture issues, coding errors, and security vulnerabilities with our auditing partners.
-
-  - title: Token Economics
-    icon: /svg/04.svg
-    text: Fund your project with tokenomics. Tokens help you drive scalability, fight inflation, and build utility within your ecosystem.
-
-  - title: DAO consultation
-    icon: /svg/05.svg
-    text: Build organisations without a traditional hierarchy. Automate management and administrative functions with smart contracts.
-
-  - title: Quality assurance
-    icon: /svg/07.svg
+  - title: Quality Assurance & Code Due Diligence
     text: Ensuring your software meets standards via testing, QA processes, and continuous enhancement for optimal performance and user satisfaction.
     link: /quality-assurance/
+  
+  - title: Startup Tech Due Diligence
+    text: "Assessing the viability of startup tech for Accelerators and Investors."
+    link: /startup-tech-due-diligence/
+  
+  - title: Offshore Team Building & Management
+    text: "Building and managing offshore teams for your projects."
+    link: /offshore-team-building/
 
-  - title: Code Due Diligence
-    icon: /svg/06.svg
-    text: Trust our software expertise for thorough software due diligence, ensuring reliable performance and strategic investment decisions for your business.
-    link: /quality-assurance/
+  - title: Industry 4.0
+    text: "Upgrade your operation into the future with Industry 4.0 solutions. We help you integrate IoT, AI, and blockchain into your business."
+    link: /industry-4-0/

@@ -1,6 +1,5 @@
 import React from "react";
-//import Img from "gatsby-image";
-import Feats from "../data/features.yml";
+import Projects from "../data/portfolio.yml";
 import { Link } from "gatsby";
 
 const ItemTitle = ({item}) => {
@@ -8,11 +7,11 @@ const ItemTitle = ({item}) => {
   return ( item.link?<Link to={item.link}>{item.title}</Link>:item.title )
 }
 
-const Features = () => {
-  const Items = Feats.items.map((item, key) => {
+const Portfolio = () => {
+  const Items = Projects.items.map((item, key) => {
     return (
-      <div className="feature_item" key={key}>
-        {/* <img src={item.icon} alt="Gatsby Docs are awesome" /> */}
+      <div className="portfolio_item" key={key}>
+        {/* <img src={item.icon} alt={`${item.title} project`} /> */}
         <h3>
           <ItemTitle item={item}/>
         </h3>
@@ -21,11 +20,11 @@ const Features = () => {
     );
   });
   return (
-    <section id="features" className="features_section">
+    <section id="portfolio_section" className="portfolio_section">
       <div className="container">
-        <h2>{Feats.title}</h2>
-        <p className="subtitle">{Feats.subtitle}</p>
-        <div className="wrapper features_grid">
+        <h2>{Projects.title}</h2>
+        <p className="subtitle">{Projects.subtitle}</p>
+        <div className="wrapper portfolio_grid">
           {Items}
           </div>
       </div>
@@ -33,4 +32,4 @@ const Features = () => {
   );
 };
 
-export default Features;
+export default Portfolio;

@@ -169,18 +169,19 @@ header.page_header {
 
 .testimonials,
 .offering_section,
-.features_section {
+.features_section,
+.portfolio_section {
   padding-top: 65px;
   padding-bottom: 80px;
   text-align: center;
 }
 
-.features_grid {
+.features_grid, .portfolio_grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
-  .feature_item {
+  .feature_item, .portfolio_item {
     min-width: 300px;
     max-width: 350px;
   }
@@ -506,6 +507,16 @@ header.page_header {
       }
     }
   }
+  @media (max-width: 1024px) {
+    & {
+      align-items: center;
+      display: block;
+      gap: 60px;
+      .col_2 {
+        height: 90px;
+      }
+    }
+  }
 }
 
 @media (min-width: 1500px) {
@@ -780,11 +791,33 @@ header.page_header {
 
   h3 {
     font-size: 24px;
+    text-align: left;
   }
   
   img {
     max-width: 100%;
     display: block;
     margin: 30px auto;
+  }
+  ul {
+    list-style: none;
+    padding-left: 0;
+    
+    li {
+      position: relative;
+      padding-left: 1.5em;
+      margin-bottom: 0.5em;
+      
+      &::before {
+        content: "🔹";
+        position: absolute;
+        left: 0;
+      }
+    }
+  }
+  .impact-list {
+    li::before {
+      content: "✅";
+    }
   }
 }

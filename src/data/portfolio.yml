@@ -13,3 +13,19 @@ items:
     icon: /svg/03.svg
     text: Custom governance system for decentralized accelerator
     link: /vesting-staking-contracts/
+
+  - title: RWA Tokenization
+    text: Blockchain tokenization platform for precious metals
+    link: /rwa-tokenization/
+
+  - title: Token Sale Apps
+    text: Automated token distribution system linked to bank transfers
+    link: /token-sale-apps/
+
+  - title: RWA Purchasing dApps
+    text: Decentralized platform for crypto purchases of tokenized assets
+    link: /rwa-purchasing-dapps/
+
+  - title: Precious Metals SaaS
+    text: Comprehensive SaaS solution for precious metals operations
+    link: /precious-metals-saas/

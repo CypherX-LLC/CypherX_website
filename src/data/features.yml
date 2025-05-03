@@ -6,12 +6,16 @@ items:
     link: /web3-dapp-development/
 
   - title: Quality Assurance & Code Due Diligence
-    text: Ensuring your software meets standards via testing, QA processes, and continuous enhancement for optimal performance and user satisfaction.
+    text: "Ensuring your software meets standards via testing, QA processes, and continuous enhancement for optimal performance and user satisfaction."
     link: /quality-assurance/
   
   - title: Startup Tech Due Diligence
-    text: "Assessing the viability of startup tech for Accelerators and Investors."
+    text: "Assessing the viability of startup tech for investors"
     link: /startup-tech-due-diligence/
+
+  - title: Software Delivery Optimization
+    text: "5-day intensive workshop to assess and improve software delivery performance"
+    link: /software-delivery-optimization/
   
   - title: Offshore Team Building & Management
     text: "Building and managing offshore teams for your projects."

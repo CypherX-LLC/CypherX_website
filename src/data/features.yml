@@ -16,7 +16,11 @@ items:
   - title: Software Delivery Optimization
     text: "5-day intensive workshop to assess and improve software delivery performance"
     link: /software-delivery-optimization/
-  
+
+  - title: Engineering Leadership
+    text: "CTO's framework for scaling distributed teams using Agile and Accelerate principles"
+    link: /multinational-team-building/
+
   - title: Offshore Team Building & Management
     text: "Building and managing offshore teams for your projects."
     link: /offshore-team-building/

@@ -14,6 +14,9 @@ const IndexPage = () => (
     <SEO title="Home" />
    <Opening />
    <Features />
+   <div className="between_feature_portfolio">
+     <div style={{height: '100%'}}></div>
+   </div>
    <Portfolio />
    <Testimonials />
    <Offering />

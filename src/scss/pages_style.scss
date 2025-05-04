@@ -175,6 +175,10 @@ header.page_header {
   padding-bottom: 80px;
   text-align: center;
 }
+.between_feature_portfolio {
+  background: url(/images/intro_bg.webp) no-repeat center/cover;
+  min-height: 100px;
+}
 
 .features_grid, .portfolio_grid {
   display: flex;
@@ -779,6 +783,15 @@ header.page_header {
   display: grid;
   min-height: 100vh;
   grid-template-rows: 1fr 250px ;
+}
+
+.portfolio {
+  h1 {
+    text-align: center;
+  }
+  h2 {
+    text-align: center;
+  }
 }
 
 .post_wrapper {

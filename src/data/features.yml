@@ -9,8 +9,8 @@ items:
     text: "Ensuring your software meets standards via testing, QA processes, and continuous enhancement for optimal performance and user satisfaction."
     link: /quality-assurance/
   
-  - title: Startup Tech Due Diligence
-    text: "Assessing the viability of startup tech for investors"
+  - title: Tech Due Diligence
+    text: "Assessing the viability of company & startup tech for investors"
     link: /startup-tech-due-diligence/
 
   - title: Software Delivery Optimization

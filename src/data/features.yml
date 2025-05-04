@@ -19,7 +19,7 @@ items:
 
   - title: Engineering Leadership
     text: "CTO's framework for scaling distributed teams using Agile and Accelerate principles"
-    link: /multinational-team-building/
+    link: /technical-leadership-for-global-engineering/
 
   - title: Offshore Team Building & Management
     text: "Building and managing offshore teams for your projects."
@@ -28,3 +28,7 @@ items:
   - title: Industry 4.0
     text: "Upgrade your operation into the future with Industry 4.0 solutions. We help you integrate IoT, AI, and blockchain into your business."
     link: /industry-4-0/
+
+  - title: Technical Risk Assessment
+    text: "Comprehensive technical risk assessment for investors and acquirers to evaluate technical risks."
+    link: /technical-risk-assesment/

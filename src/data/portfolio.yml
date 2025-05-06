@@ -33,3 +33,7 @@ items:
   - title: Multinational Team Building
     text: Building and scaling high-performing global engineering teams
     link: /multinational-team-building/
+
+  - title: AI Chatbot for Nutrition Science
+    text: LLM and RAG powered chatbot providing personalized nutrition recommendations
+    link: /llm-chatbot-nutrition-science/

@@ -1,8 +1,9 @@
 module.exports = {
   siteMetadata: {
+    siteUrl: `https://cypherx.tech`,
     logo: `CypherX`,
     logo_image: `/svg/Logo.svg`,
-    default_image: `/images/imgbin_graphics-website-wireframe-wire-frame-model-globe-sphere-png 1.png`,
+    default_image: `/images/cypherx_logo.png`,
     title: `CypherX`,
     subtitle: `Software. Quality. Security.`,
     description: `We help startups and enterprises grow with fullstack solutions and web3 technologies. Our knowledge expands into Industry 4.0 - smart factories, automation, and precision systems with tailored, future-ready tech.`,

@@ -180,12 +180,14 @@ header.page_header {
   min-height: 100px;
 }
 
-.features_grid, .portfolio_grid {
+.features_grid,
+.portfolio_grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
-  .feature_item, .portfolio_item {
+  .feature_item,
+  .portfolio_item {
     min-width: 300px;
     max-width: 350px;
   }
@@ -206,7 +208,8 @@ header.page_header {
 
 .testimonials {
   min-height: 920px;
-  background: url(/images/intro_bg.webp) left no-repeat, url(/images/tm_bg.webp) right no-repeat;
+  background: url(/images/intro_bg.webp) left no-repeat,
+    url(/images/tm_bg.webp) right no-repeat;
   background-size: 43% 100%, 57% 100%;
   .testimonials_head {
     * {
@@ -539,7 +542,8 @@ header.page_header {
 
   @media (min-width: 1024px) {
     padding-top: 175px;
-    background: url(/images/intro_bg.webp) left no-repeat, url(/images/about_bg_right.webp) right no-repeat;
+    background: url(/images/intro_bg.webp) left no-repeat,
+      url(/images/about_bg_right.webp) right no-repeat;
     background-size: 55% 100%, 45% 100%;
   }
 }
@@ -560,9 +564,8 @@ header.page_header {
   }
 
   .top_right {
-    align-self: center;
-    margin-top: -110px;
     padding: 30px;
+    padding-top: 7em;
     h2 {
       font-size: 28px;
       font-style: normal;
@@ -607,6 +610,8 @@ header.page_header {
     gap: 20px;
     .team_card {
       max-width: 420px;
+      display: flex;
+      flex-direction: column;
       * {
         text-align: center;
       }
@@ -619,6 +624,24 @@ header.page_header {
         -moz-border-radius: 50%;
         -ms-border-radius: 50%;
         -o-border-radius: 50%;
+      }
+
+      .m_info_container {
+        text-align: left;
+      }
+
+      .linkedin_container {
+        text-align: center;
+        width: 100%;
+        margin-top: auto;
+
+        .linkedin_link {
+          display: inline-block;
+          margin-top: 1rem;
+          color: #0077b5;
+          text-decoration: none;
+          font-weight: bold;
+        }
       }
     }
   }
@@ -672,7 +695,8 @@ header.page_header {
 
 //////// Contact
 .contact .about_top {
-  background: url(/images/intro_bg.webp) left no-repeat, url(/images/contact_bg2.webp) right no-repeat;
+  background: url(/images/intro_bg.webp) left no-repeat,
+    url(/images/contact_bg2.webp) right no-repeat;
   background-size: 55% 100%, 45% 100%;
 }
 
@@ -768,7 +792,7 @@ header.page_header {
     box-shadow: 4px 2px 14px #ddd;
     display: grid;
     gap: 20px;
-    @media(min-width: 768px){
+    @media (min-width: 768px) {
       grid-template-columns: 200px 1fr;
     }
   }
@@ -782,7 +806,7 @@ header.page_header {
 .page_outer {
   display: grid;
   min-height: 100vh;
-  grid-template-rows: 1fr 250px ;
+  grid-template-rows: 1fr 250px;
 }
 
 .portfolio {
@@ -806,7 +830,7 @@ header.page_header {
     font-size: 24px;
     text-align: left;
   }
-  
+
   img {
     max-width: 100%;
     display: block;
@@ -815,12 +839,12 @@ header.page_header {
   ul {
     list-style: none;
     padding-left: 0;
-    
+
     li {
       position: relative;
       padding-left: 1.5em;
       margin-bottom: 0.5em;
-      
+
       &::before {
         content: "🔹";
         position: absolute;

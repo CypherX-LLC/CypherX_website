@@ -42,14 +42,14 @@ module.exports = {
       resolve: "gatsby-plugin-page-creator",
       options: {
         path: `${__dirname}/src/features`,
-        name: `features` 
+        name: `features`,
       },
     },
     {
       resolve: "gatsby-plugin-page-creator",
       options: {
         path: `${__dirname}/src/portfolio`,
-        name: `portfolio` 
+        name: `portfolio`,
       },
     },
     {
@@ -70,6 +70,8 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-sitemap`,
+    `gatsby-plugin-robots-txt`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {

@@ -5,12 +5,12 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import React from "react"
-import PropTypes from "prop-types"
-import { Helmet } from "react-helmet"
-import { useStaticQuery, graphql } from "gatsby"
+import React from "react";
+import PropTypes from "prop-types";
+import { Helmet } from "react-helmet";
+import { useStaticQuery, graphql } from "gatsby";
 
-function SEO({ description, lang, meta, title, image }) {
+function SEO({ description, lang, meta, title, image, structuredData }) {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -25,13 +25,13 @@ function SEO({ description, lang, meta, title, image }) {
         }
       }
     `
-  )
+  );
 
-  const metaDescription = description || site.siteMetadata.description
-  const defaultTitle = site.siteMetadata?.title
-  const siteUrl = site.siteMetadata?.siteUrl
-  const ogImage = image || site.siteMetadata?.default_image
-  const imagePath = ogImage ? `${siteUrl}${ogImage}` : null
+  const metaDescription = description || site.siteMetadata.description;
+  const defaultTitle = site.siteMetadata?.title;
+  const siteUrl = site.siteMetadata?.siteUrl;
+  const ogImage = image || site.siteMetadata?.default_image;
+  const imagePath = ogImage ? `${siteUrl}${ogImage}` : null;
 
   return (
     <Helmet
@@ -82,15 +82,21 @@ function SEO({ description, lang, meta, title, image }) {
           content: imagePath,
         },
       ].concat(meta)}
-    />
-  )
+    >
+      {structuredData && (
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+      )}
+    </Helmet>
+  );
 }
 
 SEO.defaultProps = {
   lang: `en`,
   meta: [],
   description: ``,
-}
+};
 
 SEO.propTypes = {
   description: PropTypes.string,
@@ -98,6 +104,7 @@ SEO.propTypes = {
   meta: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.string.isRequired,
   image: PropTypes.string,
-}
+  structuredData: PropTypes.object,
+};
 
-export default SEO
+export default SEO;

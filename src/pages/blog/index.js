@@ -38,7 +38,7 @@ const BlogPage = ({ data }) => {
                       </Link>
                     </H2>
                     <br/>
-                    <p>Posted: {node.frontmatter.date}</p>
+                    {/* <p>Posted: {node.frontmatter.date}</p> */}
                     <p>{node.frontmatter.description}</p>
                   </div>
                 </li>)

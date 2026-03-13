@@ -22,6 +22,8 @@
     "gatsby-plugin-sitemap": "^6.16.0",
     "gatsby-source-filesystem": "^5.5.0",
     "gatsby-transformer-sharp": "^5.5.0",
+    "lmdb": "^3.5.1",
+    "msgpackr": "^1.11.9",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-cookie-consent": "^8.0.1",

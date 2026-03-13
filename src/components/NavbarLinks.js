@@ -40,7 +40,7 @@ const NavItem = styled(Link)`
 `;
 
 const NavbarLinks = () => {
-    const [navbarOpen, setNavbarOpen] = useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(false);
 
   const Items = Navigation.map((item, key) => {
     return (

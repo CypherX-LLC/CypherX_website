@@ -14,9 +14,7 @@ const Offering = () => {
   return (
     <section id="offering" className="offering_section">
       <h2>{Offer.title}</h2>
-      <div className="offers_list">
-        {Items}
-        </div>
+      <div className="offers_list">{Items}</div>
     </section>
   );
 };

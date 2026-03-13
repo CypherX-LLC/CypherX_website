@@ -5,8 +5,10 @@ import Navigation from "../data/navigation_footer.yml";
 const Footer = () => {
   const Nav = () => {
     const Items = Navigation.map((item, key) => {
-      return item.className === 'copyright' ? (
-        <p className="copyright">© {new Date().getFullYear()} CypherX. All rights reserved.</p>
+      return item.className === "copyright" ? (
+        <p className="copyright">
+          © {new Date().getFullYear()} CypherX. All rights reserved.
+        </p>
       ) : (
         <Link to={item.link} className="menuItem_footer" key={key}>
           {item.title}

@@ -9,8 +9,8 @@ exports.onCreateWebpackConfig = ({ actions }) => {
         "~data": path.resolve(__dirname, "./src/content"),
         "~data": path.resolve(__dirname, "./src/data"),
         "~scss": path.resolve(__dirname, "./src/scss"),
-      }
-    }
+      },
+    },
   });
 };
 

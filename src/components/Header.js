@@ -12,10 +12,7 @@ const Header = ({ siteLogo }) => (
       marginBottom: `1.45rem`,
     }}
   >
-    <Link
-      to="/"
-      className= "logo_link"
-    >
+    <Link to="/" className="logo_link">
       <img src={siteLogo} className="logo" alt="Site Logo" />
     </Link>
     <Nav />

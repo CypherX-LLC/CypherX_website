@@ -25,8 +25,10 @@ const Cookie = () => {
       <p className="cookies_text">
         This website uses cookies which are necessary for its functioning and to
         personalise content. If you want to know more, please refer to our
-        <Link to="/privacy-policy"
-        style={{color: "lightblue"}}> Privacy Policy. </Link>
+        <Link to="/privacy-policy" style={{ color: "lightblue" }}>
+          {" "}
+          Privacy Policy.{" "}
+        </Link>
         By closing this banner, scrolling this page, clicking a link, or
         continuing to browse this website, you agree to the use of cookies.
       </p>

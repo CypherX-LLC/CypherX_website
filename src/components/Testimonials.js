@@ -3,14 +3,12 @@ import Testimonial_data from "../data/testimonials.yml";
 
 const Testimonials = () => {
   const Icon = (prop) => {
-    return (
-      prop.icon ? <img src={prop.icon} alt="icon" /> : ""
-    )
-  }
+    return prop.icon ? <img src={prop.icon} alt="icon" /> : "";
+  };
   const Items = Testimonial_data.items.map((tm, key) => {
     return (
       <div className="testimonial_card" key={key}>
-        <Icon icon={tm.icon}/>
+        <Icon icon={tm.icon} />
         <p className="quote">
           <img src="/svg/QMark.svg" alt="Quote Mark" />
           {tm.quote}{" "}

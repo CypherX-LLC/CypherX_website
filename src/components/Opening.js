@@ -4,7 +4,7 @@ import { StaticQuery, graphql } from "gatsby";
 
 import { Link } from "gatsby";
 //import Container from "./Container";
-//import Nav from "../data/navigation.yml"; 
+//import Nav from "../data/navigation.yml";
 
 export default function Opening() {
   return (

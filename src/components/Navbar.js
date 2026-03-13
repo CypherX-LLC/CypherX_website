@@ -38,11 +38,10 @@ const NavItem = styled(Link)`
     font-size: 1.2rem;
     z-index: 6;
   }
-
 `;
 
 const Navigation = styled.nav`
- /*  position: sticky;
+  /*  position: sticky;
   top: 0; */
   height: 12vh;
   max-width: 1440px;
@@ -58,14 +57,13 @@ const Navigation = styled.nav`
   justify-self: end;
 
   @media (max-width: 768px) {
-   /*  position: sticky; */
+    /*  position: sticky; */
     height: 8vh;
     top: 0;
     left: 0;
     right: 0;
     left: 0;
   }
-
 `;
 
 const Toggle = styled.div`
@@ -77,7 +75,6 @@ const Toggle = styled.div`
   @media (max-width: 768px) {
     display: flex;
   }
-
 `;
 
 const Navbox = styled.div`
@@ -96,7 +93,6 @@ const Navbox = styled.div`
     top: 8vh;
     left: ${(props) => (props.open ? "-100%" : "0")};
   }
-
 `;
 
 const Hamburger = styled.div`
@@ -129,7 +125,6 @@ const Hamburger = styled.div`
     transform: ${(props) => (props.open ? "rotate(90deg) " : "rotate(0deg)")};
     top: 10px;
   }
-
 `;
 const NavbarLinks = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);

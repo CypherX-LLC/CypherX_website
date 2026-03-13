@@ -3,10 +3,10 @@ import React from "react";
 import Feats from "../data/features.yml";
 import { Link } from "gatsby";
 
-const ItemTitle = ({item}) => {
-  let title = item.link?<Link to={item.link}>{item.title}</Link>:item.title
-  return ( item.link?<Link to={item.link}>{item.title}</Link>:item.title )
-}
+const ItemTitle = ({ item }) => {
+  let title = item.link ? <Link to={item.link}>{item.title}</Link> : item.title;
+  return item.link ? <Link to={item.link}>{item.title}</Link> : item.title;
+};
 
 const Features = () => {
   const Items = Feats.items.map((item, key) => {
@@ -14,7 +14,7 @@ const Features = () => {
       <div className="feature_item" key={key}>
         {/* <img src={item.icon} alt="Gatsby Docs are awesome" /> */}
         <h3>
-          <ItemTitle item={item}/>
+          <ItemTitle item={item} />
         </h3>
         <p>{item.text}</p>
       </div>
@@ -25,9 +25,7 @@ const Features = () => {
       <div className="container">
         <h2>{Feats.title}</h2>
         <p className="subtitle">{Feats.subtitle}</p>
-        <div className="wrapper features_grid">
-          {Items}
-          </div>
+        <div className="wrapper features_grid">{Items}</div>
       </div>
     </section>
   );

@@ -1,0 +1,33 @@
+---
+title: Access control is the real architecture problem in agent systems
+date: 2026-03-13
+description: Why agent systems fail when access lives in prompts, and the checklist I use to review them.
+image: /images/blog/access-control-is-the-real-architecture-problem-in-agent-systems.png
+type: blog
+slug: access-control-is-the-real-architecture-problem-in-agent-systems
+---
+
+Your agent stack can pass every demo and still leak data.
+If access lives in a prompt, you do not have access control.
+
+I reviewed an agent system built on a manager and specialist pattern. The flow looked clean. The risk lived in the gap between chat and tools.
+
+The role rules were written in a system prompt. That is not a gate. OWASP lists prompt injection as LLM01 in its LLM Top 10, which tells you how often that gate gets pushed open.[1]
+
+<a href="https://calendly.com/selim_cypherx_tech" target="_blank" rel="noopener noreferrer">
+Schedule a call
+</a>
+
+OpenAI calls prompt injection a frontier security challenge, and they are right.[2]
+
+The fix is dull and strict. Put a code gate before any tool call. Make default deny. Log each denied attempt and review it weekly.
+
+I keep seeing teams put time into model tuning while the tool layer has no guardrails. That is the wrong order.
+
+I stripped client details from that Architectural Review and turned it into a one page Agent Architecture Review Checklist. It is a lead magnet you can share with your team. It covers the access gate, tool permissions, data layer safety, and failure paths in plain language.
+
+If you want it, DM me "Agent Review Checklist" and I will send it.
+
+References:
+[1] OWASP Top 10 for Large Language Model Applications https://owasp.org/www-project-top-10-for-large-language-model-applications/
+[2] Understanding prompt injections: a frontier security challenge https://openai.com/index/prompt-injections

@@ -15,7 +15,6 @@ const BlogPost = ({ data, children }) => {
         )}
         <br />
         <br />
-        <p>{data.mdx.frontmatter.date}</p>
         {data.mdx.frontmatter.image ? (
           <img
             src={data.mdx.frontmatter.image}

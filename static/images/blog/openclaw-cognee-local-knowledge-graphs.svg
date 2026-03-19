@@ -1,76 +1,167 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
-    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:1" />
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L0,10 L10,5 Z" fill="#64748b"/>
     </marker>
     <style>
+      .title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 32px; font-weight: 600; fill: #0f172a; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 18px; fill: #475569; }
+      .label { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; font-weight: 500; fill: #1e293b; }
+      .small { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 11px; fill: #64748b; }
       .node { fill: #ffffff; stroke: #2563eb; stroke-width: 2; rx: 8; }
-      .container { fill: #f0f9ff; stroke: #0369a1; stroke-width: 2; rx: 10; }
-      .label { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; fill: #1e293b; }
-      .title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 18px; font-weight: 600; fill: #0f172a; }
-      .edge { stroke: #64748b; stroke-width: 2; marker-end: url(#arrowhead); }
+      .bad-node { fill: #fef2f2; stroke: #dc2626; stroke-width: 2; rx: 8; }
+      .good-node { fill: #f0f9ff; stroke: #2563eb; stroke-width: 2; rx: 8; }
+      .edge { stroke: #94a3b8; stroke-width: 2; marker-end: url(#arrow); }
+      .bad-edge { stroke: #f87171; stroke-width: 1.5; stroke-dasharray: 4,2; }
+      .box { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1; rx: 12; }
+      .box-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; font-weight: 600; fill: #475569; }
     </style>
   </defs>
 
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
   <!-- Title -->
-  <text x="400" y="30" class="title" text-anchor="middle">OpenClaw + Cognee Architecture</text>
+  <text x="600" y="50" class="title" text-anchor="middle">Vector Search vs Knowledge Graph</text>
+  <text x="600" y="80" class="subtitle" text-anchor="middle">How OpenClaw's Cognee integration transforms agent memory</text>
 
-  <!-- Docker Container -->
-  <rect x="650" y="80" width="120" height="100" class="container"/>
-  <text x="710" y="105" class="label" text-anchor="middle">Docker</text>
-  <text x="710" y="125" class="label" text-anchor="middle"> Cognee</text>
-  <text x="710" y="145" class="label" text-anchor="middle" font-size="11">:8000</text>
+  <!-- Left Side - Vector Search (Bad) -->
+  <rect x="50" y="120" width="500" height="460" class="box"/>
+  <text x="300" y="150" class="box-title" text-anchor="middle">Vector Search (Disconnected)</text>
 
-  <!-- Cognee Plugin -->
-  <rect x="300" y="80" width="120" height="100" class="container"/>
-  <text x="360" y="105" class="label" text-anchor="middle">Cognee</text>
-  <text x="360" y="125" class="label" text-anchor="middle">Plugin</text>
-  <text x="360" y="145" class="label" text-anchor="middle" font-size="11">openclaw</text>
+  <!-- Scattered text chunks -->
+  <g class="bad-edge">
+    <path d="M200 200 Q 250 180 300 200"/>
+    <path d="M350 180 Q 400 160 450 180"/>
+    <path d="M500 200 Q 480 250 460 300"/>
+    <path d="M180 300 Q 220 320 260 300"/>
+    <path d="M400 320 Q 420 370 440 420"/>
+    <path d="M120 400 Q 170 420 220 400"/>
+    <path d="M300 450 Q 350 460 400 450"/>
+  </g>
 
-  <!-- Agent -->
-  <rect x="100" y="80" width="120" height="100" class="container"/>
-  <text x="160" y="105" class="label" text-anchor="middle">OpenClaw</text>
-  <text x="160" y="125" class="label" text-anchor="middle">Agent</text>
-  <text x="160" y="145" class="label" text-anchor="middle" font-size="11">auto-index</text>
+  <g class="bad-node">
+    <rect x="170" y="180" width="80" height="40" rx="6"/>
+    <text x="210" y="205" class="small" text-anchor="middle" fill="#991b1b">text chunk</text>
+    <text x="210" y="218" class="small" text-anchor="middle" fill="#991b1b">"...similar"</text>
 
-  <!-- Knowledge Graph -->
-  <rect x="250" y="220" width="300" height="120" class="container"/>
-  <text x="400" y="245" class="label" text-anchor="middle">Knowledge Graph</text>
+    <rect x="320" y="160" width="90" height="40" rx="6"/>
+    <text x="365" y="185" class="small" text-anchor="middle" fill="#991b1b">another</text>
+    <text x="365" y="198" class="small" text-anchor="middle" fill="#991b1b">chunk 4567</text>
 
-  <!-- Graph nodes -->
-  <circle cx="320" cy="270" r="20" class="node"/>
-  <text x="320" y="274" class="label" text-anchor="middle">MEMORY</text>
+    <rect x="420" y="280" width="100" height="40" rx="6"/>
+    <text x="470" y="305" class="small" text-anchor="middle" fill="#991b1b">random</text>
+    <text x="470" y="318" class="small" text-anchor="middle" fill="#991b1b">embedding</text>
 
-  <circle cx="400" cy="270" r="20" class="node"/>
-  <text x="400" y="274" class="label" text-anchor="middle">2026-03-17</text>
+    <rect x="140" y="280" width="80" height="40" rx="6"/>
+    <text x="180" y="305" class="small" text-anchor="middle" fill="#991b1b">isolated</text>
+    <text x="180" y="318" class="small" text-anchor="middle" fill="#991b1b">fact</text>
 
-  <circle cx="480" cy="270" r="20" class="node"/>
-  <text x="480" y="274" class="label" text-anchor="middle">2026-03-18</text>
+    <rect x="360" y="300" width="110" height="40" rx="6"/>
+    <text x="415" y="325" class="small" text-anchor="middle" fill="#991b1b">no context</text>
+    <text x="415" y="338" class="small" text-anchor="middle" fill="#991b1b">connection</text>
 
-  <circle cx="360" cy="300" r="15" class="node"/>
-  <text x="360" y="303" class="label" text-anchor="middle" font-size="10">cognee-setup</text>
+    <rect x="340" y="400" width="90" height="40" rx="6"/>
+    <text x="385" y="425" class="small" text-anchor="middle" fill="#991b1b">fragmented</text>
+    <text x="385" y="438" class="small" text-anchor="middle" fill="#991b1b">memory</text>
 
-  <circle cx="440" cy="300" r="15" class="node"/>
-  <text x="440" y="303" class="label" text-anchor="middle" font-size="10">linkedin-auth</text>
+    <rect x="500" y="190" width="85" height="40" rx="6"/>
+    <text x="542" y="215" class="small" text-anchor="middle" fill="#991b1b">broken</text>
+    <text x="542" y="228" class="small" text-anchor="middle" fill="#991b1b">links</text>
+  </g>
 
-  <circle cx="400" cy="330" r="15" class="node"/>
-  <text x="400" y="333" class="label" text-anchor="middle" font-size="10">content-pipeline</text>
+  <!-- Question marks -->
+  <text x="260" y="240" class="small" fill="#ef4444">?</text>
+  <text x="440" y="260" class="small" fill="#ef4444">?</text>
+  <text x="190" y="350" class="small" fill="#ef4444">?</text>
+  <text x="550" y="320" class="small" fill="#ef4444">?</text>
+  <text x="390" y="470" class="small" fill="#ef4444">?</text>
 
-  <!-- Edges between graph nodes -->
-  <line x1="320" y1="270" x2="400" y2="270" class="edge"/>
-  <line x1="400" y1="270" x2="480" y2="270" class="edge"/>
-  <line x1="360" y1="270" x2="360" y2="300" class="edge"/>
-  <line x1="440" y1="270" x2="440" y2="300" class="edge"/>
-  <line x1="400" y1="270" x2="400" y2="330" class="edge"/>
-  <line x1="360" y1="300" x2="400" y2="330" class="edge"/>
-  <line x1="440" y1="300" x2="400" y2="330" class="edge"/>
+  <!-- Label -->
+  <text x="300" y="500" class="label" text-anchor="middle" fill="#dc2626">No relationships. Just similarity.</text>
 
-  <!-- Connections -->
-  <line x1="220" y1="130" x2="300" y2="130" class="edge"/>
-  <line x1="420" y1="130" x2="550" y2="130" class="edge"/>
-  <line x1="400" y1="180" x2="400" y2="220" class="edge"/>
+  <!-- VS divider -->
+  <text x="600" y="300" class="title" fill="#64748b" text-anchor="middle">VS</text>
 
-  <!-- Data flow label -->
-  <text x="400" y="115" class="label" text-anchor="middle" font-size="11">auto-recall</text>
-  <text x="400" y="205" class="label" text-anchor="middle" font-size="11">context injection</text>
+  <!-- Right Side - Knowledge Graph (Good) -->
+  <rect x="650" y="120" width="500" height="460" class="box"/>
+  <text x="900" y="150" class="box-title" text-anchor="middle">Knowledge Graph (Connected)</text>
+
+  <!-- Central nodes -->
+  <g class="good-node">
+    <circle cx="900" cy="250" r="45"/>
+    <text x="900" y="245" class="label" text-anchor="middle" fill="#1e40af">Memory</text>
+    <text x="900" y="265" class="small" text-anchor="middle" fill="#64748b">files</text>
+
+    <circle cx="750" cy="180" r="30"/>
+    <text x="750" y="175" class="small" text-anchor="middle" fill="#1e40af">MEMORY</text>
+    <text x="750" y="188" class="small" text-anchor="middle" fill="#64748b">.md</text>
+
+    <circle cx="750" cy="320" r="30"/>
+    <text x="750" y="315" class="small" text-anchor="middle" fill="#1e40af">2026-03-17</text>
+    <text x="750" y="328" class="small" text-anchor="middle" fill="#64748b">notes</text>
+
+    <circle cx="1050" cy="180" r="30"/>
+    <text x="1050" y="175" class="small" text-anchor="middle" fill="#1e40af">2026-03-18</text>
+    <text x="1050" y="188" class="small" text-anchor="middle" fill="#64748b">daily</text>
+
+    <circle cx="1050" cy="320" r="30"/>
+    <text x="1050" y="315" class="small" text-anchor="middle" fill="#1e40af">2026-03-19</text>
+    <text x="1050" y="328" class="small" text-anchor="middle" fill="#64748b">cognee-setup</text>
+  </g>
+
+  <!-- Connected nodes -->
+  <g class="good-node">
+    <circle cx="680" cy="220" r="25"/>
+    <text x="680" y="215" class="small" text-anchor="middle" fill="#1e40af">LinkedIn</text>
+    <text x="680" y="228" class="small" text-anchor="middle" fill="#64748b">auth</text>
+
+    <circle cx="680" cy="280" r="25"/>
+    <text x="680" y="275" class="small" text-anchor="middle" fill="#1e40af">content</text>
+    <text x="680" y="288" class="small" text-anchor="middle" fill="#64748b">pipeline</text>
+
+    <circle cx="1120" cy="220" r="25"/>
+    <text x="1120" y="215" class="small" text-anchor="middle" fill="#1e40af">Calendly</text>
+    <text x="1120" y="228" class="small" text-anchor="middle" fill="#64748b">CTA</text>
+  </g>
+
+  <!-- Edges -->
+  <g stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M780 180 L855 220"/>
+    <path d="M795 215 L855 220"/>
+    <path d="M780 320 L855 280"/>
+    <path d="M795 295 L855 280"/>
+    <path d="M1020 180 L945 220"/>
+    <path d="M1005 215 L945 220"/>
+    <path d="M1020 320 L945 280"/>
+    <path d="M1005 295 L945 280"/>
+    <path d="M855 250 L680 220"/>
+    <path d="M855 250 L680 280"/>
+    <path d="M945 250 L1120 220"/>
+    <path d="M750 250 L680 250" stroke-dasharray="4,2"/>
+    <path d="M1050 250 L1120 250" stroke-dasharray="4,2"/>
+    <path d="M900 180 L900 225"/>
+    <path d="M900 275 L900 320"/>
+    <path d="M750 225 L780 220"/>
+    <path d="M1050 225 L1020 220"/>
+    <path d="M750 275 L780 280"/>
+    <path d="M1050 275 L1020 280"/>
+  </g>
+
+  <!-- Labels for relationships -->
+  <text x="760" y="200" class="small" fill="#475569">indexes</text>
+  <text x="1035" y="200" class="small" fill="#475569">triggers</text>
+  <text x="760" y="340" class="small" fill="#475569">references</text>
+  <text x="1035" y="340" class="small" fill="#475569">auto-insert</text>
+  <text x="620" y="250" class="small" fill="#475569">remembers</text>
+  <text x="1180" y="250" class="small" fill="#475569">adds</text>
+
+  <!-- Bottom label -->
+  <text x="900" y="520" class="label" text-anchor="middle" fill="#0f172a">Explicit relationships. Connected concepts.</text>
+
+  <!-- Footer -->
+  <text x="600" y="590" class="small" text-anchor="middle" fill="#64748b">OpenClaw | Cognee Knowledge Graph | Local Memory That Remembers</text>
 </svg>

@@ -37,6 +37,7 @@ Use the local CLI to create blog posts from **provided** text and images. The re
 - **CTA insertion:** A Calendly CTA is inserted by default in the first third or middle. Disable with `--no-cta` or `ctaEnabled: false`. Override with `--cta-html` and `--cta-position`, or place `<!-- CTA -->` in the body to force location.
 
 Example (body file):
+
 ```bash
 node scripts/create-post.mjs \
   --title "Post title" \
@@ -47,6 +48,7 @@ node scripts/create-post.mjs \
 ```
 
 Example (JSON):
+
 ```bash
 node scripts/create-post.mjs --json /path/to/post.json
 ```
@@ -54,6 +56,14 @@ node scripts/create-post.mjs --json /path/to/post.json
 ## Build, Lint, and Test Commands
 
 Agents must strictly adhere to the following commands to verify their changes locally before submitting them or finalizing a task.
+
+### Node Toolchain
+
+- **Use the pinned Node version before npm commands:**
+  ```bash
+  nvm use
+  ```
+  If the version from `.nvmrc` is not installed, run `nvm install` first. Agents must use the `.nvmrc` Node version for dependency installation, formatting, builds, tests, and Gatsby commands.
 
 ### Development & Build
 

@@ -4,31 +4,33 @@ description: "A decentralized marketplace for trading digital collectibles - NFT
 type: portfolio
 ---
 
-import Mdx from "../components/portfolio-mdx"
+import Mdx from "../components/portfolio-mdx";
 
 ## Project: Ghostmarket
 
-### Problem:
+### Situation
 
-Ghostmarket needed to expand beyond Phantasma to other chains (ETH, BSC, Polygon, Avalanche) to be a major player amoung the NFT marketplaces, while maintaining contract security and development efficiency.
+Ghostmarket had a strong NFT marketplace foundation on Phantasma, but growth depended on reaching collectors, creators, and liquidity across larger ecosystems. To compete with established marketplaces, the platform needed to expand to Ethereum, BSC, Polygon, and Avalanche while keeping smart contract delivery secure and efficient.
 
-### Solution:
+### Task
 
-- Migrated Opensource codebase from Truffle to Hardhat for modern testing/deployment
-- Across multiple mainets deployed: 
- - ERC721/ERC1155 contracts 
- - Custom Marketplace contracts 
- - Relayer contracts for nft market makers
-- Built a SDK kit to interact with the smart contracts of the marketplace
+Create the multichain contract infrastructure Ghostmarket needed to scale beyond a single ecosystem, support marketplace activity across major networks, and give the product team a faster path from feature development to mainnet deployment.
 
-### Impact:
+### Action
 
-<ul className="impact-list">
-  - Very fast contract iterations thanks to modern development frameworks
-  - Multichain support across major chains
-  - First Multichain marketplaces on Avalanche
-</ul>
+- Migrated the open-source contract codebase from Truffle to Hardhat for faster testing, deployment, and iteration
+- Deployed ERC721 and ERC1155 contracts across multiple mainnets
+- Built custom marketplace contracts for NFT listing, trading, and settlement flows
+- Developed relayer contracts to support NFT market maker activity
+- Delivered an SDK kit so applications could integrate with Ghostmarket's smart contracts across chains
+
+### Result
+
+- Enabled Ghostmarket to expand from a single-chain marketplace into a multichain NFT platform
+- Improved development velocity with a modern smart contract workflow
+- Supported launches across Ethereum, BSC, Polygon, and Avalanche
+- Helped establish Ghostmarket as one of the first multichain NFT marketplaces on Avalanche
 
 [Contact us](/contact) to discuss your NFT marketplace needs.
 
-export default Mdx
+export default Mdx;

@@ -4,43 +4,40 @@ description: "A decentralized marketplace for trading digital collectibles"
 type: portfolio
 ---
 
-import Mdx from "../components/portfolio-mdx"
+import Mdx from "../components/portfolio-mdx";
 
 ## Project: HyperNestDAO
 
-### Problem:
-HyperNEST needed a sophisticated token management system that would:
-1. Prevent token dumping through restrictive transfer rules
-2. Incentivize long-term participation with time-locked staking
-3. Enable flexible DAO governance while maintaining economic security
-4. Handle complex reward distribution scenarios
+### Situation
 
-### Solution:
-Built custom Solidity contracts implementing:
-- **Controlled wNEST Transfers**:
-  - Whitelisted contract-to-wallet flows only
-  - Complete restriction of P2P transfers
-- **Time-Based Staking**:
-  - 1-24 month flexible locking periods
-  - Automatic mint/burn mechanism for wNEST conversion
-- **Anti-Gaming Mechanics**:
-  - Full-balance requirement for reward claims
-  - Partial unstake penalty system
-  - Slashing integration for governance violations
-- **Multi-Sig Admin Controls**:
-  - DAO-operated parameter adjustments
-  - Emergency pause functionality
+HyperNEST needed a governance and token management system that could discourage dumping, reward long-term participation, and still give the DAO enough flexibility to operate safely at the protocol level.
 
-### Impact:
-<ul className="impact-list">
-- Coming soon...  
-</ul>
+### Task
+
+Design and implement custom Solidity contracts that balanced staking incentives, governance enforcement, transfer restrictions, and reward mechanics without weakening economic security.
+
+### Action
+
+- Built controlled `wNEST` transfer rules that allowed only whitelisted contract-to-wallet flows and blocked peer-to-peer transfers
+- Implemented time-based staking with flexible one- to twenty-four-month lock periods
+- Added automatic mint and burn mechanics for `wNEST` conversion
+- Introduced anti-gaming protections, including full-balance reward claim requirements and partial-unstake penalties
+- Integrated slashing mechanics for governance violations
+- Added multi-signature admin controls for parameter changes and emergency pause operations
+
+### Result
+
+- Established a governance token system aligned with long-term DAO participation
+- Reduced avenues for speculative token dumping through tightly controlled transfer logic
+- Strengthened reward integrity with anti-gaming and penalty mechanics
+- Gave the DAO operational flexibility through secure admin and emergency controls
+
 ### Key Innovations:
+
 - "Burn-to-claim" reward mechanism prevents gaming
 - Progressive unstaking penalties align with DAO goals
 - Gas-optimized for frequent DAO operations
 
-
 [Contact us](/contact) to discuss your NFT marketplace needs.
 
-export default Mdx
+export default Mdx;

@@ -4,43 +4,40 @@ description: "Decentralized platform for crypto purchases of tokenized precious 
 type: portfolio
 ---
 
-import Mdx from "../components/portfolio-mdx"
+import Mdx from "../components/portfolio-mdx";
 
-### Problem:
-Novem needed a solution that would:
-1. Enable crypto purchases of tokenized precious metals
-2. Maintain real-time price accuracy
-3. Support payment via bank transfer
-4. Provide seamless wallet integration
+## Project: Novem
 
-### Solution:
-Developed a comprehensive dApp platform featuring:
-- **Purchase with bank transfer**:
-  - Users need to be able to buy tokens from a token vault
-  - Precious Metal price fixed during purchase
-  - Upon receiving the bank transfer the app would release the tokens
-- **Enabling DEX Swapping**:
-  - Created Liquidity Pools
-  - Real-time precious metals pricing   
-- **Multi Wallet**:
-  - Web3 and mobile wallet support
-  - In App Transaction visulisation
-  - Portfolio tracking
-- **Admin Panel**:
-  - Manage Contract functions like minting & burning 
+### Situation
 
-### Impact:
-<ul className="impact-list">
-- Increase in customer acquisition
+Novem needed a purchasing platform that would let customers buy tokenized precious metals with crypto or bank transfer, keep pricing accurate in real time, and provide a smooth wallet-connected experience across devices.
+
+### Task
+
+Build a decentralized purchasing application that connected token vault operations, pricing, payments, wallet support, and admin controls into one user-facing platform.
+
+### Action
+
+- Built a purchase flow that allowed users to buy tokens from a token vault with bank transfer settlement
+- Locked precious metal pricing during the purchase process to prevent pricing drift
+- Released purchased tokens after confirmed bank transfer receipt
+- Created liquidity pools to support DEX swapping
+- Added real-time precious metal pricing to trading and purchase workflows
+- Delivered multi-wallet support across web3 and mobile wallets, including in-app transaction visualization and portfolio tracking
+- Built an admin panel for contract operations such as minting and burning
+
+### Result
+
+- Increased customer acquisition by broadening access to tokenized asset purchases
 - Enabled 24/7 trading of tokenized assets
 - Expanded market reach
-</ul>
 
 ### Key Innovations:
+
 - Hybrid fiat/crypto settlement
 - Dynamic pricing adjustments
 - Multi-signature escrow releases
 
 [Contact us](/contact) for your RWA purchasing solution.
 
-export default Mdx
+export default Mdx;

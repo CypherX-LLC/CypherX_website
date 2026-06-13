@@ -4,38 +4,37 @@ description: "Automated token distribution system linked to bank transfers"
 type: portfolio
 ---
 
-import Mdx from "../components/portfolio-mdx"
+import Mdx from "../components/portfolio-mdx";
 
 ## Project: Gold Token Sales
 
-### Problem:
-The project needed a solution that would:
-1. Automatically distribute tokens upon fiat payment confirmation
-2. Prevent fraud and double-spending
-3. Support multiple currencies and banking partners
-4. Maintain audit trails for compliance
+### Situation
 
-### Solution:
-Developed a comprehensive system featuring:
-- **RWA Asset Distribution Automation**:
-  - Verified payment-to-token distribution
-  - (Failed) transaction handling
-- **Fraud Prevention**:
-  - AML screening
-  - Suspicious activity alerts
+The project needed a token sale system that could connect fiat payment confirmation to automated token distribution, while preventing fraud, supporting multiple currencies and banking partners, and preserving a compliance-ready audit trail.
 
-### Impact:
-<ul className="impact-list">
-- Successful transaction completion rates increased
+### Task
+
+Build an end-to-end payment monitoring and token distribution workflow that could safely release assets after verified bank settlement without creating manual bottlenecks or security gaps.
+
+### Action
+
+- Developed automated payment-to-token distribution logic tied to verified fiat payment confirmation
+- Added handling for failed and incomplete transaction scenarios
+- Integrated AML screening into the transaction flow
+- Built suspicious activity alerting to improve fraud detection and review
+
+### Result
+
+- Improved transaction completion performance through automated payment verification and token release
 - Reduced processing time from days to minutes
-- Handled individual transactions safely
+- Handled individual transactions safely with stronger fraud and compliance controls
 - 0 major security incidents
 - Deployed across multiple financial jurisdictions
-</ul>
 
 ### Key Innovations:
+
 - Hybrid on/off-chain verification
 
 [Contact us](/contact) for your token sale automation needs.
 
-export default Mdx
+export default Mdx;

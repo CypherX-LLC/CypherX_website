@@ -4,58 +4,54 @@ description: "LLM powered chatbot for nutrition science information"
 type: portfolio
 ---
 
-import Mdx from "../components/portfolio-mdx"
+import Mdx from "../components/portfolio-mdx";
 
-### Problem:
+## Project: Nutrition Science Chatbot
 
-1. Make extensive research content more accessible
-2. Provide instant answers to nutrition questions
-3. Reduce manual research time for common queries
-4. Maintain scientific accuracy in responses
+### Situation
 
-### Solution:
-End-to-end development of an AI chatbot featuring:
-- **Content Pipeline**:
-  - Automated scraping of articles (transcripts) about nutrition facts
-  - Content cleaning and chunking
-  - Vector database storage
-- **AI Chat Interface**:
-  - Natural language question answering
-  - Source citation for all responses
-  - Conversation history
-- **Knowledge Management**:
-  - Regular content updates
-  - Quality control mechanisms
-  - Feedback system for improvements
-- **API Integration**:
-  - OpenRouter API for LLM access
-  - Custom retrieval endpoints
-  - Monitoring and analytics
+The project needed a way to make a large body of nutrition research easier to access, answer user questions instantly, reduce manual research effort for common topics, and maintain scientific grounding in the responses.
 
-### Impact:
-<ul className="impact-list">
+### Task
+
+Build an AI-powered chatbot that could ingest nutrition content, retrieve relevant source material, generate useful answers, and keep the experience reliable enough for ongoing user research and discovery.
+
+### Action
+
+- Built an automated content pipeline for scraping, cleaning, chunking, and storing nutrition research in a vector database
+- Developed a chat interface for natural-language question answering with source citations and conversation history
+- Added knowledge management workflows for regular content updates, quality control, and feedback collection
+- Integrated OpenRouter for LLM access alongside custom retrieval endpoints, monitoring, and analytics
+
+### Result
+
 - Instant access to nutrition research
 - 24/7 availability for questions
 - Reduced research time for common topics
 - Increased content discoverability
-</ul>
 
 ### Key Innovations:
+
 - Hybrid retrieval-augmented generation
 - Context-aware responses
 - Cost-effective LLM usage
 
-<a href="https://calendly.com/selim_cypherx_tech" target="_blank" rel="noopener noreferrer">
-<img 
-  src="/images/connect_business_create_software.svg" 
-  alt="Tailor your workshop with CypherX" 
-  style={{ width: '100%', borderRadius: '12px', margin: '2rem 0' }} 
-/>
+<a
+  href="https://calendly.com/selim_cypherx_tech"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <img
+    src="/images/connect_business_create_software.svg"
+    alt="Tailor your workshop with CypherX"
+    style={{ width: "100%", borderRadius: "12px", margin: "2rem 0" }}
+  />
 </a>
 
 ### Technologies
 
 #### Backend Technologies:
+
 - Python
 - Scrapy (web scraping)
 - Zyte API (proxy rotation)
@@ -67,18 +63,21 @@ End-to-end development of an AI chatbot featuring:
 - Pytest (testing)
 
 #### Frontend Technologies:
+
 - Next.js
 - Tailwind CSS
 - React Hook Form
 - Vercel (hosting)
 
 #### AI/ML Components:
+
 - HuggingFace embeddings
 - OpenRouter API
 - Custom prompt engineering
 - Retrieval-augmented generation
 
 ### APIs & External Services:
+
 - OpenRouter (LLM access)
 - Vercel (deployment)
 - AWS S3 (document storage)
@@ -86,4 +85,4 @@ End-to-end development of an AI chatbot featuring:
 
 [Contact us](/contact) for your project needs.
 
-export default Mdx
+export default Mdx;

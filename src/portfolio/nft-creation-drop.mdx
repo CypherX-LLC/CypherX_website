@@ -4,73 +4,58 @@ description: "NFT Drops as digital collectibles"
 type: portfolio
 ---
 
-import Mdx from "../components/portfolio-mdx"
+import Mdx from "../components/portfolio-mdx";
 
 ## Project: Familia
 
-### Problem:
+### Situation
 
-Familia's team of NFT enthusiasts needed to execute a groundbreaking Solana NFT drop that would:
+Familia wanted to launch a Solana NFT drop that could handle intense mint demand without congestion, protect buyer trust through fair distribution, and keep deployment economics efficient enough for a sustainable release.
 
-1) Handle high mint volume without network congestion
-2) Ensure fairness in rarity distribution
-3) Deploy and mint cost-effectively on Solana
+### Task
 
-### Solution:
+Deliver the full technical foundation for a high-volume Solana drop, covering asset generation, mint mechanics, anti-bot controls, storage, royalties, and wallet-connected buyer experience.
 
-We engineered an end-to-end solution using:
+### Action
 
-- PFP generation with hashlips art engine 
+- Built the PFP generation pipeline with the HashLips art engine
+- Used Metaplex Core for standardized NFT creation
+- Implemented a custom Candy Machine V2 flow for phased allowlist and public sale mechanics
+- Added token-gated anti-bot protection around mint access
+- Stored metadata on Arweave for cost-efficient decentralized asset hosting
+- Enabled real-time royalty tracking across secondary markets
+- Delivered a React frontend with Phantom wallet integration
 
-- Metaplex Core for standardized NFT creation
+### Result
 
-- Custom Candy Machine V2 implementation for:
-
-- Phased allowlist/public sale mechanics
-
-- Anti-bot protection via token-gated minting
-
-- Arweave storage for cost-efficient metadata
-
-- Real-time royalty tracking across secondary markets
-
-- React frontend with Phantom wallet integration
-
-
-### Impact:
-<ul className="impact-list">
 - NFTs sold with zero failed transactions
-- very low mint costs achieved vs. Ethereum alternatives
-</ul>
+- Achieved materially lower mint costs than comparable Ethereum-based launches
+- Gave the Familia team a production-ready Solana launch flow built for scale and buyer confidence
 
 ## Project: Svenir
 
-### Problem:
+### Situation
 
-Svenir's crypto-native team of NFT enthusiasts wanted to create an inclusive NFT drop where users could purchase with both crypto and credit cards, addressing three key challenges:
+Svenir wanted to open its NFT drop to a broader audience by accepting both crypto and credit card payments. That meant removing wallet setup friction for new buyers while still delivering assets quickly and maintaining compliance.
 
-1) **Fiat onboarding** - Allow non-crypto users to participate without wallet setup  
-2) **Instant delivery** - Avoid delays from traditional payment processors  
-3) **Compliance** - Maintain KYC/AML while preserving decentralization  
+### Task
 
-### Solution:
+Build a hybrid NFT purchase flow that supported crypto-native users and fiat-first users in the same launch experience, without sacrificing delivery speed, operational control, or compliance.
 
-Built a hybrid purchase flow using:  
-- **Crossmint integration** for credit card payments  
-- **Dynamic NFT minting** that:  
-  - Holds assets in escrow for credit card purchases  
-  - Releases to buyer's wallet  
-- **Gasless onboarding** via:  
-  - Temporary custodial wallets for fiat users  
-  - One-click migration to self-custody  
+### Action
 
-### Impact:
-<ul className="impact-list">
-- **half of sales** came from credit card users (new audience)  
-- ** very fast delivery** for all payment methods  
-- **100% compliance** 
-</ul>
+- Integrated Crossmint to support credit card payments
+- Built a dynamic NFT minting and escrow flow for fiat purchases
+- Released NFTs to the buyer's wallet after purchase completion
+- Added gasless onboarding with temporary custodial wallets for new users
+- Enabled one-click migration from custodial onboarding to self-custody
+
+### Result
+
+- Half of sales came from credit card users, expanding the drop beyond the crypto-native audience
+- Delivered a fast purchase and fulfillment experience across both payment methods
+- Maintained full compliance throughout the onboarding and purchase flow
 
 [Contact us](/contact) to discuss your NFT Project.
 
-export default Mdx
+export default Mdx;

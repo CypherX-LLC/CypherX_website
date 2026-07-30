@@ -6,7 +6,7 @@ module.exports = {
     default_image: `/images/cypherx_logo.png`,
     title: `CypherX`,
     subtitle: `Software. Quality. Security.`,
-    description: `We help Startups and SMAs grow with AI agent engineering solutions and web3 technologies. Our knowledge expands into Industries with smart factories, automation, precision systems with tailored and future-ready tech.`,
+    description: `We help Startups and SMAs grow with AI agent engineering solutions and digital asset technologies. Our knowledge expands into Industries with smart factories, automation, precision systems with tailored and future-ready tech.`,
     author: `@selimerunkut`,
   },
   plugins: [

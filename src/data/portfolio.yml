@@ -1,12 +1,12 @@
 title: Explore Our Projects
 #subtitle: Our Projects
 items:
-  - title: NFT Marketplace
+  - title: Digital Asset Marketplace
     text: A decentralized marketplace for trading digital collectibles
     link: /nft-marketplace/
 
-  - title: NFT Creation and Drop
-    text: NFT drop launches with Solana minting and hybrid fiat onboarding
+  - title: Digital Asset Creation and Drop
+    text: Digital asset drop launches with Solana minting and hybrid fiat onboarding
     link: /nft-creation-drop/
 
   - title: DAO Governance
@@ -15,7 +15,7 @@ items:
     link: /vesting-staking-contracts/
 
   - title: RWA Tokenization
-    text: Blockchain tokenization platform for precious metals
+    text: Digital asset tokenization platform for precious metals
     link: /rwa-tokenization/
 
   - title: Token Sale Apps
@@ -23,7 +23,7 @@ items:
     link: /token-sale-apps/
 
   - title: RWA Purchasing dApps
-    text: Decentralized platform for crypto purchases of tokenized assets
+    text: Decentralized platform for digital asset purchases of tokenized assets
     link: /rwa-purchasing-dapps/
 
   - title: Precious Metals SaaS

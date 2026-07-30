@@ -1,8 +1,8 @@
 title: What We Offer
 #subtitle: From smart contracts to dApps, we offer application development that suits your needs
 items:
-  - title: Web3 Development & Consulting
-    text: "Full-stack dApps, Smart Contracts, DeFi solutions, NFT Marketplaces, Tokenization, Layer 1 & 2 chains, security audits, DAOs and more."
+  - title: Digital Asset Development & Consulting
+    text: "Full-stack dApps, smart contracts, DeFi solutions, digital asset marketplaces, tokenization, Layer 1 & 2 networks, security audits, DAOs and more."
     link: /web3-dapp-development/
 
   - title: Quality Assurance & Code Due Diligence
@@ -26,7 +26,7 @@ items:
     link: /offshore-team-building/
 
   - title: Industry 4.0 to 5.0
-    text: "Upgrade your operation into the future with Industry 4.0 and 5.0 solutions. We help you integrate IoT, AI, and blockchain into your business."
+    text: "Upgrade your operation into the future with Industry 4.0 and 5.0 solutions. We help you integrate IoT, AI, and digital asset infrastructure into your business."
     link: /industry-4-0-and-5-0/
 
   - title: Technical Risk Assessment

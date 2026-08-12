@@ -11,7 +11,7 @@ export default function ContactForm() {
     setStatus({ type: "submitting", message: "Sending your message…" });
 
     const formData = new FormData(form);
-    formData.set("form-name", form.name);
+    formData.set("form-name", form.getAttribute("name"));
 
     try {
       const response = await fetch("/", {
@@ -79,7 +79,7 @@ export default function ContactForm() {
           placeholder="Message"
           required="required"
         />
-        <div data-netlify-recaptcha="true" />
+        <div data-netlify-recaptcha="true" suppressHydrationWarning />
         {status.message && (
           <p className="contact_status" role="status" aria-live="polite">
             {status.message}

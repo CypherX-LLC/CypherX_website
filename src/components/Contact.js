@@ -8,6 +8,17 @@ export default function ContactForm() {
     e.preventDefault();
 
     const form = e.currentTarget;
+    const captchaResponse = form.elements.namedItem("g-recaptcha-response")
+      ?.value;
+
+    if (!captchaResponse) {
+      setStatus({
+        type: "error",
+        message: "Please complete the CAPTCHA before sending your message.",
+      });
+      return;
+    }
+
     setStatus({ type: "submitting", message: "Sending your message…" });
 
     const formData = new FormData(form);

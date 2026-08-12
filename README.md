@@ -68,11 +68,4 @@ https://blog.fleek.co/posts/Gatsby-Fleek
 
 ## contact form (Netlify)
 
-The contact form submits to Netlify Forms as `contact-recaptcha`. In the Netlify site settings, configure:
-
-- `GATSBY_APP_SITE_RECAPTCHA_KEY` for the browser build.
-- `SITE_RECAPTCHA_KEY` for Netlify’s custom reCAPTCHA validation (Builds and Runtime).
-- `SITE_RECAPTCHA_SECRET` for Netlify’s custom reCAPTCHA validation (Runtime only).
-- A Form submission notification addressed to the inbox that should receive `contact-recaptcha` submissions.
-
-The reCAPTCHA notice about changing terms is an administrative Google notice. It is not a successful submission confirmation; accept any updated terms in the reCAPTCHA administration console when prompted.
+The contact form submits to Netlify Forms as `contact-recaptcha` and uses Netlify’s built-in reCAPTCHA challenge. No Google reCAPTCHA environment variables are required for the form. Configure a Form submission notification in Netlify addressed to the inbox that should receive `contact-recaptcha` submissions.

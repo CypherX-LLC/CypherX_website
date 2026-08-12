@@ -1,33 +1,17 @@
 import React from "react";
-import Recaptcha from "react-google-recaptcha";
 import CTA from "../data/contact.yml";
 
-const RECAPTCHA_KEY = process.env.GATSBY_APP_SITE_RECAPTCHA_KEY;
-
 export default function ContactForm() {
-  const recaptchaRef = React.useRef(null);
-  const [recaptchaValue, setRecaptchaValue] = React.useState("");
   const [status, setStatus] = React.useState({ type: "idle", message: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = e.currentTarget;
-    const token = recaptchaValue || recaptchaRef.current?.getValue();
-
-    if (!token) {
-      setStatus({
-        type: "error",
-        message: "Please complete the reCAPTCHA before sending your message.",
-      });
-      return;
-    }
-
     setStatus({ type: "submitting", message: "Sending your message…" });
 
     const formData = new FormData(form);
     formData.set("form-name", form.name);
-    formData.set("g-recaptcha-response", token);
 
     try {
       const response = await fetch("/", {
@@ -43,16 +27,12 @@ export default function ContactForm() {
       }
 
       form.reset();
-      recaptchaRef.current?.reset();
-      setRecaptchaValue("");
       setStatus({
         type: "success",
         message: "Thanks for your message. We’ll get back to you soon.",
       });
     } catch (error) {
       console.error("Contact form submission failed", error);
-      recaptchaRef.current?.reset();
-      setRecaptchaValue("");
       setStatus({
         type: "error",
         message:
@@ -99,16 +79,7 @@ export default function ContactForm() {
           placeholder="Message"
           required="required"
         />
-        <Recaptcha
-          className="g-recaptcha"
-          ref={recaptchaRef}
-          sitekey={RECAPTCHA_KEY}
-          onChange={(value) => {
-            setRecaptchaValue(value || "");
-            if (value) setStatus({ type: "idle", message: "" });
-          }}
-          onExpired={() => setRecaptchaValue("")}
-        />
+        <div data-netlify-recaptcha="true" />
         {status.message && (
           <p className="contact_status" role="status" aria-live="polite">
             {status.message}
@@ -120,7 +91,7 @@ export default function ContactForm() {
           name="send"
           id="send"
           className="subscribe_button"
-          disabled={!recaptchaValue || status.type === "submitting"}
+          disabled={status.type === "submitting"}
         />
       </div>
     </form>

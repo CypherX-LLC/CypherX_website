@@ -65,3 +65,14 @@ https://blog.fleek.co/posts/Gatsby-Fleek
 #### The official docker image of fleek did not work; used this:
 
 `https://hub.docker.com/r/futureys/gatsby`
+
+## contact form (Netlify)
+
+The contact form submits to Netlify Forms as `contact-recaptcha`. In the Netlify site settings, configure:
+
+- `GATSBY_APP_SITE_RECAPTCHA_KEY` for the browser build.
+- `SITE_RECAPTCHA_KEY` for Netlify’s custom reCAPTCHA validation (Builds and Runtime).
+- `SITE_RECAPTCHA_SECRET` for Netlify’s custom reCAPTCHA validation (Runtime only).
+- A Form submission notification addressed to the inbox that should receive `contact-recaptcha` submissions.
+
+The reCAPTCHA notice about changing terms is an administrative Google notice. It is not a successful submission confirmation; accept any updated terms in the reCAPTCHA administration console when prompted.

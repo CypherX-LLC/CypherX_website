@@ -49,6 +49,7 @@ export default function ContactForm() {
       data-netlify="true"
       data-netlify-recaptcha="true"
       onSubmit={handleSubmit}
+      suppressHydrationWarning
     >
       <noscript>
         <p>This form won’t work with Javascript disabled</p>
@@ -79,7 +80,11 @@ export default function ContactForm() {
           placeholder="Message"
           required="required"
         />
-        <div data-netlify-recaptcha="true" suppressHydrationWarning />
+        <div
+          data-netlify-recaptcha="true"
+          dangerouslySetInnerHTML={{ __html: "" }}
+          suppressHydrationWarning
+        />
         {status.message && (
           <p className="contact_status" role="status" aria-live="polite">
             {status.message}

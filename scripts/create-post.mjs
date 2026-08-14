@@ -10,11 +10,7 @@ const repoRoot = path.resolve(__dirname, "..");
 
 const postsDir = path.join(repoRoot, "src", "posts");
 const imagesDir = path.join(repoRoot, "static", "images", "blog");
-const defaultCtaHtml = [
-  '<a href="https://calendly.com/selim_cypherx_tech" target="_blank" rel="noopener noreferrer">',
-  "Schedule a call",
-  "</a>",
-].join("\n");
+const defaultCtaHtml = "<BlogCta />";
 
 const args = process.argv.slice(2);
 
@@ -57,7 +53,7 @@ JSON input format (example):
   "imagePath": "/abs/path/to/image.jpg",
   "slug": "optional-slug",
   "type": "blog",
-  "ctaHtml": "<a href=\\"https://calendly.com/selim_cypherx_tech\\" ...>Schedule a call</a>",
+  "ctaHtml": "<BlogCta />",
   "ctaPosition": "auto",
   "ctaEnabled": true
 }
@@ -66,7 +62,7 @@ Notes:
 - Description is required and must be provided (no auto-generation).
 - Image is always provided and is copied into static/images/blog.
 - Output file format: NN_slug.mdx (auto-increment NN).
-- A Calendly CTA is inserted by default. Disable with --no-cta.
+- A reusable BlogCta component is inserted by default. Disable with --no-cta.
 - Use --cta-html to override the CTA block and --cta-position to place it.
 - Use the <!-- CTA --> placeholder in the body to force CTA placement.
 `;
@@ -156,7 +152,7 @@ function resolveCtaIndex(paragraphs, position) {
 
 function applyCta(body, options) {
   if (!options.enabled || !options.html) return body;
-  if (body.includes("calendly.com/selim_cypherx_tech")) return body;
+  if (body.includes("calendly.com/selim_cypherx_tech") || body.includes("<BlogCta")) return body;
   if (body.includes("<!-- CTA -->")) {
     return body.replace("<!-- CTA -->", options.html);
   }

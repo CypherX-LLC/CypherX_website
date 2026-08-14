@@ -1,7 +1,11 @@
 import * as React from "react";
 import { graphql } from "gatsby";
+import { MDXProvider } from "@mdx-js/react";
+import BlogCta from "../../components/BlogCta";
 import Layout from "../../components/Layout";
 import Seo from "../../components/Seo";
+
+const mdxComponents = { BlogCta };
 
 const BlogPost = ({ data, children }) => {
   return (
@@ -23,7 +27,7 @@ const BlogPost = ({ data, children }) => {
         ) : (
           ""
         )}
-        {children}
+        <MDXProvider components={mdxComponents}>{children}</MDXProvider>
       </div>
     </Layout>
   );

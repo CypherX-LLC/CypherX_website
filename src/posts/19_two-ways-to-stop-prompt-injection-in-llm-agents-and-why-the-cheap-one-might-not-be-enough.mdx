@@ -15,9 +15,7 @@ CaMeL splits the agent in two. A quarantined LLM reads all the untrusted data an
 
 This is privilege separation. It is the same idea behind Unix process isolation that has worked for decades. Mature, well understood, battle tested. The problem is cost. CaMeL multiplies your token usage by roughly 2.8x because every interaction requires multiple model calls. For a team running agents at scale, that bill adds up fast.
 
-<a href="https://calendly.com/selim_cypherx_tech" target="_blank" rel="noopener noreferrer">
-Schedule a call
-</a>
+<BlogCta />
 
 AgentSentry takes a different path. Instead of isolating data, it watches behavior. One version runs shadow executions at decision boundaries, basically replaying the agent's reasoning to check whether an action came from the user's intent or from something injected in the untrusted content. Another version creates temporary, task scoped permissions. During a registration flow, the agent gets read access but not send access. When the task changes, the permissions change with it. When the task ends, they disappear.
 

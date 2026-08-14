@@ -141,33 +141,68 @@ const Split = styled.div`
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 3rem;
 
+  > section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  > section > p {
+    min-height: 5.1rem;
+  }
+
   @media (max-width: 760px) {
     grid-template-columns: 1fr;
     gap: 2rem;
+
+    > section > p {
+      min-height: 0;
+    }
   }
 `;
 
 const PlainList = styled.ul`
-  max-width: 720px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 1000px;
   padding: 0;
   margin: 1.25rem auto 0;
   text-align: left;
   list-style: none;
+  gap: 0.75rem 1rem;
 
   li {
     position: relative;
-    padding-left: 1.6rem;
-    margin-bottom: 0.75rem;
+    min-height: 100%;
+    padding: 1rem 1rem 1rem 2.5rem;
+    margin: 0;
+    border: 1px solid #e4e7ec;
+    border-radius: 12px;
+    background: #f7f8fc;
     line-height: 1.6;
   }
 
   li::before {
     position: absolute;
-    top: 0.1rem;
-    left: 0;
+    top: 1rem;
+    left: 1rem;
     color: #8c30f5;
     content: "✓";
     font-weight: 700;
+  }
+
+  li:last-child:nth-child(odd) {
+    width: calc(50% - 0.5rem);
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+
+    li:last-child:nth-child(odd) {
+      width: auto;
+      grid-column: auto;
+    }
   }
 `;
 

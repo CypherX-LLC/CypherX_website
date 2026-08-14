@@ -2,6 +2,8 @@
   link: '/'
 - title: About
   link: '/about/'
+- title: Partners
+  link: '/partners/'
 - title: Reviews
   link: /#features
 - title: Contact

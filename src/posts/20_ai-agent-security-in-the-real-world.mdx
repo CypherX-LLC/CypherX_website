@@ -1,0 +1,127 @@
+---
+title: "AI Agent Security in the Real World: How Production Teams Limit Blast Radius"
+date: 2026-08-14
+description: Real-world AI agent security cases from Anthropic, OpenAI, Vercel, Microsoft, Meta, 1Password, and AWS, and the implementation patterns they share.
+image: /images/blog/ai-agent-security-in-the-real-world.png
+type: blog
+slug: ai-agent-security-in-the-real-world
+---
+
+AI agents are moving into places where a bad decision has a cost. They read customer email, inspect repositories, query private records, run code, open pull requests, and call external services. A prompt that says "be careful with secrets" cannot carry the whole security burden once an agent can act.
+
+The useful question is more practical: what can this agent reach, what can it change, and what evidence is required before it gets more authority?
+
+Engineering teams building agent products are answering that question with boundaries around the runtime, narrow tool permissions, short-lived identities, and review points tied to consequences. The examples below come from coding agents, issue triage, enterprise workflows, and healthcare scheduling. They are implementation patterns, not a catalogue of guardrails products.
+
+## Coding agents on developer machines
+
+Anthropic's experience with Claude Code shows why human approval cannot be the only control. Claude Code initially asked for permission before writes, shell commands, and network access. In Anthropic's telemetry, users approved about 93% of permission prompts. Repeated approval requests create a poor review habit, especially when the user is trying to finish routine work.
+
+Anthropic changed the shape of the boundary. Claude Code's sandbox allows reads and writes inside the workspace while denying network access by default. Requests outside those limits still require attention. The company reports an 84% reduction in permission prompts after introducing the sandbox. The result is a better division of labor: the operating system enforces routine limits, and the developer reviews exceptions.
+
+The incidents Anthropic describes in its engineering review are more instructive than the headline metric. A red-team exercise used a convincing email to persuade an employee to paste a prompt that asked Claude Code to read AWS credentials and send them to an external endpoint. The model followed the request in 24 of 25 attempts. A model-level detector had little signal because the employee supplied the instruction directly.
+
+Filesystem and egress controls carried the defense. The protected credentials were outside the allowed filesystem, and the outbound request was blocked. This is a good test for any coding agent: if a user is tricked into asking for the wrong thing, can the runtime still prevent the action?
+
+Anthropic also describes a separate failure in Claude Cowork. A malicious file included an attacker-controlled API key. An egress allowlist permitted traffic to api.anthropic.com, so the agent uploaded workspace files to the attacker's account through an approved domain. The fix was a proxy that accepted only the VM's own scoped session token and rejected attacker-supplied credentials. A domain allowlist can limit destinations while still granting too much capability at an allowed destination.
+
+[Anthropic's account of containment across Claude products](https://www.anthropic.com/engineering/how-we-contain-claude) and its earlier [Claude Code sandboxing post](https://www.anthropic.com/engineering/claude-code-sandboxing) make the operating lesson clear: treat filesystem access, network access, credentials, and project configuration as separate security decisions.
+
+## Coding agents inside an enterprise rollout
+
+OpenAI describes a similar pattern in its internal deployment of Codex. The agent runs inside a bounded environment. Managed configuration controls which settings users can change. Network policy allows expected destinations and asks for approval when a domain is unfamiliar. Credentials stay in a secure keyring and activity is tied to the enterprise workspace.
+
+The useful detail is the telemetry loop. Codex records prompts, approval decisions, tool results, MCP usage, and network allow or deny events through OpenTelemetry. OpenAI says its security team uses those records with an internal security-triage agent. When an endpoint alert looks unusual, the triage workflow can inspect the user request, the tools called, the approval decision, and the network policy outcome before deciding whether to escalate.
+
+That turns logs into part of the control plane. A conventional process log may show that a shell command ran. An agent-aware record can also show what the user asked, which tool the agent selected, whether a boundary was crossed, and whether a reviewer approved it. The distinction matters when a benign workflow and a compromised workflow produce similar operating-system events.
+
+OpenAI's [engineering description of running Codex safely](https://openai.com/index/running-codex-safely/) is a useful model for rollout. Start with a bounded default, remove friction from low-risk work, require explicit review for higher-risk actions, and collect enough context to investigate the decision later.
+
+<a href="https://calendly.com/selim_cypherx_tech" target="_blank" rel="noopener noreferrer">
+Schedule a call
+</a>
+
+## Issue triage with untrusted text
+
+A public GitHub issue is a realistic input for an agent. It can contain a normal bug report, a hidden instruction, or a request that tries to turn a read operation into a write operation. Microsoft's Agent Framework team uses this situation in its FIDES security example.
+
+The sample issue-triage agent can read issue bodies, inspect repository files, write a file, and post a comment. The issue body is labelled untrusted when it enters the workflow. A repository file such as .env is labelled private. The framework carries those labels through the run and checks them before a tool executes.
+
+The important behavior is what happens after the model is fooled. The agent may read the issue and may even read a private file. It cannot post private content to a public issue because the public comment tool rejects private context. It cannot write a file when the proposed change is driven by untrusted issue text. A violation can become a human approval request instead of an automatic action.
+
+This approach preserves useful work. The agent can classify the issue and draft an answer while the write and public-posting paths remain closed. It also makes the rule reviewable: security engineers can inspect the data labels and tool policies instead of trying to prove that a prompt will resist every future injection.
+
+Microsoft describes FIDES as experimental and publishes runnable email-security and repository-confidentiality examples. That status matters. The example is evidence of an implementation direction, not proof that every agent has solved prompt injection. The safe claim is narrower: provenance and confidentiality can be carried alongside content and enforced at the tool boundary.
+
+Read the [Microsoft engineering post on FIDES](https://devblogs.microsoft.com/agent-framework/fides/) for the issue-triage scenario and its limitations.
+
+## Customer support agents that generate code
+
+Customer support is often described as a fixed set of lookups. In practice, a support agent may generate SQL, run a script, inspect logs, or transform data before it can answer a customer. Vercel points out that this gives a support agent many of the same security properties as a coding agent.
+
+The boundary Vercel recommends separates the trusted agent harness from the code it generates. The harness holds the workflow logic and credentials. Generated programs run in a fresh sandbox with no path to those credentials or to state left by an earlier run. When a program needs to call an approved service, a proxy injects the credential at the network layer without exposing the secret to the generated process.
+
+This changes the failure that matters. A generated script can still be wrong, destructive, or noisy inside its temporary environment. It cannot automatically read the harness's database credentials, reuse a secret against another service, or inherit the host's filesystem. The support use case gets a smaller blast radius without pretending the model will always distinguish a safe query from a dangerous one.
+
+Vercel's [security boundaries article](https://vercel.com/blog/security-boundaries-in-agentic-architectures) also makes an important distinction between sandboxing the entire application and separating the agent from the code it creates. A shared sandbox protects the host, but the generated program may still share credentials with the harness. The stronger design gives each side its own security context.
+
+## Email assistants with three kinds of access
+
+Meta frames the personal email assistant as a direct security tradeoff. The assistant may read messages from unknown senders, access private inbox data, and send replies. Each capability is useful on its own. Together, they create a path from attacker-controlled text to a consequential external action.
+
+Meta's Agents Rule of Two says an autonomous session should have no more than two of these properties: it can process untrusted input; it can access sensitive systems or private data; it can change state or communicate externally. If a workflow needs all three, Meta recommends supervision or a fresh session with a new context.
+
+For an email assistant, that could mean allowing the agent to summarize incoming messages and search the user's inbox, while requiring confirmation before sending. Another design could let it draft a reply in a clean context after a separate step extracts facts from the email. The point is to break the chain somewhere that is easy to enforce.
+
+The [Meta engineering post](https://ai.meta.com/blog/practical-ai-agent-security/) presents this as a way to reason about agent design before implementation. It is especially useful for product teams because it maps security to a user-facing workflow. A team can ask which capability must be removed, delayed, or reviewed instead of trying to make the model perfectly identify malicious prose.
+
+## Healthcare scheduling and identity-scoped actions
+
+Healthcare scheduling makes vague permissions expensive. An agent may need to read a patient record, search immunization information, check available slots, and book an appointment. The request parameters themselves matter. A prompt that says "look up this patient" should not let the model choose a different patient ID than the authenticated user is allowed to access.
+
+AWS uses this workflow in its Bedrock AgentCore policy example. The gateway checks each agent-to-tool request before execution. A patient can read a record only when the requested patient ID matches the authenticated identity. Read access and appointment-writing access use separate scopes. The example also applies business rules such as limiting available appointment searches to defined hours.
+
+AWS recommends starting in log-only mode so a team can observe decisions before enforcing them. That rollout step is practical for any sensitive workflow. It exposes missing policies and false denials while the agent is still operating under the old behavior. Once the decisions look right, the policy moves into enforcement.
+
+The [AWS healthcare appointment example](https://aws.amazon.com/blogs/machine-learning/secure-ai-agents-with-policy-in-amazon-bedrock-agentcore/) shows why tool arguments belong inside authorization checks. The same model and tool can produce an allowed result for the authenticated patient and a denied result for another patient. The difference comes from identity and request context at the gateway, not from a better instruction in the prompt.
+
+## Release work that earns one permission at a time
+
+1Password describes a related pattern for engineering workflows. Its "verified loop" gives an agent a job-specific identity, routes tool access through a gateway, and requires system-produced evidence before granting a permission.
+
+Consider release notes. An agent can compare commits and draft a pull request, but the workflow must first prove that the commit inventory is complete and that each claim has an approved source. A passing verification can earn permission to open a draft pull request. Merge and publication remain outside the permissions that this job can earn.
+
+1Password applies the same idea to security review through SAGE, which runs alongside a general code-review agent. Findings are challenged and validated before engineers receive them. The system does not treat a plausible answer as proof that the work is complete. It asks whether the run produced the evidence required by the job definition.
+
+The [1Password engineering post on verified loops](https://1password.com/blog/verified-loops-building-ai-agent-trust) is careful about the boundary. The agent cannot write the authoritative evidence, evaluate its own compliance, or grant itself permission. That leaves a human with a smaller decision and a record they can inspect.
+
+## What these cases have in common
+
+The organizations above are working in different products and risk categories, yet the controls line up:
+
+- Put a hard boundary around the process, filesystem, network, and credentials.
+- Give tools the smallest useful scope, including checks on their parameters.
+- Treat email, issue bodies, web pages, files, and tool results as data with provenance.
+- Separate read, draft, write, publish, and financial actions.
+- Use short-lived, job-specific credentials instead of ambient access.
+- Record the prompt, tool call, policy decision, result, and reviewer action together.
+- Test the path where the user is tricked into making the request, because model detectors may see that request as legitimate.
+
+This is what real agent security looks like in practice. It is a set of boring constraints placed around useful work. The model can still summarize, search, draft, classify, and write code. The system decides whether those outputs can cross a boundary or change state.
+
+A good first review of an agent asks three questions. What untrusted material can enter the context? Which private data can the run reach? Which tools can create an external effect? If all three answers are "anything," the design is relying on the model to police its own authority. The cases above offer a better starting point: reduce the reachable surface, make exceptions visible, and let evidence earn only the next permission.
+
+<a href="https://calendly.com/selim_cypherx_tech" target="_blank" rel="noopener noreferrer">
+Schedule a call
+</a>
+
+References:
+
+- [Anthropic: How we contain Claude across products](https://www.anthropic.com/engineering/how-we-contain-claude)
+- [Anthropic: Making Claude Code more secure and autonomous with sandboxing](https://www.anthropic.com/engineering/claude-code-sandboxing)
+- [OpenAI: Running Codex safely at OpenAI](https://openai.com/index/running-codex-safely/)
+- [Microsoft Agent Framework: Stop prompt injection from hijacking your agent](https://devblogs.microsoft.com/agent-framework/fides/)
+- [Vercel: Security boundaries in agentic architectures](https://vercel.com/blog/security-boundaries-in-agentic-architectures)
+- [Meta: Agents Rule of Two](https://ai.meta.com/blog/practical-ai-agent-security/)
+- [AWS: Secure AI agents with Policy in Amazon Bedrock AgentCore](https://aws.amazon.com/blogs/machine-learning/secure-ai-agents-with-policy-in-amazon-bedrock-agentcore/)
+- [1Password: Verified loops: Building AI agent trust and accountability](https://1password.com/blog/verified-loops-building-ai-agent-trust)

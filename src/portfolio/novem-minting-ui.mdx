@@ -1,0 +1,37 @@
+---
+title: "Novem Minting UI"
+description: "Wallet-connected operations console for NNN and NVM token contracts on BSC"
+type: portfolio
+---
+
+import Mdx from "../components/portfolio-mdx";
+
+## Project: Novem Minting UI
+
+### Situation
+
+Token administrators needed a controlled interface for interacting with deployed NNN and NVM contracts on BSC mainnet and testnet. Contract addresses, ABIs, and network configuration had to remain consistent with deployed proxy contracts.
+
+### Task
+
+Build a wallet-connected operations interface for approved mint and burn actions, contract inspection, and network-specific deployment configuration.
+
+### Action
+
+- Built the interface with Scaffold-ETH 2, Next.js, wagmi, and Hardhat deployment tooling
+- Imported deployed BSC and BSC testnet contract addresses and generated readable TypeScript ABIs
+- Added contract tabs for NNN and NVM functions and a contracts debug view
+- Restricted write operations to whitelisted addresses and preserved minter-role requirements
+- Separated local, testnet, and mainnet configuration
+
+### Result
+
+Created a focused operator console for interacting with deployed token contracts while keeping network selection, ABI generation, and permission boundaries explicit.
+
+### Technologies
+
+Next.js, React, Scaffold-ETH 2, Hardhat, Solidity, wagmi, TypeScript, BSC, MetaMask
+
+[Contact us](/contact) to discuss your token operations interface.
+
+export default Mdx;

@@ -1,0 +1,39 @@
+---
+title: "Novem Infrastructure and Preview Environments"
+description: "Terraform-managed cloud infrastructure for staging, production, and pull-request previews"
+type: portfolio
+---
+
+import Mdx from "../components/portfolio-mdx";
+
+## Project: Novem Infrastructure
+
+### Situation
+
+The Novem application needed repeatable infrastructure for staging, production, and pull-request previews, with environment separation, DNS management, databases, workers, and explicit production safeguards.
+
+### Task
+
+Manage the cloud infrastructure and deployment lifecycle as code, including preview environments that could be created and removed with a pull request.
+
+### Action
+
+- Built Terraform configurations for DigitalOcean App Platform applications, PostgreSQL, and Redis/Valkey resources
+- Added modules for web services, environment variables, and Cloudflare DNS
+- Managed AWS S3 Terraform state and secrets through SOPS and environment variables
+- Added staging, production, and preview environments with different approval rules
+- Automated preview application naming, unique state paths, DNS records, and cleanup on pull-request close
+- Connected infrastructure changes to GitHub Actions and application deployment workflows
+- Added migration jobs, worker configuration, health checks, and optional Papertrail or Logtail forwarding
+
+### Result
+
+Created a repeatable deployment foundation with isolated environments and a safer production path. Pull requests can receive temporary application environments for review without sharing one fixed staging deployment.
+
+### Technologies
+
+Terraform, DigitalOcean App Platform, PostgreSQL, Redis/Valkey, Cloudflare DNS, AWS S3, SOPS, GitHub Actions, Docker, doctl
+
+[Contact us](/contact) to discuss your infrastructure project.
+
+export default Mdx;

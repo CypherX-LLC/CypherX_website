@@ -1,0 +1,48 @@
+---
+title: "AskCharles AI Recruitment Platform"
+description: "AI-assisted recruitment and placement platform with evidence-based screening and human approval gates"
+type: portfolio
+---
+
+import Mdx from "../components/portfolio-mdx";
+
+## Project: AskCharles
+
+### Situation
+
+Recruiters needed one place to turn a job description into a structured brief, search for suitable candidates, review evidence, and manage outreach. The workflow involved external data, sensitive candidate information, asynchronous processing, and decisions that required human control.
+
+### Task
+
+Build a full-stack placement platform combining job intake, candidate sourcing, normalization, scoring, outreach, and reply handling without hiding important decisions behind an LLM.
+
+### Action
+
+- Built a Next.js application with Supabase Postgres, Supabase Storage, and an EU-region data design
+- Added Inngest workflows for scraping, normalization, scoring, outreach drafting, and reply classification
+- Separated source-specific behavior behind a source adapter interface
+- Added deterministic keyword screening before LLM analysis, structured fit criteria, evidence breakdowns, and recruiter approval gates
+- Designed anonymization before candidate data is sent to an LLM provider
+- Built the streaming Charles chat agent with Anthropic tool use, SSE, read-only tools, and human confirmation for mutating actions
+- Added audit logging, durable workflow state, runtime configuration, and worker observability
+- Built a connected recruiter website and lead-capture flow with a Netlify Function and Brevo email integration
+
+### Result
+
+Created an end-to-end recruitment workflow with explicit checkpoints between brief creation, sourcing, screening, shortlist preparation, and outreach.
+
+### Key Innovations
+
+- Deterministic filtering before paid or slower LLM analysis
+- Human approval gates around side effects
+- Candidate PII anonymization before model calls
+- Durable, replayable workflow steps
+- Evidence-based candidate scoring instead of an unexplained model score
+
+### Technologies
+
+Next.js, TypeScript, React, Supabase, PostgreSQL, Inngest, Anthropic tool use, OpenRouter, SSE, Netlify Functions, Brevo, Playwright, Docker
+
+[Contact us](/contact) to discuss your recruitment platform.
+
+export default Mdx;

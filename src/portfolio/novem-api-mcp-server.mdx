@@ -1,0 +1,45 @@
+---
+title: "Novem API MCP Server"
+description: "Controlled MCP gateway for Novem backoffice business operations"
+type: portfolio
+---
+
+import Mdx from "../components/portfolio-mdx";
+
+## Project: Novem API MCP Server
+
+### Situation
+
+The AI agent system needed controlled access to Novem's backoffice API without placing business-specific HTTP and authentication logic inside the agent core.
+
+### Task
+
+Expose the Novem backoffice API as a standalone MCP server with clear tools, credential boundaries, environment switching, and safe response parsing.
+
+### Action
+
+- Built a Python FastMCP server exposing 13 customer, partner, contract, invoice, product, and customer-data tools
+- Implemented separate credential sets for read, create, and update operations
+- Added explicit environment switching between staging and production
+- Built a JWT factory for the API's different payload shapes and mutation endpoints
+- Added XML parsing through defusedxml and unified success and error handling
+- Integrated the server into the agent system through one MCP configuration entry without changing core orchestration code
+
+### Result
+
+Created a replaceable integration boundary between AI agents and the Novem backoffice. New API tools can be added inside the MCP server without changing agent routing or core business logic.
+
+### Key Innovations
+
+- Explicit credential isolation per operation type
+- One environment switch for staging and production
+- XML and JSON tool responses behind one interface
+- Security-conscious parsing and no token logging
+
+### Technologies
+
+Python, FastMCP, MCP, PyJWT, Pydantic Settings, httpx, defusedxml, XML, JSON
+
+[Contact us](/contact) to discuss your MCP integration.
+
+export default Mdx;

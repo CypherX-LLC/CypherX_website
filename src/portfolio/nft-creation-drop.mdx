@@ -1,61 +1,47 @@
 ---
-title: "NFT Drop Projects"
-description: "NFT Drops as digital collectibles"
+title: "Solana NFT Launch Infrastructure"
+description: "NFT launch infrastructure with Solana minting, anti-bot controls, and hybrid fiat onboarding"
 type: portfolio
 ---
 
 import Mdx from "../components/portfolio-mdx";
 
-## Project: Familia
+## Projects: Familia and Svenir
 
-### Situation
+### Familia
 
-Familia wanted to launch a Solana NFT drop that could handle intense mint demand without congestion, protect buyer trust through fair distribution, and keep deployment economics efficient enough for a sustainable release.
+#### Situation
 
-### Task
+Familia needed Solana NFT launch infrastructure covering asset generation, mint mechanics, anti-bot controls, decentralized storage, royalties, and the buyer experience.
 
-Deliver the full technical foundation for a high-volume Solana drop, covering asset generation, mint mechanics, anti-bot controls, storage, royalties, and wallet-connected buyer experience.
-
-### Action
+#### Action
 
 - Built the PFP generation pipeline with the HashLips art engine
 - Used Metaplex Core for standardized NFT creation
 - Implemented a custom Candy Machine V2 flow for phased allowlist and public sale mechanics
 - Added token-gated anti-bot protection around mint access
-- Stored metadata on Arweave for cost-efficient decentralized asset hosting
-- Enabled real-time royalty tracking across secondary markets
+- Stored metadata on Arweave for decentralized asset hosting
+- Enabled royalty tracking across secondary markets
 - Delivered a React frontend with Phantom wallet integration
 
-### Result
+### Svenir
 
-- NFTs sold with zero failed transactions
-- Achieved materially lower mint costs than comparable Ethereum-based launches
-- Gave the Familia team a production-ready Solana launch flow built for scale and buyer confidence
+#### Situation
 
-## Project: Svenir
+Svenir needed to support both crypto and credit-card payments while delivering NFTs quickly and maintaining operational control.
 
-### Situation
+#### Action
 
-Svenir wanted to open its NFT drop to a broader audience by accepting both crypto and credit card payments. That meant removing wallet setup friction for new buyers while still delivering assets quickly and maintaining compliance.
-
-### Task
-
-Build a hybrid NFT purchase flow that supported crypto-native users and fiat-first users in the same launch experience, without sacrificing delivery speed, operational control, or compliance.
-
-### Action
-
-- Integrated Crossmint to support credit card payments
+- Integrated Crossmint to support credit-card payments
 - Built a dynamic NFT minting and escrow flow for fiat purchases
 - Released NFTs to the buyer's wallet after purchase completion
 - Added gasless onboarding with temporary custodial wallets for new users
 - Enabled one-click migration from custodial onboarding to self-custody
 
-### Result
+### Technologies
 
-- Half of sales came from credit card users, expanding the drop beyond the crypto-native audience
-- Delivered a fast purchase and fulfillment experience across both payment methods
-- Maintained full compliance throughout the onboarding and purchase flow
+Solana, Metaplex Core, Candy Machine V2, HashLips, Arweave, React, Phantom, Crossmint, custodial wallets, NFT royalties
 
-[Contact us](/contact) to discuss your NFT Project.
+[Contact us](/contact) to discuss your NFT project.
 
 export default Mdx;

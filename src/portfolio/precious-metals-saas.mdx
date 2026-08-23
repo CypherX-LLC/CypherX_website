@@ -1,93 +1,45 @@
 ---
-title: "Precious Metals Backoffice SaaS for Novem"
-description: "Comprehensive SaaS solution for precious metals operations"
+title: "Novem Exclusive Backoffice"
+description: "Auditable backoffice for precious-metals and cryptocurrency operations"
 type: portfolio
 ---
 
 import Mdx from "../components/portfolio-mdx";
 
-## Precious Metals Operations Platform
+## Project: Novem Exclusive Backoffice
 
 ### Situation
 
-Novem needed to modernize its precious metals backoffice so it could replace manual operations, improve customer relationship management, strengthen inventory accuracy, and reduce the friction around compliance reporting.
+Novem needed one operational system for precious-metals and cryptocurrency contracts, customers, partners, invoices, payments, KYC workflows, and blockchain integrations.
 
 ### Task
 
-Design and deliver a custom SaaS platform that unified sales operations, customer data, contract visibility, banking workflows, and partner integrations in one operational system.
+Build and maintain a multi-role backoffice connecting customer operations, contracts, payments, banking integrations, and on-chain data across staging and production environments.
 
 ### Action
 
-- Built end-to-end order management and customizable operational workflows
-- Developed a sales hub for lifecycle tracking, customer history, and document storage via AWS S3
-- Delivered customer-facing dashboards for contracts, recurring payments, and token balances across wallets
-- Integrated bank APIs for real-time transaction monitoring, multi-bank support, and reconciliation
-- Exposed backoffice API endpoints for partners and connected applications
-- Added resource and log monitoring through Sentry
+- Built customer, partner, contract, invoice, and payment workflows with role-based access
+- Integrated KYC processes, bank APIs, payment transactions, and blockchain data
+- Added audit logging, Sentry error tracking, log forwarding, and background jobs
+- Supported tokenized precious-metals workflows with daily reconciliation, proof-of-reserves logic, and transaction monitoring
+- Added agent login using short-lived signed HMAC tokens with email allowlists, expiry, and replay protection
+- Improved CI/CD so documentation, configuration, and workflow-only changes can skip the long test suite while production image builds continue independently
+- Worked with staging, production, and pull-request preview environments on DigitalOcean App Platform
 
 ### Result
 
-- Accelerated sales workflows and shortened closing times
-- Reduced manual data entry errors across backoffice operations
-- Improved order processing efficiency for day-to-day operations
-- Saved time across compliance-related processes
+Delivered a central operating platform for sales, customer service, payments, compliance, and blockchain operations across controlled deployment environments.
 
-### Key Innovations:
+### Key Innovations
 
-- Cloud deployment and monitoring
-- Role-based access controls
-- API
-
-<a
-  href="https://calendly.com/selim_cypherx_tech"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  <img
-    src="/images/connect_business_create_software.svg"
-    alt="Tailor your workshop with CypherX"
-    style={{ width: "100%", borderRadius: "12px", margin: "2rem 0" }}
-  />
-</a>
+- One operational model for fiat, crypto, and precious-metals contracts
+- Role-aware financial workflows and audit trails
+- Background processing for payments, invoices, and blockchain synchronization
+- Signed, short-lived agent access without weakening the normal login path
 
 ### Technologies
 
-#### Backend Technologies:
-
-- Rails
-- PostgreSQL (database)
-- Puma (application server)
-- Redis (for Action Cable)
-- Sidekiq (background processing)
-- Sidekiq-cron (scheduled jobs)
-- Devise (authentication)
-- Pundit (authorization)
-- CarrierWave (file uploads)
-- Ransack (search)
-- Sentry (error tracking)
-- PaperTrail (audit logging)
-- RSpec (testing)
-- Rubocop (code quality)
-- Webmock, VCR (test mocking)
-- PDFKit, (creat pdfs),
-- i18n (multi language support),
-- money-rails, girocode (currency management)
-
-#### Frontend Technologies:
-
-- Webpacker
-- Bootstrap
-- Web3.js
-- Tailwind
-- Action Cable
-
-### APIs & External Services:
-
-- AWS, Heroku
-- SendGrid (email)
-- reCAPTCHA
-- FreeFinance (bank integration)
-- Open Exchange Rates (currency conversion)
+Ruby on Rails 7, Ruby, PostgreSQL, Redis, Sidekiq, Webpacker, JavaScript, Web3.js, AWS S3, DigitalOcean, Sentry, Logtail, Papertrail, RSpec, Docker
 
 [Contact us](/contact) for your software project.
 

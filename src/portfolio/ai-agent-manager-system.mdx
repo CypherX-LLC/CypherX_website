@@ -1,0 +1,47 @@
+---
+title: "Multi-Agent Telegram Manager"
+description: "Telegram-based manager-specialist system for delegated AI work with persistent state"
+type: portfolio
+---
+
+import Mdx from "../components/portfolio-mdx";
+
+## Project: AI Agent Manager System
+
+### Situation
+
+A single general-purpose assistant becomes difficult to control as tasks grow longer and span different types of work. The system needed to route work to specialists while preserving state, progress, and user feedback.
+
+### Task
+
+Build a Telegram-based manager-specialist system that could break down requests, delegate work, verify results, and keep a durable task history.
+
+### Action
+
+- Built a manager agent that analyzes requests, creates subtasks, and routes them to Code, Creative, and Operations specialists
+- Implemented the core in Python 3.12+ with Pydantic-AI, asyncio, and aiosqlite
+- Added a harness loop so agents verify their own work inside a self-correction cycle
+- Exposed a FastAPI and Uvicorn web layer alongside the Telegram interface
+- Integrated MCP servers and synchronization wrappers for Novem business data
+- Added structured output contracts, validation, localized responses, and role-aware access checks
+- Designed cache-aware lookup wrappers so agents can synchronize data instead of repeating raw API lookups
+
+### Result
+
+Created a reusable orchestration foundation for multi-step AI work with explicit specialist boundaries, persistent state, and a path for adding business tools through MCP.
+
+### Key Innovations
+
+- Manager-specialist delegation
+- Self-correction loop for agent work
+- Persistent task and conversation state
+- Structured LLM output contracts
+- Cache-aware business-data synchronization
+
+### Technologies
+
+Python 3.12+, Pydantic-AI, asyncio, aiosqlite, FastAPI, Uvicorn, python-telegram-bot, Redis, MCP, pytest
+
+[Contact us](/contact) to discuss your agent system.
+
+export default Mdx;

@@ -1,39 +1,74 @@
 title: Explore Our Projects
 #subtitle: Our Projects
 items:
-  - title: Digital Asset Marketplace
-    text: A decentralized marketplace for trading digital collectibles
+  - title: AskCharles AI Recruitment Platform
+    text: AI-assisted recruitment with evidence-based screening and human approval gates
+    link: /askcharles/
+
+  - title: Multi-Agent Telegram Manager
+    text: Manager-specialist orchestration for delegated AI work with persistent state
+    link: /ai-agent-manager-system/
+
+  - title: OpenGuardrails AI Agent Security
+    text: Runtime security, data-loss prevention, and behavioral controls for AI agents
+    link: /openguardrails/
+
+  - title: LLM Council
+    text: Multi-model deliberation with anonymized peer review and chairman synthesis
+    link: /llm-council/
+
+  - title: OpenCode Telegram Bot
+    text: Mobile Telegram interface for managing OpenCode AI development sessions
+    link: /opencode-telegram-bot/
+
+  - title: Novem Exclusive Backoffice
+    text: Auditable backoffice for precious-metals and cryptocurrency operations
+    link: /precious-metals-saas/
+
+  - title: Novem Infrastructure
+    text: Terraform-managed staging, production, and pull-request preview environments
+    link: /novem-infrastructure/
+
+  - title: Novem API MCP Server
+    text: Controlled MCP gateway for Novem backoffice business operations
+    link: /novem-api-mcp-server/
+
+  - title: Novem Token Services
+    text: Token exchange, credit-card onboarding, and blockchain settlement services
+    link: /novem-token-services/
+
+  - title: Novem Minting UI
+    text: Wallet-connected operations console for NNN and NVM token contracts
+    link: /novem-minting-ui/
+
+  - title: Ghostmarket Multichain NFT Marketplace
+    text: Multichain NFT marketplace infrastructure across major EVM networks
     link: /nft-marketplace/
 
-  - title: Digital Asset Creation and Drop
-    text: Digital asset drop launches with Solana minting and hybrid fiat onboarding
+  - title: Solana NFT Launch Infrastructure
+    text: NFT launch infrastructure with Solana minting and hybrid fiat onboarding
     link: /nft-creation-drop/
 
-  - title: DAO Governance
-    icon: /svg/03.svg
-    text: Custom governance system for decentralized accelerator
+  - title: HyperNestDAO Governance and Staking
+    text: Solidity vesting, staking, and governance contracts with transfer controls
     link: /vesting-staking-contracts/
 
-  - title: RWA Tokenization
-    text: Digital asset tokenization platform for precious metals
+  - title: Precious-Metals RWA Tokenization
+    text: Token contracts and operational workflows for tokenized precious metals
     link: /rwa-tokenization/
 
-  - title: Digital assets Sale Apps
-    text: Automated token distribution system linked to bank transfers
+  - title: Precious-Metals Token Sale and Settlement
+    text: Token distribution and purchasing workflows connected to bank-transfer settlement
     link: /token-sale-apps/
 
   - title: RWA Purchasing dApps
-    text: Decentralized platform for digital asset purchases of tokenized assets
+    text: Wallet-connected applications for purchasing and trading tokenized precious metals
     link: /rwa-purchasing-dapps/
 
-  - title: Precious Metals SaaS
-    text: Comprehensive SaaS solution for precious metals operations
-    link: /precious-metals-saas/
-
-  - title: Multinational Team Building
-    text: Building and scaling high-performing global engineering teams
+  - title: Distributed Engineering Teams
+    text: Hiring, screening, onboarding, and knowledge-sharing systems for international teams
     link: /multinational-team-building/
 
-  - title: AI Chatbot for Nutrition Science
-    text: LLM and RAG powered chatbot providing personalized nutrition recommendations
+  - title: Nutrition Research Chatbot
+    text: Conversational nutrition research assistant across Telegram and WhatsApp
     link: /llm-chatbot-nutrition-science/

@@ -1,39 +1,38 @@
 ---
-title: "Gold Backed Token Sale Apps with Bank Transaction Monitoring"
-description: "Automated token distribution system linked to bank transfers"
+title: "Precious-Metals Token Sale and Settlement"
+description: "Token distribution and purchasing workflows connected to bank-transfer settlement"
 type: portfolio
 ---
 
 import Mdx from "../components/portfolio-mdx";
 
-## Project: Gold Token Sales
+## Project: RWA Token Sale and Purchasing Applications
 
 ### Situation
 
-The project needed a token sale system that could connect fiat payment confirmation to automated token distribution, while preventing fraud, supporting multiple currencies and banking partners, and preserving a compliance-ready audit trail.
+The project needed to connect precious-metals token purchases to bank-transfer settlement while keeping pricing, wallet delivery, liquidity, and administrative operations consistent.
 
 ### Task
 
-Build an end-to-end payment monitoring and token distribution workflow that could safely release assets after verified bank settlement without creating manual bottlenecks or security gaps.
+Build focused services and application flows for token exchange, payment initiation, transaction monitoring, and settlement.
 
 ### Action
 
-- Developed automated payment-to-token distribution logic tied to verified fiat payment confirmation
-- Added handling for failed and incomplete transaction scenarios
-- Integrated AML screening into the transaction flow
-- Built suspicious activity alerting to improve fraud detection and review
+- Connected bank-transfer settlement to token release after confirmed payment receipt
+- Added pricing locks to prevent drift during a purchase
+- Supported NNN and NVM exchange flows using current product prices from the backoffice API
+- Monitored BSC transactions through BscScan over a bounded waiting period
+- Added pending, successful, and failed transaction states with timeout handling
+- Added Redis caching for frequently requested product prices
+- Connected credit-card signup to backoffice user data and transaction status
 
 ### Result
 
-- Improved transaction completion performance through automated payment verification and token release
-- Reduced processing time from days to minutes
-- Handled individual transactions safely with stronger fraud and compliance controls
-- 0 major security incidents
-- Deployed across multiple financial jurisdictions
+Created a token-sale workflow with explicit transaction lifecycles, current pricing, payment verification, and blockchain settlement monitoring.
 
-### Key Innovations:
+### Technologies
 
-- Hybrid on/off-chain verification
+NestJS, TypeScript, Node.js, MongoDB, Redis, JWT, BscScan API, REST, cron jobs, Jest, Supertest
 
 [Contact us](/contact) for your token sale automation needs.
 

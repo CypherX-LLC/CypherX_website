@@ -1,6 +1,6 @@
 ---
-title: "LLM powered chatbot for nutrition science information"
-description: "LLM powered chatbot for nutrition science information"
+title: "Nutrition Research Chatbot"
+description: "A conversational nutrition research assistant across Telegram and WhatsApp"
 type: portfolio
 ---
 
@@ -10,78 +10,26 @@ import Mdx from "../components/portfolio-mdx";
 
 ### Situation
 
-The project needed a way to make a large body of nutrition research easier to access, answer user questions instantly, reduce manual research effort for common topics, and maintain scientific grounding in the responses.
+Users needed a faster way to search a large body of nutrition content and ask questions in natural language.
 
 ### Task
 
-Build an AI-powered chatbot that could ingest nutrition content, retrieve relevant source material, generate useful answers, and keep the experience reliable enough for ongoing user research and discovery.
+Build an early AI research assistant that crawled nutrition content, indexed it, and answered questions through Telegram and WhatsApp.
 
 ### Action
 
-- Built an automated content pipeline for scraping, cleaning, chunking, and storing nutrition research in a vector database
-- Developed a chat interface for natural-language question answering with source citations and conversation history
-- Added knowledge management workflows for regular content updates, quality control, and feedback collection
-- Integrated OpenRouter for LLM access alongside custom retrieval endpoints, monitoring, and analytics
+- Built a Scrapy pipeline to collect nutrition articles
+- Used a fine-tuned Hugging Face question-answering model against the collected content
+- Connected the service to Telegram and WhatsApp through Twilio
+- Kept an offline sample dataset for repeatable development and testing
 
 ### Result
 
-- Instant access to nutrition research
-- 24/7 availability for questions
-- Reduced research time for common topics
-- Increased content discoverability
-
-### Key Innovations:
-
-- Hybrid retrieval-augmented generation
-- Context-aware responses
-- Cost-effective LLM usage
-
-<a
-  href="https://calendly.com/selim_cypherx_tech"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  <img
-    src="/images/connect_business_create_software.svg"
-    alt="Tailor your workshop with CypherX"
-    style={{ width: "100%", borderRadius: "12px", margin: "2rem 0" }}
-  />
-</a>
+Created an accessible question-answering interface for nutrition information and an initial content-ingestion workflow that could be extended into retrieval-augmented generation.
 
 ### Technologies
 
-#### Backend Technologies:
-
-- Python
-- Scrapy (web scraping)
-- Zyte API (proxy rotation)
-- LangChain (AI orchestration)
-- ChromaDB (vector database)
-- FastAPI (API server)
-- Redis (caching)
-- Sentry (error tracking)
-- Pytest (testing)
-
-#### Frontend Technologies:
-
-- Next.js
-- Tailwind CSS
-- React Hook Form
-- Vercel (hosting)
-
-#### AI/ML Components:
-
-- HuggingFace embeddings
-- OpenRouter API
-- Custom prompt engineering
-- Retrieval-augmented generation
-
-### APIs & External Services:
-
-- OpenRouter (LLM access)
-- Vercel (deployment)
-- AWS S3 (document storage)
-- GitHub Actions (CI/CD)
+Python, Scrapy, Hugging Face Transformers, Telegram, WhatsApp, Twilio
 
 [Contact us](/contact) for your project needs.
 

@@ -1,0 +1,38 @@
+---
+title: "OpenCode Telegram Bot"
+description: "Mobile Telegram interface for managing OpenCode AI development sessions"
+type: portfolio
+---
+
+import Mdx from "../components/portfolio-mdx";
+
+## Project: OpenCode Telegram Bot
+
+### Situation
+
+Developers needed access to OpenCode sessions from a phone while keeping the OpenCode server separate from the messaging interface. The service also needed to support more than one server and protect development environments.
+
+### Task
+
+Build a standalone Telegram application that connects to OpenCode servers through HTTP, streams updates to users, and manages multiple sessions and instances.
+
+### Action
+
+- Built a Node.js and TypeScript bot connecting Telegram through the Bot API and OpenCode through its HTTP API
+- Added session creation, switching, status, and stop commands
+- Implemented real-time response and status streaming
+- Added user whitelist authentication, rate limiting, and Redis-backed persistence with an in-memory fallback
+- Added multi-instance configuration for connecting to more than one OpenCode server
+- Added Docker Compose deployment for the bot, Redis, and an OpenCode server
+
+### Result
+
+Created a mobile-friendly control surface for AI development sessions without coupling the bot to the OpenCode server.
+
+### Technologies
+
+TypeScript, Node.js, Telegram Bot API, HTTP API, SSE and event streaming, Redis, Docker Compose
+
+[Contact us](/contact) to discuss your AI development workflow.
+
+export default Mdx;

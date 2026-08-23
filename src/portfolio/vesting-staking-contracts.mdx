@@ -1,6 +1,6 @@
 ---
-title: "Vesting Staking Governance Trilemma"
-description: "A decentralized marketplace for trading digital collectibles"
+title: "HyperNestDAO Governance and Staking"
+description: "Solidity vesting, staking, and governance contracts with transfer controls and emergency safeguards"
 type: portfolio
 ---
 
@@ -10,34 +10,29 @@ import Mdx from "../components/portfolio-mdx";
 
 ### Situation
 
-HyperNEST needed a governance and token management system that could discourage dumping, reward long-term participation, and still give the DAO enough flexibility to operate safely at the protocol level.
+HyperNestDAO needed token mechanics that could discourage dumping, reward long-term participation, and preserve operational flexibility at the protocol level.
 
 ### Task
 
-Design and implement custom Solidity contracts that balanced staking incentives, governance enforcement, transfer restrictions, and reward mechanics without weakening economic security.
+Design and implement Solidity contracts balancing staking incentives, governance enforcement, transfer restrictions, and reward mechanics.
 
 ### Action
 
 - Built controlled `wNEST` transfer rules that allowed only whitelisted contract-to-wallet flows and blocked peer-to-peer transfers
-- Implemented time-based staking with flexible one- to twenty-four-month lock periods
+- Implemented one- to twenty-four-month staking lock periods
 - Added automatic mint and burn mechanics for `wNEST` conversion
-- Introduced anti-gaming protections, including full-balance reward claim requirements and partial-unstake penalties
+- Added anti-gaming protections, full-balance reward claim requirements, and partial-unstake penalties
 - Integrated slashing mechanics for governance violations
-- Added multi-signature admin controls for parameter changes and emergency pause operations
+- Added multisignature administration for parameter changes and emergency pause operations
 
 ### Result
 
-- Established a governance token system aligned with long-term DAO participation
-- Reduced avenues for speculative token dumping through tightly controlled transfer logic
-- Strengthened reward integrity with anti-gaming and penalty mechanics
-- Gave the DAO operational flexibility through secure admin and emergency controls
+Created a controlled governance and staking system with long-term participation incentives, anti-gaming protections, and secure administrative recovery paths.
 
-### Key Innovations:
+### Technologies
 
-- "Burn-to-claim" reward mechanism prevents gaming
-- Progressive unstaking penalties align with DAO goals
-- Gas-optimized for frequent DAO operations
+Solidity, staking contracts, vesting, governance, multisignature administration, emergency pause controls
 
-[Contact us](/contact) to discuss your NFT marketplace needs.
+[Contact us](/contact) to discuss your governance and staking project.
 
 export default Mdx;

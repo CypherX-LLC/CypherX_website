@@ -1,0 +1,38 @@
+---
+title: "Novem Token Services"
+description: "Token exchange, credit-card onboarding, and blockchain settlement services"
+type: portfolio
+---
+
+import Mdx from "../components/portfolio-mdx";
+
+## Project: Novem Token Services
+
+### Situation
+
+Novem needed services connecting backoffice identity, token prices, credit-card onboarding, and blockchain transaction settlement. Requests could remain pending while the service waited for a matching on-chain transaction.
+
+### Task
+
+Build backend services for user migration, token exchange, and transaction monitoring while keeping prices current and failures visible.
+
+### Action
+
+- Built a NestJS backend that validates JWT data from the backoffice and migrates users when necessary
+- Implemented NNN and NVM exchange flows with current product prices retrieved from the backoffice API
+- Monitored BSC transactions through BscScan at intervals over a bounded waiting period
+- Added pending, successful, and failed transaction states, duplicate-pending checks, and timeout handling
+- Added Redis caching for frequently requested product prices
+- Connected the credit-card signup flow to backoffice user data and transaction status
+
+### Result
+
+Connected backoffice users, token pricing, payment initiation, and blockchain settlement in focused services with an explicit lifecycle for pending transactions.
+
+### Technologies
+
+NestJS, TypeScript, Node.js, MongoDB, Redis, JWT, BscScan API, REST, cron jobs, Jest, Supertest
+
+[Contact us](/contact) to discuss your token services project.
+
+export default Mdx;

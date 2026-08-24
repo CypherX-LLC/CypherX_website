@@ -9,13 +9,9 @@ items:
     text: Manager-specialist orchestration for delegated AI work with persistent state
     link: /ai-agent-manager-system/
 
-  - title: OpenGuardrails AI Agent Security
-    text: Runtime security, data-loss prevention, and behavioral controls for AI agents
-    link: /openguardrails/
-
-  - title: LLM Council
-    text: Multi-model deliberation with anonymized peer review and chairman synthesis
-    link: /llm-council/
+  - title: AI Agent Security
+    text: Runtime security guardrails, data-loss prevention, and behavioral controls for AI systems
+    link: /ai-agent-security/
 
   - title: OpenCode Telegram Bot
     text: Mobile Telegram interface for managing OpenCode AI development sessions

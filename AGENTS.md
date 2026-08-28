@@ -21,6 +21,9 @@ This repository is a modern React web application built on **Gatsby** (v5). It e
   - Frontmatter typically includes: `title`, `date`, `description`, `image`, `type`, `slug`
 - **Blog Images:** `static/images/blog/`
   - Frontmatter `image` paths reference `/images/blog/<file>`
+  - Every blog post must use a topic-specific image. Never reuse an image from another blog post or use an unrelated existing asset.
+  - Generate missing blog images with the image-generation workflow in `/Users/semacair/dev/linkedin-mcp-split/linkedin-mcp-posting/` before creating the post. Use OpenRouter with a mid-tier Gemini or OpenAI image model (for example, `openai/gpt-5-image-mini`), or the equivalent configured Gemini image model.
+  - If the workflow is unavailable, repair or create a working image-generation skill/workflow before proceeding. Do not substitute an unrelated image.
 
 ---
 

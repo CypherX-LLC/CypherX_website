@@ -21,9 +21,26 @@ This repository is a modern React web application built on **Gatsby** (v5). It e
   - Frontmatter typically includes: `title`, `date`, `description`, `image`, `type`, `slug`
 - **Blog Images:** `static/images/blog/`
   - Frontmatter `image` paths reference `/images/blog/<file>`
-  - Every blog post must use a topic-specific image. Never reuse an image from another blog post or use an unrelated existing asset.
-  - Generate missing blog images with the image-generation workflow in `/Users/semacair/dev/linkedin-mcp-split/linkedin-mcp-posting/` before creating the post. Use OpenRouter with a mid-tier Gemini or OpenAI image model (for example, `openai/gpt-5-image-mini`), or the equivalent configured Gemini image model.
-  - If the workflow is unavailable, repair or create a working image-generation skill/workflow before proceeding. Do not substitute an unrelated image.
+  - Every blog post must use a unique, topic-specific image. Never reuse an image from another blog post or use an unrelated existing asset.
+  - Before creating a post, read the global skill at `~/.agents/skills/image-generation/SKILL.md` and use its general-purpose generator. Do not use the LinkedIn-posting workflow for blog covers.
+  - Generate with OpenRouter’s `openai/gpt-5-image-mini` through `~/.agents/skills/image-generation/scripts/generate_image.py`. The prompt must describe the article’s actual subject or a relevant visual metaphor.
+  - Keep the image prompt general-purpose: do not impose LinkedIn, infographic, whiteboard, chalkboard, notebook, 16:9, landscape, minimal-text, or other platform-specific styling unless the post specifically requires it.
+  - Do not add text to the image unless it is explicitly requested. Visually inspect each generated image, confirm it matches the post, and verify the local file before updating frontmatter.
+
+### Required cover-image workflow
+
+1. Read `~/.agents/skills/image-generation/SKILL.md`.
+2. Write a prompt based on the specific post topic. Keep it descriptive but avoid platform-specific art direction.
+3. Generate the image before running `scripts/create-post.mjs`:
+
+```bash
+python3 ~/.agents/skills/image-generation/scripts/generate_image.py \
+  --prompt-file /path/to/blog-image-prompt.txt \
+  --output static/images/blog/<slug>.png
+```
+
+4. Inspect the generated image and confirm it is relevant, legible, and free of unwanted text.
+5. Pass that exact generated file as `--image-path` when creating the post, then set frontmatter `image` to `/images/blog/<slug>.png`.
 
 ---
 

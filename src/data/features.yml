@@ -1,6 +1,10 @@
 title: What We Offer
 #subtitle: From smart contracts to dApps, we offer application development that suits your needs
 items:
+  - title: AI Agents, Chat, Voice & Automation
+    text: "Designing and shipping practical AI agents, chat and voice experiences, and automations that connect your tools and move work forward."
+    link: /ai-agents-chat-voice-automation/
+
   - title: Digital Asset Development & Consulting
     text: "Full-stack dApps, smart contracts, DeFi solutions, digital asset marketplaces, tokenization, Layer 1 & 2 networks, security audits, DAOs and more."
     link: /web3-dapp-development/

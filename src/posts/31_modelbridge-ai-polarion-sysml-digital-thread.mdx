@@ -1,0 +1,259 @@
+---
+title: "From Polarion Requirements to SysML v2: Building a Reviewable Digital Thread for a Robot Workcell"
+date: 2026-09-07
+description: How ModelBridge AI connects Polarion requirements, structured LLM proposals, SysML v2, and CATIA Magic/Cameo for traceable architecture review and change impact.
+image: /images/blog/modelbridge-ai-polarion-sysml-digital-thread.png
+type: blog
+slug: modelbridge-ai-polarion-sysml-digital-thread
+---
+
+A digital thread is only useful when engineers can follow it from an approved requirement to a reviewed architecture decision. If requirements live in Polarion and the system model lives in a separate modeling environment, that thread is easy to break: information is copied by hand, identifiers drift, and change-impact analysis becomes a manual search.
+
+ModelBridge AI demonstrates a controlled way to connect the two. It reads selected Polarion requirements, asks an LLM to propose a structured intermediate model, converts that proposal deterministically into SysML v2 textual notation, validates the result, and opens it for engineering review in CATIA Magic/Cameo. The review result and model reference can then be associated with the Polarion work item.
+
+The AI is a proposal engine. It is not the engineering authority.
+
+## The industrial scenario
+
+The modeled system is a robotic quality-inspection workcell with:
+
+- a robot arm;
+- a conveyor;
+- a vision inspection unit;
+- a safety PLC;
+- a light curtain;
+- an emergency-stop circuit; and
+- an operator panel.
+
+This is a compact but meaningful system boundary. It includes safety behavior, performance constraints, interfaces, verification, and traceability instead of reducing the demonstration to a static diagram.
+
+The six demonstration requirements are:
+
+| ID | Requirement | Type | Priority |
+| --- | --- | --- | --- |
+| POL-RQ-001 | The workcell shall command the robot to a safe stop within 200 ms after the light curtain is interrupted. | Safety/performance | Critical |
+| POL-RQ-002 | The workcell shall prevent automatic restart until the protected zone is clear and the operator performs a manual reset. | Safety/behavior | Critical |
+| POL-RQ-003 | The workcell shall inspect at least 30 parts per minute. | Performance | High |
+| POL-RQ-004 | The vision unit shall classify defects with at least 99.5% accuracy on the approved validation set. | Quality | High |
+| POL-RQ-005 | The workcell shall retain safety events for at least 90 days. | Data/audit | Medium |
+| POL-RQ-006 | The workcell shall operate between 5 °C and 40 °C. | Environmental | Medium |
+
+These are project requirements for the demo, not claims about a particular customer's production system. They create enough variety to test constraints, behavior, verification, and change impact.
+
+## Why use an intermediate representation?
+
+The riskiest design would ask an LLM to edit a Cameo model directly. That combines interpretation, transformation, tool interaction, and publishing in one opaque step. A better boundary is a strict proposal schema:
+
+```json
+{
+  "requirementId": "POL-RQ-001",
+  "kind": "performance_constraint",
+  "subject": "RobotWorkcell",
+  "measure": "safeStopResponseTime",
+  "operator": "<=",
+  "value": 200,
+  "unit": "ms",
+  "allocatedTo": ["SafetyPLC", "RobotArm"],
+  "verificationMethod": "test",
+  "ambiguities": [],
+  "confidence": 0.94
+}
+```
+
+The LLM proposes this structured data. Deterministic code then checks the schema, allowed element types, units, identifiers, allocation targets, and confidence threshold before generating SysML v2.
+
+This separation creates useful evidence at each stage:
+
+1. The original Polarion requirement remains available.
+2. The AI proposal can be reviewed independently of the generated model.
+3. The generator can be tested with golden fixtures.
+4. The SysML v2 output can be validated before it reaches an engineer.
+5. The model revision can be linked back to the source requirement.
+
+The result is more reproducible than unrestricted model generation. It also makes rejection possible before a model revision is imported or published.
+
+## Polarion as the requirements source
+
+The integration treats Polarion as the source for requirement identity, text, priority, status, revision, and links. The exact work-item types and custom fields depend on the Polarion deployment, so the adapter must use the configured schema rather than hard-coded assumptions.
+
+Siemens documents a REST API with work-item resources under a Polarion server URL. It supports project-level and global work-item queries, with query syntax based on the Polarion Java API. The documentation gives examples such as filtering by work-item type and review status. [Siemens' Polarion REST documentation](https://developer.siemens.com/polarion/access-rest-api.html) and [query documentation](https://developer.siemens.com/polarion/basic-concepts.html#query-work-items) support this adapter design.
+
+The adapter normalizes only the fields needed by the pipeline:
+
+- source ID and revision;
+- URL, title, and description;
+- type, priority, and status;
+- linked work items; and
+- the configured traceability metadata.
+
+Polarion documents linked work items as relationship resources with dedicated endpoints. That is useful for writing an integration artifact or review reference back to the source system, but a Polarion link is not automatically the same thing as a SysML `satisfy` or `verify` relationship. ModelBridge must define and validate that mapping explicitly. [Siemens' linked-work-item documentation](https://developer.siemens.com/polarion/basic-concepts.html) describes the API relationship model.
+
+When a live Polarion sandbox is unavailable, the same adapter contract runs against exported fixture JSON. This keeps the demo deterministic without changing the boundary that would be used against the real system.
+
+## SysML v2 as the architecture contract
+
+SysML v2 supplies the machine-readable model layer between the requirement and the engineering view. The language includes structural concepts such as parts, behavioral concepts such as actions and states, requirement definitions and usages, and relationships for satisfaction and verification.
+
+The distinction between the two trace types matters:
+
+- A `satisfy` relationship connects an architecture feature to the requirement it is intended to meet.
+- A `verify` relationship connects a requirement to a verification case or objective and its outcome.
+
+The OMG language specification describes these concepts and the ways verification can be performed, including test, inspection, analysis, and demonstration. [The OMG SysML v2 language specification](https://www.omg.org/spec/SysML/2.0/Language/PDF) is the authoritative reference used for the model mapping.
+
+The official SysML v2 release repository contains the formal specifications, textual and graphical notation material, example models, libraries, and pilot tooling. Its README records the three related specifications as formally adopted by OMG on 30 June 2025. [The official SysML v2 release repository](https://github.com/Systems-Modeling/SysML-v2-Release) provides the release artifacts.
+
+The repository also contains a textual grammar. That does not mean every illustrative snippet is accepted by every parser or Cameo configuration. ModelBridge therefore validates generated files against the exact SysML v2 tooling selected for the event. The blog intentionally does not present a code fragment as universally canonical: the release repository itself has documented discussions about syntax differences between grammar and examples.
+
+The Systems Modeling API and Services specification is another possible integration boundary. OMG publishes a formal specification together with OpenAPI and schema artifacts, but the project should claim support for that API only when the selected Cameo environment and deployment actually expose a compatible implementation. [OMG's Systems Modeling API and Services specification](https://www.omg.org/spec/SystemsModelingAPI/1.0) documents the standard API artifacts.
+
+## Cameo turns text into an engineering review
+
+The generated `.sysml` file is not the final deliverable. It is an input to engineering review.
+
+CATIA Magic/Cameo documentation describes importing SysML v2 textual-notation files into a project and exporting project namespaces to `.sysml` files. It also documents synchronization between the Textual Editor and the model, including refreshing textual changes into the model and reflecting model changes back into the editor. [The CATIA Magic/Cameo textual import and export documentation](https://docs.nomagic.com/SYSML2P/latest/textual-notation-import-export-304006231.html) and [Textual Editor documentation](https://docs.nomagic.com/SYSML2P/latest/working-with-textual-editor-304004708.html) describe the supported workflow.
+
+ModelBridge uses that workflow to generate review views for:
+
+- the `RobotWorkcell` system boundary and its seven parts;
+- safety signals and interfaces;
+- the light-curtain-to-safety-PLC-to-robot stop path;
+- the normal inspection action flow;
+- the `Idle`, `Running`, `Stopping`, `SafeStopped`, and `ResetRequired` states; and
+- requirement coverage and verification.
+
+The exact Cameo version, license, plugins, and repository configuration must be confirmed before the event. The cited documentation supports the import and synchronization workflow; it does not prove that every SysML v2 construct or every generated file will round-trip without review.
+
+<BlogCta />
+
+## The change-impact demonstration
+
+The strongest part of the demo is not the first model. It is the change.
+
+The engineer changes `POL-RQ-001` in Polarion from a 200 ms safe-stop limit to 100 ms. ModelBridge pulls the new revision, identifies the changed requirement, regenerates the affected constraint, and produces a focused impact report.
+
+The report should identify:
+
+- the changed Polarion revision;
+- the SysML requirement usage and constraint that changed;
+- the allocated safety PLC and robot elements;
+- the affected safe-stop action and state transition;
+- the verification case that must be reassessed; and
+- any unresolved ambiguity or missing allocation.
+
+The system must not claim that the architecture still satisfies the stricter limit merely because the text was regenerated. It should show the changed evidence and require an engineer to approve, reject, or request clarification.
+
+This is the practical value of stable IDs. A semantic diff keyed by `POL-RQ-001` can distinguish a changed constraint from a renamed diagram label. The identity comes from Polarion; the model and report preserve it.
+
+## Validation and approval gates
+
+The pipeline uses several gates before publishing a revision:
+
+1. **Source validation:** confirm that the work item is in an allowed state and that required fields are present.
+2. **Proposal validation:** check the LLM output against the JSON schema and reject unknown element types.
+3. **Policy validation:** reject missing units, invalid allocations, impossible operators, and confidence below the configured threshold.
+4. **Model validation:** run the selected SysML v2 parser or tool validation and report syntax and semantic errors.
+5. **Coverage validation:** classify every in-scope requirement as satisfied, verified, ambiguous, or intentionally unallocated.
+6. **Human approval:** require an engineer decision before overwriting or publishing a model revision.
+7. **Trace write-back:** store the model revision or hash and the review result in Polarion or a linked integration artifact.
+
+The coverage rule is intentionally strict: no requirement may disappear silently. An ambiguous requirement should produce a clarification request, not a confident-looking model element.
+
+## MVP acceptance criteria
+
+The demonstration is complete when it can show all of the following:
+
+- At least six identified requirements are retrieved from Polarion or the fixture adapter.
+- At least one deliberately ambiguous requirement triggers clarification instead of silent modeling.
+- A versioned `.sysml` model is generated with stable Polarion IDs.
+- The selected SysML v2 parser or tool validation reports no syntax errors.
+- Cameo displays requirement, structure, behavior/state, and traceability views.
+- Every in-scope requirement is classified as satisfied, verified, ambiguous, or intentionally unallocated.
+- The 200 ms to 100 ms change produces a focused impact report.
+- An engineer must approve before a model revision is overwritten or published.
+- The model revision or hash and review outcome are returned to Polarion where API access permits.
+
+These are project acceptance criteria. They are not vendor guarantees about Polarion, SysML v2, Cameo, or the LLM.
+
+## A repository that preserves evidence
+
+A small repository structure makes the digital thread inspectable:
+
+```text
+modelbridge-ai/
+├── config/
+│   ├── mapping.yaml
+│   └── model-policy.yaml
+├── fixtures/
+│   └── polarion-work-items.json
+├── schemas/
+│   ├── normalized-requirement.schema.json
+│   └── model-proposal.schema.json
+├── src/
+│   ├── adapters/
+│   │   ├── polarion.py
+│   │   └── fixture.py
+│   ├── ai/
+│   │   ├── extract.py
+│   │   └── prompts/
+│   ├── generator/
+│   │   └── sysml_v2.py
+│   ├── validation/
+│   │   ├── coverage.py
+│   │   └── policy.py
+│   └── cli.py
+├── model/
+│   ├── base.sysml
+│   └── generated.sysml
+├── reports/
+│   ├── traceability.json
+│   └── impact-report.md
+└── tests/
+    ├── test_generator.py
+    ├── test_stable_ids.py
+    └── golden/
+```
+
+The CLI should expose each stage separately:
+
+```bash
+modelbridge pull --query "project.id:ROBOT AND type:systemrequirement"
+modelbridge propose
+modelbridge generate --output model/generated.sysml
+modelbridge validate
+modelbridge diff --baseline model/base.sysml
+modelbridge publish-review --decision approved
+```
+
+Separate commands make failures visible and allow the team to test the generator without calling the LLM or Polarion. Golden fixtures can verify stable IDs and deterministic output. A clean-state run can verify that the demo does not depend on hidden local state.
+
+## Demo flow
+
+The demo can be delivered in under six minutes:
+
+1. **Problem:** show why disconnected Polarion requirements and architecture models create manual traceability work.
+2. **Source:** open the six requirements and highlight the stable IDs and 200 ms safety constraint.
+3. **Generate:** run the pipeline and show the structured proposal, ambiguity warning, and validated SysML v2 output.
+4. **Review:** open Cameo and show structure, safety flow/state, and requirement coverage.
+5. **Change:** change 200 ms to 100 ms in Polarion and show the focused impact report.
+6. **Control:** approve the revision and show the reference and review status returned to Polarion.
+7. **Value:** the engineer remains accountable while trace creation and change analysis move from a manual search toward a repeatable workflow.
+
+## Final thoughts
+
+ModelBridge AI is not about asking an LLM to design a robot workcell. It is about putting an LLM inside a controlled engineering process.
+
+Polarion remains the source of requirement identity and revision. The intermediate proposal makes AI output inspectable. Deterministic generation makes the transformation testable. SysML v2 provides a machine-readable architecture contract. Cameo gives engineers a familiar environment for model review. Stable IDs and semantic diffs make change impact visible.
+
+That division of responsibility is what makes the digital thread credible. The system can accelerate extraction, allocation, trace creation, and impact analysis without pretending that generated architecture is approved engineering.
+
+## Sources
+
+- [OMG: SysML v2 language specification](https://www.omg.org/spec/SysML/2.0/Language/PDF)
+- [Systems Modeling: official SysML v2 release repository](https://github.com/Systems-Modeling/SysML-v2-Release)
+- [OMG: Systems Modeling API and Services 1.0](https://www.omg.org/spec/SystemsModelingAPI/1.0)
+- [Siemens: Polarion REST API access](https://developer.siemens.com/polarion/access-rest-api.html)
+- [Siemens: Polarion work-item queries and basic concepts](https://developer.siemens.com/polarion/basic-concepts.html#query-work-items)
+- [Siemens: Polarion linked work items](https://developer.siemens.com/polarion/basic-concepts.html)
+- [CATIA Magic/Cameo: SysML v2 textual import and export](https://docs.nomagic.com/SYSML2P/latest/textual-notation-import-export-304006231.html)
+- [CATIA Magic/Cameo: working with the Textual Editor](https://docs.nomagic.com/SYSML2P/latest/working-with-textual-editor-304004708.html)

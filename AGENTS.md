@@ -24,6 +24,7 @@ This repository is a modern React web application built on **Gatsby** (v5). It e
   - Every blog post must use a unique, topic-specific image. Never reuse an image from another blog post or use an unrelated existing asset.
   - Before creating a post, read the global skill at `~/.agents/skills/image-generation/SKILL.md` and use its general-purpose generator. Do not use the LinkedIn-posting workflow for blog covers.
   - Generate with OpenRouter’s `openai/gpt-5-image-mini` through `~/.agents/skills/image-generation/scripts/generate_image.py`. The prompt must describe the article’s actual subject or a relevant visual metaphor.
+  - Vary the visual direction between posts. Do not reuse the same dark, blue, 3D technology aesthetic; choose a style and composition that fit the topic, such as a hand-drawn systems sketch, editorial collage, industrial macro scene, paper-cut illustration, or another distinct treatment.
   - Keep the image prompt general-purpose: do not impose LinkedIn, infographic, whiteboard, chalkboard, notebook, 16:9, landscape, minimal-text, or other platform-specific styling unless the post specifically requires it.
   - Do not add text to the image unless it is explicitly requested. Visually inspect each generated image, confirm it matches the post, and verify the local file before updating frontmatter.
 

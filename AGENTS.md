@@ -1,5 +1,7 @@
 # AGENTS.md
 
+Use sub agents described in ~/.pi/agent/AGENTS.md
+
 This document serves as the primary system instruction manual and repository reference for autonomous coding agents, LLM-based assistants (like Copilot, Cursor, Claude Code, or open-source equivalents), and human developers working in this codebase.
 
 ## Overview & Architecture
@@ -99,6 +101,11 @@ Agents must strictly adhere to the following commands to verify their changes lo
   ```bash
   npm run build
   ```
+- **Validate search and agent discovery after building:**
+  ```bash
+  npm run check:discovery
+  ```
+  Checks generated metadata, source-backed blog routes, social images, internal service/project links, sitemap coverage, crawler policy, and contact labels. Keep metadata in native Gatsby `Head` exports; preserve factual frontmatter and the optional `static/llms.txt` link map. See `docs/discovery.md`.
 - **Clean Cache:**
   ```bash
   npm run clean

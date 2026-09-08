@@ -19,7 +19,6 @@ const Hr = styled.hr`
 const Privacy = () => {
   return (
     <Layout>
-      <SEO title="Privacy Policy" />
       <section className="privacy wrapper">
         <PrivacyInner>
           <Hr />
@@ -246,5 +245,13 @@ const Privacy = () => {
     </Layout>
   );
 };
+
+export const Head = () => (
+  <SEO
+    title="Privacy Policy"
+    description="CypherX privacy policy."
+    canonical="https://cypherx.tech/privacy-policy/"
+  />
+);
 
 export default Privacy;

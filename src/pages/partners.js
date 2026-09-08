@@ -5,12 +5,15 @@ import Layout from "../components/Layout";
 import SEO from "../components/Seo";
 
 const Page = styled.div`
-  padding: 10rem 1.5rem 5rem;
+  padding: 6rem 56px 5rem;
+  @media (max-width: 760px) {
+    padding: 64px 20px 48px;
+  }
   background: linear-gradient(180deg, #f7f8fc 0%, #ffffff 42%);
 `;
 
 const Container = styled.div`
-  max-width: 1180px;
+  width: min(1180px, 100%);
   margin: 0 auto;
 `;
 
@@ -29,7 +32,7 @@ const Hero = styled.section`
   p {
     margin: 0 auto;
     max-width: 720px;
-    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    font-size: 18px;
     line-height: 1.6;
   }
 `;
@@ -38,7 +41,7 @@ const Eyebrow = styled.p`
   && {
     margin-bottom: 1rem;
     color: #8c30f5;
-    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-size: 15px;
     font-weight: 700;
     letter-spacing: 0.14em;
     line-height: 1.4;
@@ -57,6 +60,7 @@ const Section = styled.section`
   }
 
   > p {
+    font-size: 18px;
     max-width: 780px;
     margin-right: auto;
     margin-left: auto;
@@ -90,6 +94,7 @@ const Card = styled.article`
 
   p {
     margin: 0;
+    font-size: 18px;
     line-height: 1.7;
   }
 `;
@@ -312,11 +317,6 @@ const Partners = () => {
 
   return (
     <Layout>
-      <SEO
-        title="Partner with CypherX"
-        description="Refer software, AI automation, and digital asset projects to CypherX through a clear, non-exclusive partner program."
-        structuredData={structuredData}
-      />
       <Page>
         <Container>
           <Hero>
@@ -560,5 +560,13 @@ const Partners = () => {
     </Layout>
   );
 };
+
+export const Head = () => (
+  <SEO
+    title="Partner with CypherX"
+    description="Refer software, AI automation, and digital asset projects to CypherX through a clear, non-exclusive partner program."
+    canonical="https://cypherx.tech/partners/"
+  />
+);
 
 export default Partners;

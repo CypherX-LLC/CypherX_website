@@ -1,6 +1,5 @@
 import React from "react";
 import Layout from "~components/Layout";
-import Seo from "~components/Seo";
 
 const Mdx = ({ children }) => {
   const meta = children.props.pageContext.frontmatter;
@@ -17,6 +16,6 @@ const Mdx = ({ children }) => {
   );
 };
 
-export const Head = ({ meta }) => <Seo title={meta.title} />;
+export { default as Head } from "./MdxHead";
 
 export default Mdx;

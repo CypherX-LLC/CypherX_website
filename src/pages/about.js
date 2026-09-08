@@ -42,7 +42,6 @@ const About = () => {
   });
   return (
     <Layout>
-      <SEO title="About" description="Selim Erunkut, Co-founder of CypherX" />
       <section className="about">
         <div className="about_top">
           <div className="top_grid wrapper">
@@ -64,5 +63,13 @@ const About = () => {
     </Layout>
   );
 };
+
+export const Head = () => (
+  <SEO
+    title="About"
+    description="CypherX mission, founders, and software engineering practice."
+    canonical="https://cypherx.tech/about/"
+  />
+);
 
 export default About;

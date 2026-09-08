@@ -28,6 +28,9 @@ const Layout = ({ children }) => {
 
   return (
     <div className="page_outer">
+      <a className="editorial-skip" href="#main-content">
+        Skip to content
+      </a>
       <header
         className="page_header wrapper"
         style={{
@@ -44,7 +47,7 @@ const Layout = ({ children }) => {
         </Link>
         <Navbar />
       </header>
-      <main>{children}</main>
+      <main id="main-content">{children}</main>
       <Footer />
       <Cookie />
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "gatsby";
 import Navigate from "../data/navigation.yml";
@@ -40,7 +40,7 @@ const NavItem = styled(Link)`
   }
 `;
 
-const Navigation = styled.nav`
+const Navigation = styled.nav.attrs({ "aria-label": "Main navigation" })`
   /*  position: sticky;
   top: 0; */
   height: 12vh;
@@ -66,7 +66,9 @@ const Navigation = styled.nav`
   }
 `;
 
-const Toggle = styled.div`
+const Toggle = styled.button`
+  border: 0;
+  background: transparent;
   display: none;
   height: 100%;
   cursor: pointer;
@@ -85,13 +87,16 @@ const Navbox = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
+    display: ${(props) => (props.open ? "flex" : "none")};
     position: fixed;
     width: 100%;
     justify-content: flex-start;
     padding-top: 20px;
     transition: all 0.3s ease-in;
     top: 8vh;
-    left: ${(props) => (props.open ? "-100%" : "0")};
+    left: 0;
+    background: #faf9fc;
+    overflow-y: auto;
   }
 `;
 
@@ -126,18 +131,11 @@ const Hamburger = styled.div`
     top: 10px;
   }
 `;
-const NavbarLinks = () => {
-  const [navbarOpen, setNavbarOpen] = useState(false);
-
+const NavbarLinks = ({ onNavigate }) => {
   const Items = Navigate.map((item, key) => {
     return (
       <div className="menuItem" key={key}>
-        <NavItem
-          to={item.link}
-          onClick={() => {
-            setNavbarOpen(!navbarOpen);
-          }}
-        >
+        <NavItem to={item.link} onClick={onNavigate}>
           {item.title}
         </NavItem>
       </div>
@@ -149,24 +147,28 @@ const NavbarLinks = () => {
 const Navbar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
 
+  useEffect(() => {
+    const closeOnEscape = (event) =>
+      event.key === "Escape" && setNavbarOpen(false);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, []);
+
   return (
     <Navigation>
       {/* <Logo /> */}
       <Toggle
-        navbarOpen={navbarOpen}
+        type="button"
+        aria-label={navbarOpen ? "Close navigation" : "Open navigation"}
+        aria-expanded={navbarOpen}
+        aria-controls="site-navigation"
         onClick={() => setNavbarOpen(!navbarOpen)}
       >
         {navbarOpen ? <Hamburger open /> : <Hamburger />}
       </Toggle>
-      {navbarOpen ? (
-        <Navbox className="menuItemsMobile">
-          <NavbarLinks />
-        </Navbox>
-      ) : (
-        <Navbox open className="menuItems">
-          <NavbarLinks />
-        </Navbox>
-      )}
+      <Navbox id="site-navigation" open={navbarOpen} className="menuItems">
+        <NavbarLinks onNavigate={() => setNavbarOpen(false)} />
+      </Navbox>
     </Navigation>
   );
 };

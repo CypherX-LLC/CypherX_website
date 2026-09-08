@@ -70,21 +70,27 @@ export default function ContactForm() {
       <div className="contact_grid">
         <h1>{CTA.title}</h1>
         <p>{CTA.description}</p>
+        <label htmlFor="contact-name">Full name</label>
         <input
+          id="contact-name"
           type="text"
           name="name"
           placeholder="Full name"
           className="email"
           required="required"
         />
+        <label htmlFor="contact-email">Email</label>
         <input
+          id="contact-email"
           type="email"
           name="email"
           placeholder="Email"
           className="email"
           required="required"
         />
+        <label htmlFor="contact-message">Message</label>
         <textarea
+          id="contact-message"
           name="message"
           rows="4"
           cols="30"

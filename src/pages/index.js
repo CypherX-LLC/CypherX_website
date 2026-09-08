@@ -1,27 +1,41 @@
 import React from "react";
-//import { Link } from "gatsby"
-import CTA from "../components/CTA";
+import { graphql } from "gatsby";
 import Layout from "../components/Layout";
-import Opening from "../components/Opening";
-import Portfolio from "../components/Portfolio";
-import Features from "../components/Features";
-import Testimonials from "../components/Testimonials";
-import Offering from "../components/Offering";
+import EditorialHome from "../components/EditorialHome";
 import SEO from "../components/Seo";
 
-const IndexPage = () => (
+const IndexPage = ({ data }) => (
   <Layout>
-    <SEO title="Home" />
-    <Opening />
-    <Features />
-    <div className="between_feature_portfolio">
-      <div style={{ height: "100%" }}></div>
-    </div>
-    <Portfolio />
-    <Testimonials />
-    {/* <Offering /> */}
-    <CTA />
+    <EditorialHome posts={data.allMdx.nodes} />
   </Layout>
+);
+
+export const query = graphql`
+  query HomePosts {
+    allMdx(
+      limit: 3
+      sort: { frontmatter: { date: DESC } }
+      filter: { frontmatter: { type: { eq: "blog" } } }
+    ) {
+      nodes {
+        id
+        frontmatter {
+          title
+          slug
+          description
+          date(formatString: "MMMM D, YYYY")
+        }
+      }
+    }
+  }
+`;
+
+export const Head = () => (
+  <SEO
+    title="Home"
+    description="CypherX builds software, AI systems, digital-asset infrastructure, and engineering delivery practices."
+    canonical="https://cypherx.tech/"
+  />
 );
 
 export default IndexPage;

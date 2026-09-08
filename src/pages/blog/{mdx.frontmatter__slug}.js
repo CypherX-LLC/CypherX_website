@@ -12,6 +12,9 @@ const BlogPost = ({ data, children }) => {
     <Layout pageTitle={data.mdx.frontmatter.title}>
       <div className="post_wrapper">
         <h1>{data.mdx.frontmatter.title}</h1>
+        <p className="article-meta">
+          Published {data.mdx.frontmatter.publishedDate} · By CypherX
+        </p>
         {data.mdx.frontmatter.description ? (
           <b>{data.mdx.frontmatter.description}</b>
         ) : (
@@ -38,7 +41,8 @@ export const query = graphql`
     mdx(id: { eq: $id }) {
       frontmatter {
         title
-        date(formatString: "MMMM D, YYYY")
+        date
+        publishedDate: date(formatString: "MMMM D, YYYY")
         description
         image
         slug
@@ -47,6 +51,19 @@ export const query = graphql`
   }
 `;
 
-export const Head = ({ data }) => <Seo title={data.mdx.frontmatter.title} />;
+export const Head = ({ data, location }) => {
+  const frontmatter = data.mdx.frontmatter;
+  return (
+    <Seo
+      title={frontmatter.title}
+      description={frontmatter.description}
+      image={frontmatter.image}
+      datePublished={frontmatter.date}
+      author="CypherX"
+      type="article"
+      canonical={`https://cypherx.tech${location.pathname}`}
+    />
+  );
+};
 
 export default BlogPost;

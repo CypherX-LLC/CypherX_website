@@ -6,7 +6,6 @@ import ContactForm from "../components/Contact.js";
 const Contact = () => {
   return (
     <Layout>
-      <SEO title="Contact" />
       <section className="contact">
         <div className="about_top">
           <div className="top_grid wrapper">
@@ -20,5 +19,13 @@ const Contact = () => {
     </Layout>
   );
 };
+
+export const Head = () => (
+  <SEO
+    title="Contact"
+    description="Contact CypherX about software, AI systems, digital assets, or engineering delivery."
+    canonical="https://cypherx.tech/contact/"
+  />
+);
 
 export default Contact;

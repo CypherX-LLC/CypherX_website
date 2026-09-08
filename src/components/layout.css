@@ -256,14 +256,13 @@ h2 {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-font-family: Manrope;
-font-size: 48px;
-font-style: normal;
-font-weight: 800;
-line-height: 64px;
-letter-spacing: 0em;
-text-align: center;
-
+  font-family: Manrope;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 64px;
+  letter-spacing: 0em;
+  text-align: center;
 }
 h3 {
   margin-left: 0;
@@ -273,13 +272,13 @@ h3 {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-font-family: Manrope;
-font-size: 24px;
-font-style: normal;
-font-weight: 600;
-line-height: 32px;
-letter-spacing: 0em;
-text-align: center;
+  font-family: Manrope;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: 0em;
+  text-align: center;
 }
 h4 {
   margin-left: 0;
@@ -394,12 +393,12 @@ p {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-font-family: Manrope;
-font-size: 16px;
-font-style: normal;
-font-weight: 400;
-line-height: 26px;
-letter-spacing: 0em;
+  font-family: Manrope;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
 }
 pre {
   margin-left: 0;
@@ -595,5 +594,127 @@ pre tt:after {
 @media only screen and (max-width: 480px) {
   html {
     font-size: 100%;
+  }
+}
+
+/* Shared editorial defaults for supporting routes. */
+:root {
+  --cx-ink: #18191f;
+  --cx-paper: #faf9fc;
+  --cx-muted: #61616e;
+  --cx-line: #ddd9e5;
+}
+body {
+  background: var(--cx-paper);
+  color: var(--cx-ink);
+  font-family: Manrope, Arial, sans-serif;
+}
+.page_outer {
+  min-height: 100vh;
+  background: var(--cx-paper);
+}
+.page_outer > main {
+  min-width: 0;
+}
+.page_header {
+  position: relative !important;
+  left: auto !important;
+  transform: none !important;
+  width: min(1328px, calc(100% - 112px));
+  margin: 0 auto !important;
+  padding: 22px 0;
+  align-items: center;
+  z-index: 3;
+}
+.page_header .logo {
+  max-height: 42px;
+  width: auto;
+}
+.page_footer {
+  border-top: 0;
+  background: var(--cx-paper);
+}
+.page_footer .wrapper {
+  width: min(1240px, calc(100% - 64px));
+  margin: 0 auto;
+}
+.posts_list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.posts_list li {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 28px;
+  border-top: 1px solid var(--cx-line);
+  padding: 24px 0;
+}
+.posts_list .text_box p {
+  font-size: 18px !important;
+  line-height: 1.6;
+}
+.posts_list li img {
+  width: 180px;
+  height: 120px;
+  object-fit: cover;
+}
+.editorial-skip {
+  position: absolute;
+  left: 12px;
+  top: -100px;
+  z-index: 10;
+  background: #8c30f5;
+  color: #fff;
+  padding: 12px;
+}
+.editorial-skip:focus {
+  top: 12px;
+}
+.post_wrapper {
+  max-width: 1328px;
+  margin: 48px auto 72px;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1.6;
+}
+.post_wrapper h1 {
+  font-size: clamp(42px, 5vw, 72px);
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+.post_wrapper p,
+.post_wrapper li {
+  font-size: 18px;
+  line-height: 1.6;
+}
+.about,
+.contact {
+  color: var(--cx-ink);
+}
+.about_top,
+.team_box,
+.top_grid {
+  max-width: 1328px;
+  margin: 48px auto;
+}
+.about p,
+.contact p,
+.team_card p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+@media (max-width: 760px) {
+  .page_header,
+  .page_footer .wrapper {
+    width: calc(100% - 40px);
+  }
+  .posts_list li {
+    grid-template-columns: 1fr;
+  }
+  .posts_list li img {
+    width: 100%;
+    height: 180px;
   }
 }

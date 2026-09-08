@@ -6,6 +6,7 @@
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
     "@mdx-js/react": "^2.2.1",
+    "babel-plugin-styled-components": "2.3.0",
     "gatsby": "^5.6.0",
     "gatsby-cli": "^5.14.0",
     "gatsby-plugin-gdpr-cookies": "^2.0.9",
@@ -20,6 +21,7 @@
     "gatsby-plugin-sass": "^6.5.0",
     "gatsby-plugin-sharp": "^5.5.0",
     "gatsby-plugin-sitemap": "^6.16.0",
+    "gatsby-plugin-styled-components": "6.16.0",
     "gatsby-source-filesystem": "^5.5.0",
     "gatsby-transformer-sharp": "^5.5.0",
     "lmdb": "^3.5.1",
@@ -50,7 +52,8 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "check:discovery": "node scripts/check-discovery.mjs"
   },
   "repository": {
     "type": "git",

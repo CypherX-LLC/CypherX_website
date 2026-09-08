@@ -5,9 +5,14 @@ import Seo from "../../components/Seo";
 import styled from "styled-components";
 
 const Wrapper = styled.article`
-  width: 96%;
-  margin: 120px auto;
+  width: min(900px, 100%);
+  padding: 0 20px;
+  margin: 64px auto;
   max-width: 900px;
+  p {
+    font-size: 18px !important;
+    line-height: 1.6;
+  }
 `;
 const H2 = styled.h2`
   font-size: 1.5rem !important;
@@ -23,7 +28,6 @@ const H2 = styled.h2`
 const BlogPage = ({ data }) => {
   return (
     <Layout pageTitle="My Blog Posts">
-      <Seo title="Blog" />
       <Wrapper>
         <h1>Blog</h1>
         <ul className="posts_list">
@@ -87,6 +91,12 @@ export const query = graphql`
   }
 `;
 
-export const Head = () => <Seo title="My Blog Posts" />;
+export const Head = () => (
+  <Seo
+    title="Blog"
+    description="Published technical articles from CypherX on software, AI systems, security, and digital assets."
+    canonical="https://cypherx.tech/blog/"
+  />
+);
 
 export default BlogPage;

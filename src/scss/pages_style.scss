@@ -24,16 +24,16 @@ body * {
 }
 
 header.page_header {
-  position: absolute;
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: space-between;
   left: 50%;
-  transform: translateX(-50%);
-  -webkit-transform: translateX(-50%);
-  -moz-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
+  transform: none;
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  -o-transform: none;
   .logo_link {
     display: flex;
     align-items: center;
@@ -806,7 +806,7 @@ header.page_header {
 .page_outer {
   display: grid;
   min-height: 100vh;
-  grid-template-rows: 1fr 250px;
+  grid-template-rows: auto 1fr auto;
 }
 
 .portfolio {

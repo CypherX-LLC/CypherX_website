@@ -1,0 +1,14 @@
+# CypherX
+
+> CypherX builds software, AI systems, digital-asset infrastructure, and engineering delivery practices.
+
+## Primary pages
+- [Home](https://cypherx.tech/): Overview of CypherX work and services.
+- [About](https://cypherx.tech/about/): Mission and team information.
+- [Contact](https://cypherx.tech/contact/): Contact form for project enquiries.
+- [Blog](https://cypherx.tech/blog/): Published technical articles.
+- [Portfolio](https://cypherx.tech/askcharles/): Selected project detail (AskCharles).
+- [AI Agent Security](https://cypherx.tech/ai-agent-security/): Portfolio project detail.
+- [Precious-Metals SaaS](https://cypherx.tech/precious-metals-saas/): Portfolio project detail.
+
+This optional orientation file summarizes existing public pages. It is not a ranking or citation mechanism; the HTML pages, sitemap, canonical links, and robots policy remain authoritative.

@@ -34,13 +34,12 @@ const EditorialHome = ({ posts }) => {
     <div className="editorial-home">
       <section className="editorial-hero" aria-labelledby="hero-title">
         <div className="editorial-eyebrow">
-          <span className="editorial-dot" /> Independent engineering partner /
-          CypherX
+          <span className="editorial-dot" /> Your engineering partner / CypherX
         </div>
         <div className="editorial-hero-grid">
           <div>
             <h1 id="hero-title">
-              Complex tech.
+              Complex Tech.
               <br />
               Clear <em>advantage.</em>
             </h1>
@@ -71,15 +70,15 @@ const EditorialHome = ({ posts }) => {
               <span>Fig. 01</span>
             </div>
             <div className="editorial-diagram-stage">
-              <div className="editorial-nodes">
-                <span>Tools</span>
-                <span>Data</span>
-                <span>Teams</span>
+              <div className="editorial-nodes editorial-system-inputs">
+                <span className="editorial-system-node">Tools</span>
+                <span className="editorial-system-node">Data</span>
+                <span className="editorial-system-node">Teams</span>
               </div>
-              <strong>CX</strong>
-              <div className="editorial-nodes">
+              <strong className="editorial-system-core">CX</strong>
+              <div className="editorial-nodes editorial-system-outputs">
                 <span>Build</span>
-                <span>Deliver</span>
+                <span className="editorial-system-node">Deliver</span>
                 <span>Improve</span>
               </div>
             </div>
@@ -90,10 +89,12 @@ const EditorialHome = ({ posts }) => {
           </div>
         </div>
         <div className="editorial-hero-foot">
-          <span>AI &amp; automation</span>
-          <span>Software assurance</span>
-          <span>Engineering leadership</span>
-          <span>Digital assets</span>
+          <div className="editorial-capabilities">
+            <span>AI &amp; automation</span>
+            <span>Software assurance</span>
+            <span>Engineering leadership</span>
+            <span>Digital assets</span>
+          </div>
           <span>Built for the real world ↙</span>
         </div>
       </section>

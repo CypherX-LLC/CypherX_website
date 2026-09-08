@@ -12,9 +12,6 @@ const BlogPost = ({ data, children }) => {
     <Layout pageTitle={data.mdx.frontmatter.title}>
       <div className="post_wrapper">
         <h1>{data.mdx.frontmatter.title}</h1>
-        <p className="article-meta">
-          Published {data.mdx.frontmatter.publishedDate} · By CypherX
-        </p>
         {data.mdx.frontmatter.description ? (
           <b>{data.mdx.frontmatter.description}</b>
         ) : (
@@ -42,7 +39,6 @@ export const query = graphql`
       frontmatter {
         title
         date
-        publishedDate: date(formatString: "MMMM D, YYYY")
         description
         image
         slug

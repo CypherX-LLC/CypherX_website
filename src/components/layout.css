@@ -689,6 +689,35 @@ body {
   font-size: 18px;
   line-height: 1.6;
 }
+.post_wrapper .table-scroll {
+  margin: 32px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.post_wrapper table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.post_wrapper th,
+.post_wrapper td {
+  border: 1px solid var(--cx-line);
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+.post_wrapper th {
+  background: #f0eef3;
+  font-weight: 700;
+}
+.post_wrapper th:first-child,
+.post_wrapper td:first-child,
+.post_wrapper th:last-child,
+.post_wrapper td:last-child {
+  white-space: nowrap;
+}
 .about,
 .contact {
   color: var(--cx-ink);

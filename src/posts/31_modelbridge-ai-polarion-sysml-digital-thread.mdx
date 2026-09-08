@@ -29,15 +29,70 @@ This is a compact but meaningful system boundary. It includes safety behavior, p
 
 The six demonstration requirements are:
 
-| ID | Requirement | Type | Priority |
-| --- | --- | --- | --- |
-| POL-RQ-001 | The workcell shall command the robot to a safe stop within 200 ms after the light curtain is interrupted. | Safety/performance | Critical |
-| POL-RQ-002 | The workcell shall prevent automatic restart until the protected zone is clear and the operator performs a manual reset. | Safety/behavior | Critical |
-| POL-RQ-003 | The workcell shall inspect at least 30 parts per minute. | Performance | High |
-| POL-RQ-004 | The vision unit shall classify defects with at least 99.5% accuracy on the approved validation set. | Quality | High |
-| POL-RQ-005 | The workcell shall retain safety events for at least 90 days. | Data/audit | Medium |
-| POL-RQ-006 | The workcell shall operate between 5 °C and 40 °C. | Environmental | Medium |
-
+<div
+  className="table-scroll"
+  role="region"
+  aria-label="Six demonstration requirements"
+  tabIndex={0}
+>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Requirement</th>
+        <th scope="col">Type</th>
+        <th scope="col">Priority</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>POL-RQ-001</td>
+        <td>
+          The workcell shall command the robot to a safe stop within 200 ms
+          after the light curtain is interrupted.
+        </td>
+        <td>Safety/performance</td>
+        <td>Critical</td>
+      </tr>
+      <tr>
+        <td>POL-RQ-002</td>
+        <td>
+          The workcell shall prevent automatic restart until the protected zone
+          is clear and the operator performs a manual reset.
+        </td>
+        <td>Safety/behavior</td>
+        <td>Critical</td>
+      </tr>
+      <tr>
+        <td>POL-RQ-003</td>
+        <td>The workcell shall inspect at least 30 parts per minute.</td>
+        <td>Performance</td>
+        <td>High</td>
+      </tr>
+      <tr>
+        <td>POL-RQ-004</td>
+        <td>
+          The vision unit shall classify defects with at least 99.5% accuracy on
+          the approved validation set.
+        </td>
+        <td>Quality</td>
+        <td>High</td>
+      </tr>
+      <tr>
+        <td>POL-RQ-005</td>
+        <td>The workcell shall retain safety events for at least 90 days.</td>
+        <td>Data/audit</td>
+        <td>Medium</td>
+      </tr>
+      <tr>
+        <td>POL-RQ-006</td>
+        <td>The workcell shall operate between 5 °C and 40 °C.</td>
+        <td>Environmental</td>
+        <td>Medium</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ## Why use an intermediate representation?
 

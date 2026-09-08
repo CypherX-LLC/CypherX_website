@@ -67,7 +67,6 @@ const EditorialHome = ({ posts }) => {
           >
             <div className="editorial-meta">
               <span>From friction to flow</span>
-              <span>Fig. 01</span>
             </div>
             <div className="editorial-diagram-stage">
               <div className="editorial-nodes editorial-system-inputs">
@@ -81,10 +80,6 @@ const EditorialHome = ({ posts }) => {
                 <span className="editorial-system-node">Deliver</span>
                 <span>Improve</span>
               </div>
-            </div>
-            <div className="editorial-meta">
-              <span>One connected system.</span>
-              <span>Less friction. More forward.</span>
             </div>
           </div>
         </div>

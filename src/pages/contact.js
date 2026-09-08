@@ -2,20 +2,19 @@ import React from "react";
 import Layout from "../components/Layout";
 import SEO from "../components/Seo";
 import ContactForm from "../components/Contact.js";
+import "../components/editorial-pages.css";
 
 const Contact = () => {
   return (
     <Layout>
-      <section className="contact">
-        <div className="about_top">
-          <div className="top_grid wrapper">
-            <div className="top_left">
-              <ContactForm />
-            </div>
-            <div className="top_right"></div>
-          </div>
-        </div>
-      </section>
+      <div className="contact editorial-page editorial-contact-page">
+        <section
+          className="editorial-page-hero"
+          aria-labelledby="contact-page-title"
+        >
+          <ContactForm />
+        </section>
+      </div>
     </Layout>
   );
 };

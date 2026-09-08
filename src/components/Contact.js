@@ -54,6 +54,7 @@ export default function ContactForm() {
 
   return (
     <form
+      className="editorial-contact-form"
       name="contact-recaptcha"
       method="post"
       netlify-honeypot="bot-field"
@@ -68,53 +69,64 @@ export default function ContactForm() {
       <input type="hidden" name="bot-field" />
       <input type="hidden" name="form-name" value="contact-recaptcha" />
       <div className="contact_grid">
-        <h1>{CTA.title}</h1>
-        <p>{CTA.description}</p>
-        <label htmlFor="contact-name">Full name</label>
-        <input
-          id="contact-name"
-          type="text"
-          name="name"
-          placeholder="Full name"
-          className="email"
-          required="required"
-        />
-        <label htmlFor="contact-email">Email</label>
-        <input
-          id="contact-email"
-          type="email"
-          name="email"
-          placeholder="Email"
-          className="email"
-          required="required"
-        />
-        <label htmlFor="contact-message">Message</label>
-        <textarea
-          id="contact-message"
-          name="message"
-          rows="4"
-          cols="30"
-          placeholder="Message"
-          required="required"
-        />
-        <div
-          data-netlify-recaptcha="true"
-          dangerouslySetInnerHTML={{ __html: "" }}
-          suppressHydrationWarning
-        />
-        {status.message && (
-          <p className="contact_status" role="status" aria-live="polite">
-            {status.message}
-          </p>
-        )}
-        <input
-          type="submit"
-          value="Send"
-          name="send"
-          id="send"
-          className="subscribe_button"
-          disabled={status.type === "submitting"}
-        />
+        <div className="editorial-contact-copy">
+          <h1 id="contact-page-title">{CTA.title}</h1>
+          <p>{CTA.description}</p>
+        </div>
+        <div className="editorial-contact-fields">
+          <div className="editorial-field">
+            <label htmlFor="contact-name">Full name</label>
+            <input
+              id="contact-name"
+              type="text"
+              name="name"
+              placeholder="Full name"
+              className="email"
+              required="required"
+            />
+          </div>
+          <div className="editorial-field">
+            <label htmlFor="contact-email">Email</label>
+            <input
+              id="contact-email"
+              type="email"
+              name="email"
+              placeholder="Email"
+              className="email"
+              required="required"
+            />
+          </div>
+          <div className="editorial-field">
+            <label htmlFor="contact-message">Message</label>
+            <textarea
+              id="contact-message"
+              name="message"
+              rows="4"
+              cols="30"
+              placeholder="Message"
+              required="required"
+            />
+          </div>
+          <div
+            className="editorial-captcha"
+            data-netlify-recaptcha="true"
+            dangerouslySetInnerHTML={{ __html: "" }}
+            suppressHydrationWarning
+          />
+          {status.message && (
+            <p className="contact_status" role="status" aria-live="polite">
+              {status.message}
+            </p>
+          )}
+          <input
+            type="submit"
+            value="Send"
+            name="send"
+            id="send"
+            className="subscribe_button"
+            disabled={status.type === "submitting"}
+          />
+        </div>
       </div>
     </form>
   );

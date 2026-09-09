@@ -1,0 +1,159 @@
+---
+title: Building a Fast, Flexible Website for Precious-Metals Operations
+date: 2025-05-02
+description: How Nuxt 3, Storyblok, and Netlify work together to create a fast, flexible, and maintainable website for precious-metals operations.
+image: /images/blog/precious-metals-website-tech-stack.svg
+type: blog
+slug: precious-metals-website-tech-stack
+---
+
+# Building a Fast, Flexible Website for Precious-Metals Operations
+
+A website for a precious-metals business has to do more than look polished. It needs to explain a specialised offering clearly, help potential customers take the next step, and stay fast as the business and its content grow.
+
+For one client, we built the website around **Nuxt 3, Netlify, and Storyblok**. Each tool has a different job, but together they create a practical setup: Nuxt handles the frontend, Storyblok gives the content team control, and Netlify takes care of deployment and delivery.
+
+The result is a site that is quick to browse, straightforward to update, and ready to evolve as the business grows.
+
+## Why the website matters
+
+The website is often the first place a potential customer encounters the business. It is where visitors learn what the company does, look for answers, assess whether they can trust it, and decide whether to make contact.
+
+That makes the website part of the sales process—not just a digital brochure. Search-friendly content helps new visitors discover the company. Clear calls to action give interested visitors an obvious next step. Good performance keeps the experience smooth once they arrive.
+
+The site also supports outbound and paid campaigns. When a prospect clicks through from a campaign, the website needs to deliver the same clear message and make it easy to continue the conversation.
+
+To support those goals, we needed an architecture that could deliver three things at the same time:
+
+- **Speed**, so pages load quickly for visitors in different locations.
+- **Flexibility**, so the content team can keep the site current without waiting for a developer.
+- **A reliable foundation**, so new features can be added without turning every change into a major rebuild.
+
+## The stack: Nuxt 3, Storyblok, and Netlify
+
+The website is built around three core technologies:
+
+- **Nuxt 3** powers the frontend and the page-generation workflow.
+- **Storyblok** manages the content through a headless CMS.
+- **Netlify** handles builds, deployment, CDN delivery, and serverless capabilities.
+
+Here is how each part fits into the system.
+
+## Nuxt 3 with static generation
+
+Nuxt 3, built on Vue, gives the frontend a clear structure without sacrificing performance. For this project, we use static generation as the main delivery model. Pages are rendered during the build and then served as static assets rather than being assembled from scratch for every request.
+
+That matters because most marketing and product pages do not need a server to generate a new response every time someone visits. Pre-rendering lets the site serve ready-to-use HTML through a CDN, which reduces the work required at request time and helps keep the experience consistent.
+
+Nuxt also gives the project a useful set of development features:
+
+- **File-based routing** keeps page routes close to the folder structure, making the site easier to navigate and maintain.
+- **Composable architecture** lets us share data-fetching and state-management logic without duplicating it across pages.
+- **Hybrid rendering options** leave room for server-side or client-side rendering where a particular feature needs it.
+- **Build-time optimisations** such as tree-shaking and code-splitting help keep the browser payload focused.
+- **Lazy loading** allows components and assets to be loaded when they are needed instead of all at once.
+- **Image optimisation** can resize and compress assets through Nuxt image tooling.
+
+### Why static generation is a good fit
+
+Static generation is not the right answer for every page, but it works well for content-led websites where updates happen through a controlled publishing workflow.
+
+It gives us:
+
+- **Fast delivery**, because the browser can receive pre-built files from an edge location.
+- **A strong SEO foundation**, because crawlers can access fully rendered page content.
+- **A resilient fallback**, because the last successful deployment remains available while a new build is being prepared.
+- **Fewer moving parts at request time**, which reduces the number of live dependencies involved in serving a normal page.
+
+The trade-off is that content changes normally require a new build. That is acceptable for the current workflow, and it gives us a clear direction for the next stage: selectively refreshing frequently updated pages instead of rebuilding the entire site.
+
+## Storyblok for content management
+
+A fast website is only useful if the team can keep it up to date. Storyblok provides the content layer without tightly coupling the editorial workflow to the frontend code.
+
+The content team can work with reusable blocks, preview changes in context, and publish updates without asking a developer to rebuild an entire page by hand.
+
+The main benefits are:
+
+- **A visual editor**, so editors can review content in the context of the page.
+- **Reusable content blocks**, mapped to Vue components in the Nuxt application.
+- **An API-first model**, including GraphQL where appropriate, allowing the frontend to request the content it needs rather than receiving one large, fixed response.
+- **Versioning and scheduling**, which makes it easier to review changes, roll back when necessary, and prepare time-sensitive updates.
+- **A structured content model**, which gives editors flexibility while keeping pages consistent.
+
+This separation between content and presentation is important. The website can evolve visually and technically without forcing the editorial team to learn a new publishing process every time the frontend changes.
+
+<BlogCta />
+
+## Netlify for deployment and delivery
+
+Netlify is the operational layer that connects the repository, the build process, and the live website.
+
+Every change can move through a repeatable path from code or content update to a new deployment. Netlify's atomic deployment model means a new version is prepared as a complete snapshot. If a build does not succeed, the last working version can stay live instead of leaving visitors with a partially deployed site.
+
+Netlify also provides several useful capabilities around that core workflow:
+
+- **Global CDN delivery** brings static assets closer to visitors and reduces unnecessary distance between the user and the site.
+- **Deploy previews** create an isolated preview for a pull request, giving developers and stakeholders a place to review a change before it reaches production.
+- **Serverless Functions** can support dynamic tasks such as form submissions, API proxies, and integrations without requiring a separate server for every small capability.
+- **Simple rollbacks** make it possible to return to a known working deployment when a problem is discovered after release.
+
+This lets the team spend more time improving the product and less time managing hosting infrastructure.
+
+## How the workflow works
+
+The full process is deliberately simple.
+
+### 1. Initiate
+
+A content update in Storyblok or a merged pull request triggers the build workflow. The webhook and repository integration make sure the build starts from a known source rather than relying on manual copying.
+
+### 2. Build
+
+Nuxt fetches the required content and pre-renders the pages. The build produces the HTML, CSS, JavaScript, and optimised assets that Netlify will serve.
+
+For pages whose content changes more frequently, we are evaluating Incremental Static Regeneration. ISR would let us refresh selected pages on demand or at a defined interval without requiring a complete rebuild for every update.
+
+### 3. Review and deploy
+
+Deploy previews give the team a chance to check the change before it becomes public. Once the change is approved, Netlify publishes the new atomic deployment and the CDN begins serving it.
+
+### 4. Serve
+
+Visitors receive the deployed static assets from the network location best suited to them. If a later build fails, the previous successful deployment remains available, which keeps the failure isolated from the live experience.
+
+## Bringing it all together
+
+Nuxt 3, Storyblok, and Netlify work well together because they solve different parts of the same problem.
+
+- Nuxt gives the site a fast and maintainable frontend.
+- Storyblok gives the content team a practical way to work independently.
+- Netlify makes the build, review, deployment, and delivery process repeatable.
+
+The result is not just a faster website. It is a workflow that makes the site easier to maintain and gives the team a safer way to keep improving it.
+
+## What comes next
+
+The current architecture gives us a solid base, but there is still room to improve it.
+
+### Incremental Static Regeneration
+
+The next major area we are evaluating is ISR. The goal is to refresh content-heavy or frequently changing pages without triggering a full-site rebuild every time.
+
+### Asset optimisation
+
+We will continue reviewing image formats, compression, caching, and bundle sizes so that the site remains efficient as more content is added.
+
+### Monitoring and observability
+
+Performance monitoring, error tracking, and deployment logging will make it easier to spot regressions and diagnose issues before they affect many visitors. Tools such as Sentry or Datadog can support that work, depending on the level of visibility the team needs.
+
+## Final thoughts
+
+A modern website stack does not need to be complicated to be capable. In this case, Nuxt 3, Storyblok, and Netlify give the client a useful balance of speed, editorial flexibility, and operational reliability.
+
+More importantly, the architecture supports the way the business actually works. The team can publish and review content, developers can improve the frontend, and deployments can move through a predictable process.
+
+That is the real value of the stack: not just a fast site today, but a better foundation for the next stage of growth.
+
+If you are building or reworking a content-led website and need help choosing the right architecture, reach out through [email](/contact) or schedule a [meeting](https://calendly.com/selim_cypherx_tech) to discuss your project.

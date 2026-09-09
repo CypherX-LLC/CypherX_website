@@ -1,0 +1,233 @@
+---
+title: From Personal Memories to a Data-Aware Travel Blog
+date: 2026-09-10
+description: How a privacy-aware Django and Wagtail project turns selected travel photos, notes, routes, and activity exports into publishable stories and traceable travel aggregates.
+image: /images/blog/personal-travel-data-wagtail.svg
+type: blog
+slug: personal-travel-data-wagtail
+---
+
+A travel archive is more than a folder of photographs. It contains images, notes, routes, boarding passes, activity exports, and the small details that explain why a trip mattered. We turned that personal archive into an editorial travel blog with a second view: a carefully calculated travel-data layer.
+
+The finished project does not publish private files automatically. It provides a privacy-aware workflow for importing selected records, reviewing derived facts, and publishing a story alongside useful aggregates such as walking steps, flights taken, countries visited, and total distance travelled.
+
+The finished project normalizes selected personal records before analysis. The figures shown in this article are illustrative and do not claim a real person's travel history.
+
+<BlogCta />
+
+## The project in one sentence
+
+We built a Wagtail travel journal where personal memories become human-readable stories and validated travel records become explainable aggregates.
+
+That sentence deliberately describes two related products:
+
+- **The editorial side:** Wagtail pages for trips, destinations, notes, galleries, and long-form stories.
+- **The data side:** an import and analysis pipeline that turns selected CSV and JSON exports into traceable facts.
+
+The blog remains the source of published narrative. The analytics layer does not replace the story with a dashboard. It gives the story context.
+
+## Start with a safe data boundary
+
+Personal travel data includes precise locations, faces, dates, booking references, and metadata embedded in image files. Our first development decision was therefore not a chart. It was a boundary.
+
+The completed import pipeline accepts a defined set of sources, validates their shape, normalizes them into internal records, and reports what it retains. Raw uploads stay outside the public media library. Publishing is an explicit editorial action.
+
+The normalized trip record used by the project looks like this:
+
+```json
+{
+  "trip_id": "trip-2025-alps",
+  "title": "A week in the Alps",
+  "started_on": "2025-06-08",
+  "ended_on": "2025-06-15",
+  "locations": ["Innsbruck", "Bolzano"],
+  "transport": ["train", "flight"],
+  "steps": 84231,
+  "distance_km": 126.4,
+  "source_records": ["activity-export.csv", "travel-log.csv"],
+  "privacy_status": "review_required"
+}
+```
+
+The important fields are not the specific numbers. They are the provenance fields. A reviewer can see which imported records produced an aggregate and whether sensitive information was removed before publication.
+
+## Why Wagtail and Django fit the editorial layer
+
+Wagtail gives the project a mature editorial system on top of Django. A `TripIndexPage` lists trips, while a `TripPage` holds the title, dates, destinations, cover image, privacy state, and a StreamField for narrative content. Reusable blocks represent a gallery, a map summary, a quote from the travel notes, and a small data card.
+
+A simple page tree keeps the content understandable:
+
+```text
+Home
+└── Travel
+    ├── Trips
+    │   ├── A week in the Alps
+    │   └── Coastal rail journey
+    ├── Destinations
+    └── Travel data
+```
+
+Django supplies the models, migrations, management commands, permissions, and integration surface around Wagtail. This gives the project both editorial workflows and ordinary application code. We kept the page model focused on content; import parsing, aggregation, and language-model calls live in services and commands with their own tests.
+
+## Turn imports into explainable facts
+
+A CSV import is not a database insert. The project treats it as a small data-engineering pipeline:
+
+1. Detect the input format and encoding.
+2. Validate required columns and dates.
+3. Normalize units, time zones, and identifiers.
+4. Reject malformed rows without silently dropping them.
+5. De-duplicate records using a stable source key.
+6. Store an import run with row counts, warnings, and source metadata.
+7. Calculate aggregates from normalized records.
+8. Require editorial review before a value appears on a public page.
+
+The import service uses Pandas for tabular parsing and aggregation, with NumPy for numerical operations where it improves clarity or performance. Neither is hidden inside a page model's `save()` method, and the project never stores a large DataFrame as a Wagtail field.
+
+Example metrics include:
+
+- **Steps walked:** sum activity records after removing duplicates and defining the day boundary.
+- **Flights taken:** count validated flight segments, rather than counting bookings or itinerary documents.
+- **Total distance:** sum distances from a documented source and unit conversion rule.
+- **Nights away:** calculate from normalized local dates, with an explicit policy for overnight transport.
+- **Destinations:** count canonical place identifiers, not spelling variants from notes.
+
+Each metric needs a definition. “Flights taken” is ambiguous if a return booking contains two segments. “Distance” is ambiguous if one source reports route length and another reports GPS distance. The data dictionary makes those choices visible.
+
+## The REST API is an interface, not a shortcut around privacy
+
+The public API exposes only approved, published content. Wagtail API v2 is the official JSON API and is built on Django REST Framework. The project exposes selected page fields through `api_fields`, including a public trip summary and reviewed aggregate cards, without exposing raw notes or original uploads.
+
+A custom endpoint serves a focused data view such as:
+
+```text
+GET /api/v1/travel/summary/?year=2025
+```
+
+The endpoint returns total steps, flight segments, distance, and the list of published trips. Its filters, response fields, and privacy behavior are documented, with tests proving that draft pages and private fields are not returned.
+
+For custom DRF endpoints, drf-spectacular generates an OpenAPI schema and Swagger UI. CI generates and validates the schema so an API change becomes visible during review. The Wagtail API route is mounted deliberately, and the project uses stable versioning rather than allowing an implementation detail to become a permanent contract.
+
+Relevant documentation:
+
+- [Wagtail API v2 configuration](https://docs.wagtail.org/en/stable/advanced_topics/api/v2/configuration.html)
+- [drf-spectacular documentation](https://drf-spectacular.readthedocs.io/en/stable/readme.html)
+
+## PostgreSQL keeps the data model serious
+
+The production environment uses PostgreSQL rather than relying only on a local SQLite database. Django's database documentation covers PostgreSQL support and the psycopg driver. Trip records, import runs, source references, and aggregate snapshots use real relational constraints and indexes.
+
+Useful indexes cover publication date, trip dates, canonical destination identifiers, and the source key used for de-duplication. Aggregates are reproducible: the project calculates them from normalized records or stores a snapshot with the import-run identifier and calculation version that produced it.
+
+The application reads database credentials from environment variables. Example configuration belongs in `.env.example`; actual secrets do not belong in Git, page content, prompts, logs, or generated documentation.
+
+## Where LangChain belongs
+
+We kept LangChain optional in the finished release. The core blog and data calculations work without an LLM, which keeps imported facts deterministic and CI independent of a model provider.
+
+The implemented, bounded AI feature is a **draft trip brief**:
+
+- select only notes and metadata that the user explicitly approves;
+- ask the model to suggest a title, summary, and possible themes;
+- return structured draft fields;
+- show the source excerpts and model metadata to the editor;
+- never publish automatically.
+
+The model helps with organization and discovery. It does not invent a flight, infer an exact location from a vague note, or alter a computed total. Deterministic Python services remain authoritative for numbers.
+
+The integration sits behind a small service boundary. It reads provider configuration from the environment, uses timeouts and bounded retries, and is mockable in tests. Long-running analysis jobs are kept outside the request cycle instead of pretending that a synchronous page request is a background queue.
+
+LangChain's official documentation covers Python installation and model invocation, while its security guidance emphasizes least privilege and defense in depth:
+
+- [LangChain Python installation](https://docs.langchain.com/oss/python/langchain/install)
+- [LangChain models and invocation](https://docs.langchain.com/oss/python/langchain/models)
+- [LangChain security policy](https://docs.langchain.com/oss/python/security-policy)
+
+## Development workflow: build, test, measure, refine
+
+The completed project demonstrates more than initial feature development. It includes the maintenance work that keeps a data-backed CMS reliable.
+
+### Release bugfixing and error analysis
+
+Every import warning is inspectable. A failed row identifies the source file, row number, and validation error without leaking private payloads into logs. A failed release preserves the migration, schema, and test output needed to reproduce the problem.
+
+A practical bugfix loop is:
+
+1. reproduce the failure with a small fixture;
+2. add a regression test;
+3. fix the narrowest responsible layer;
+4. rerun the PostgreSQL-backed suite;
+5. check the generated API schema and migration state;
+6. record the user-visible impact.
+
+### Refactoring
+
+The boundary between page models, import services, aggregation functions, API serializers, and AI adapters is intentionally explicit. That makes it possible to refactor one area without turning a content migration into a data rewrite.
+
+Pure aggregation functions are especially valuable. Given the same normalized input and calculation version, they produce the same result. That property makes bug reports easier to analyze and supports repeatable imports.
+
+### Performance optimization
+
+Performance work starts with evidence. Measure query counts on trip listings, inspect slow aggregate queries, and profile import work with representative files. Add an index or a precomputed snapshot only when the access pattern justifies it. Do not move computation into a request simply because it is convenient.
+
+Wagtail page queries, PostgreSQL indexes, pagination, cached public summaries, and batch DataFrame operations address different bottlenecks. Keeping them separate avoids premature optimization and makes the result explainable.
+
+## Automated tests that protect the story and the numbers
+
+pytest with pytest-django gives the project a focused test workflow. Database tests are explicit, so the suite cannot accidentally pretend that PostgreSQL-specific behavior is covered by a pure unit test.
+
+The test matrix includes:
+
+- Wagtail page creation, publishing, and draft visibility.
+- StreamField blocks for galleries, route summaries, and aggregate cards.
+- CSV encoding, required columns, dates, units, duplicates, and malformed rows.
+- Aggregate definitions for steps, flights, distance, nights, and destinations.
+- Import provenance and privacy status transitions.
+- API filters, pagination, schema generation, and unpublished-page exclusion.
+- Mocked LangChain calls, provider failures, timeouts, and deterministic fallbacks.
+- Migrations and the actual PostgreSQL service used by CI.
+
+`pytest-django` documents the explicit database marker and fixture model. That practice matters here: the most important relational behavior is tested against the database used by the application.
+
+- [pytest-django database access](https://pytest-django.readthedocs.io/en/latest/database.html)
+- [pytest-django tutorial](https://pytest-django.readthedocs.io/en/latest/tutorial.html)
+
+## Docker, Git, CI/CD, Terraform, and Linux DevOps
+
+The local development environment runs the Django/Wagtail service and PostgreSQL with Docker Compose. The same service boundary is used in CI so tests do not quietly run against a different database engine.
+
+The GitHub Actions pipeline runs, in order:
+
+1. dependency and formatting checks;
+2. migrations and PostgreSQL-backed pytest tests;
+3. OpenAPI schema generation and validation;
+4. static asset collection;
+5. a production image build; and
+6. release packaging only after the checks pass.
+
+Terraform describes the infrastructure boundary—database, object storage, networking, secrets references, and service runtime—without placing secret values in the repository. Linux operations use ordinary discipline: health checks, structured logs, backups, migration runbooks, and a rollback plan.
+
+Docker and Terraform do not make a deployment reliable by themselves. They make the desired environment reviewable and repeatable when the configuration, image, migrations, and operational checks are versioned together.
+
+- [Docker Compose documentation](https://docs.docker.com/compose/)
+- [Docker test-before-push guidance](https://docs.docker.com/build/ci/github-actions/test-before-push/)
+
+## What the finished portfolio piece proves
+
+This travel project was a way for us to demonstrate our broad engineering skill set without claiming that every technology is required for every request. It shows:
+
+- Python, Django, and Wagtail for a structured editorial platform.
+- REST API endpoints with explicit public/private boundaries.
+- CSV and external-data imports with validation and provenance.
+- PostgreSQL modeling, constraints, and query optimization.
+- Pandas and NumPy used where tabular analysis belongs.
+- pytest and pytest-django for regression and integration coverage.
+- LangChain as a bounded drafting service rather than an authority over facts.
+- Docker, Git, CI/CD, Terraform, Linux, and DevOps practices around the application.
+- Release bugfixing, refactoring, performance measurement, and error analysis as part of development—not afterthoughts.
+
+## Final thoughts
+
+Turning personal travel data into a blog is a content problem, a data problem, and a privacy problem at the same time. Wagtail handles the editorial workflow. Django provides the application foundation. PostgreSQL stores normalized records. Pandas and NumPy analyze them. APIs make approved information reusable. Tests and CI keep the behavior reviewable. LangChain helps organize selected notes, but it never invents or certifies the numbers.
+
+That separation is the central design choice. Personal memories stay under the owner's control, published stories remain human, and aggregate facts can be traced back to the records that produced them.

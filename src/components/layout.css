@@ -645,10 +645,13 @@ body {
 }
 .posts_list li {
   display: grid;
-  grid-template-columns: 180px 1fr;
+  grid-template-columns: 180px minmax(0, 1fr);
   gap: 28px;
   border-top: 1px solid var(--cx-line);
-  padding: 24px 0;
+  padding: 24px 20px;
+}
+.posts_list li .text_box {
+  min-width: 0;
 }
 .posts_list .text_box p {
   font-size: 18px !important;
@@ -658,6 +661,17 @@ body {
   width: 180px;
   height: 120px;
   object-fit: cover;
+}
+@media (max-width: 767px) {
+  .posts_list li {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .posts_list li img {
+    width: 100%;
+    height: auto;
+    max-height: 220px;
+  }
 }
 .editorial-skip {
   position: absolute;
@@ -672,24 +686,68 @@ body {
   top: 12px;
 }
 .post_wrapper {
-  max-width: 1328px;
+  width: min(1328px, calc(100% - 112px));
+  max-width: none;
   margin: 48px auto 72px;
   padding: 0;
   font-size: 18px;
   line-height: 1.6;
 }
+.post_wrapper h1,
+.post_wrapper h2,
+.post_wrapper h3 {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
 .post_wrapper h1 {
+  max-width: 1100px;
+  margin-bottom: 20px;
   font-size: clamp(42px, 5vw, 72px);
   line-height: 1.05;
   font-weight: 500;
   letter-spacing: -0.05em;
 }
+.post_wrapper h2,
+.post_wrapper h3 {
+  max-width: 860px;
+}
+.post_wrapper > b {
+  display: block;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.post_wrapper > img {
+  width: 100%;
+  max-width: 820px;
+  max-height: 560px;
+  object-fit: cover;
+  margin: 40px auto 56px;
+}
+.post_wrapper .blog-cta {
+  display: block;
+  width: min(820px, 100%);
+  margin: 32px auto;
+}
+.post_wrapper .blog-cta__image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  border-radius: 12px;
+}
 .post_wrapper p,
-.post_wrapper li {
+.post_wrapper li,
+.post_wrapper pre {
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 18px;
   line-height: 1.6;
 }
 .post_wrapper .table-scroll {
+  max-width: 100%;
   margin: 32px 0;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -736,8 +794,17 @@ body {
 }
 @media (max-width: 760px) {
   .page_header,
-  .page_footer .wrapper {
+  .page_footer .wrapper,
+  .post_wrapper {
     width: calc(100% - 40px);
+  }
+  .post_wrapper {
+    margin-top: 32px;
+    margin-bottom: 56px;
+  }
+  .post_wrapper > img {
+    margin-top: 28px;
+    margin-bottom: 40px;
   }
   .posts_list li {
     grid-template-columns: 1fr;

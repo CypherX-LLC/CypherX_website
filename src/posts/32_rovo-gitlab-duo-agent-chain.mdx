@@ -1,15 +1,15 @@
 ---
-title: "From Jira Story to Merge Request: Building a Governed Git-Agent-Force–GitLab Agent Chain"
+title: "From Jira Story to Merge Request: Building a Governed GitLab Agent Chain"
 date: 2026-09-07
-description: How we connected Git-Agent-Force, Jira, and GitLab into a governed agent chain that turns approved requirements into reviewable development work.
+description: How we connected Git-Agent, Jira, and GitLab into a governed agent chain that turns approved requirements into reviewable development work.
 image: /images/blog/Git-Agent-Force-gitlab-duo-agent-chain.png
 type: blog
-slug: Git-Agent-Force-gitlab-duo-agent-chain
+slug: Git-Agent-gitlab-agent-chain
 ---
 
 A software delivery agent is only useful when it can move through the team's existing controls. The hard part is not generating a code snippet. It is preserving context from the requirement, making technical assumptions reviewable, starting work in the right repository, and leaving a traceable change for engineers to approve.
 
-End-to-end agent chain across Git-Agent-Force, Jira, and GitLab. Git-Agent-Force prepares the product work. GitLab takes over at a defined Jira-to-GitLab handover point: an intake agent gathers repository context, a specification agent prepares a technical plan, and an implementation agent starts development and opens a merge request.
+End-to-end agent chain across Git-Agent, Jira, and GitLab. Git-Agent prepares the product work. GitLab takes over at a defined Jira-to-GitLab handover point: an intake agent gathers repository context, a specification agent prepares a technical plan, and an implementation agent starts development and opens a merge request.
 
 The project outcome is a working implementation with a defined handover and a scaling concept—not an automation that treats AI output as authoritative.
 
@@ -19,18 +19,18 @@ A Jira story can express the desired behavior without answering every engineerin
 
 The design therefore separates two responsibilities:
 
-- Git-Agent-Force prepares a structured, implementation-ready requirement.
+- Git-Agent prepares a structured, implementation-ready requirement.
 - GitLab turns an approved requirement into a technical specification and development kickoff.
 
 The boundary is explicit. The GitLab side does not process every draft story. It starts when the agreed Jira readiness condition is met.
 
-## What Git-Agent-Force contributes
+## What Git-Agent contributes
 
-Atlassian documents Git-Agent-Force Search as a permission-aware search layer across Confluence, Jira, and Atlas, with connected third-party apps also available when authorized. Search results and answers are limited to content the current user can access. [Atlassian's Git-Agent-Force Search documentation](https://support.atlassian.com/Git-Agent-Force/docs/search/) describes those access boundaries.
+Agent Search as a permission aware search layer across Jira, and Atlas, with connected third-party apps also available when authorized. Search results and answers are limited to content the current user can access.  describes those access boundaries.
 
-Git-Agent-Force agents can also use Jira and Confluence tools. The documented tools include searching Jira with JQL, creating or updating Jira work items, and creating or editing Confluence pages. Atlassian states that agents respect the invoking user's permissions and ask for confirmation before consequential mutating actions. [The Git-Agent-Force agent-tools documentation](https://support.atlassian.com/Git-Agent-Force/docs/agent-actions/) describes both the available actions and the permission model.
+Git-Agent agents can also use Jira tools. The documented tools include searching Jira with JQL, creating or updating Jira work items, and creating or editing Confluence pages. Atlassian states that agents respect the invoking user's permissions and ask for confirmation before consequential mutating actions.
 
-In this project, Git-Agent-Force uses the available product knowledge to produce a clean Jira story with acceptance criteria. The story is the business input to the engineering chain. The exact prompt, fields, readiness state, and knowledge sources are implementation details of the project; they should be documented and versioned rather than assumed from the product name alone.
+In this project, Git-Agent uses the available product knowledge to produce a clean Jira story with acceptance criteria. The story is the business input to the engineering chain. The exact prompt, fields, readiness state, and knowledge sources are implementation details of the project; they should be documented and versioned rather than assumed from the product name alone.
 
 ## The Jira-to-GitLab contract
 
@@ -45,7 +45,7 @@ Jira provides documented automation primitives for this kind of integration. Its
 
 Jira also documents a REST webhook API, but it has important constraints: dynamic webhook registration requires a Connect or OAuth 2.0 app, and REST-created webhooks expire after 30 days unless refreshed. Those details matter when turning a demo handover into a maintained integration. [The Jira REST webhook documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-webhooks/) covers registration, refresh, and failure behavior.
 
-The chain should not be described as a native, unrestricted Git-Agent-Force-to-GitLab connector unless the implementation has evidence for that claim. The reliable statement is narrower: Jira and an integration layer provide the handover, while GitLab processes the engineering work under the project's configured permissions.
+The chain should not be described as a native, unrestricted Git-Agent-to-GitLab connector unless the implementation has evidence for that claim. The reliable statement is narrower: Jira and an integration layer provide the handover, while GitLab processes the engineering work under the project's configured permissions.
 
 ## Three GitLab responsibilities
 
@@ -53,7 +53,7 @@ The chain should not be described as a native, unrestricted Git-Agent-Force-to-G
 
 The intake agent receives the Jira story and gathers the engineering information required to work on it. It reads relevant repository files and documentation, identifies nearby components and tests, and makes missing information visible.
 
-That context boundary is important. GitLab's current Software Development Flow documentation—formerly called GitLab Workflow—states that the flow can understand project structure, code, and history, but cannot access external sources or the web. [GitLab's Software Development Flow documentation](https://docs.gitlab.com/user/duo_agent_platform/flows/foundational_flows/software_development/) makes the implication clear: Jira or Confluence context must be transferred into the GitLab workflow by the integration, not assumed to be available automatically.
+That context boundary is important. GitLab's current Software Development Flow documentation—formerly called GitLab Workflow—states that the flow can understand project structure, code, and history, but cannot access external sources or the web. [GitLab's Software Development Flow documentation](https://docs.gitlab.com/user/duo_agent_platform/flows/foundational_flows/software_development/) makes the implication clear: Jira context must be transferred into the GitLab workflow by the integration, not assumed to be available automatically.
 
 ### 2. Specification: turn intent into a reviewable plan
 
@@ -67,7 +67,7 @@ The specification agent derives a technical specification from the story and ass
 
 The specification is submitted for approval before implementation. This is a project control point: it separates interpreting the requirement from changing the repository. A reviewer can reject an assumption or narrow the scope before code is generated.
 
-GitLab's documented Developer Flow provides a related product capability: it can create a draft merge request from an issue and iterate on merge requests from feedback. [GitLab's Developer Flow documentation](https://docs.gitlab.com/user/duo_agent_platform/flows/foundational_flows/developer/) also lists prerequisites such as the required Duo Agent Platform setup, project permissions, push rules, and runners. The exact specification and approval flow in this project remains a configured implementation, not a claim that every GitLab tenant behaves identically.
+GitLab's documented Developer Flow provides a related product capability: it can create a draft merge request from an issue and iterate on merge requests from feedback. [GitLab's Developer Flow documentation](https://docs.gitlab.com/user/duo_agent_platform/flows/foundational_flows/developer/) also lists prerequisites such as the required Agent Platform setup, project permissions, push rules, and runners. The exact specification and approval flow in this project remains a configured implementation, not a claim that every GitLab tenant behaves identically.
 
 ### 3. Implementation: start development without bypassing review
 
@@ -105,11 +105,11 @@ The answers should be recorded in the integration design and tested in the demo 
 
 CI/CD, runners, webhooks, APIs, and the GitLab permission model are therefore part of the agent architecture. The model is one component. The delivery system determines whether the workflow is repeatable, reviewable, and recoverable.
 
-## Demo, documentation, and knowledge transfer
+## Poject, documentation, and knowledge transfer
 
-The demo scenario follows the complete path:
+The  scenario follows the complete path:
 
-1. A requirement is prepared in Git-Agent-Force using available Jira and Confluence knowledge.
+1. A requirement is prepared in Git-Agent using available Jira knowledge.
 2. The Jira story reaches the agreed handover state.
 3. The intake agent gathers repository and documentation context.
 4. The specification agent proposes the affected components, interfaces, data model, and tests.
@@ -124,7 +124,7 @@ Documentation and knowledge transfer are part of the deliverable. The team needs
 
 The outcome is a practical pattern for connecting agile planning with AI-assisted development:
 
-- Git-Agent-Force prepares a permission-aware, structured requirement.
+- Git-Agent prepares a permission-aware, structured requirement.
 - Jira provides the explicit handover state and traceability.
 - GitLab starts engineering work from an approved story and repository context.
 - CI/CD and merge requests provide automated validation and a human review surface.
@@ -136,6 +136,6 @@ The value is not that an agent writes the first lines of code. The value is that
 
 A reliable software delivery agent should be judged by how well it operates inside the team's controls: clear requirements, permission-aware context, scoped access, automated checks, and mandatory review.
 
-By defining the Jira-to-GitLab handover and assigning each agent one controlled responsibility, this project creates a foundation for scalable delivery. Git-Agent-Force prepares the work. GitLab starts the implementation. Engineers retain the decisions that matter.
+By defining the Jira-to-GitLab handover and assigning each agent one controlled responsibility, this project creates a foundation for scalable delivery. Git-Agent prepares the work. GitLab starts the implementation. Engineers retain the decisions that matter.
 
 That is the difference between an AI demo and an agent chain that can grow with a software organization.

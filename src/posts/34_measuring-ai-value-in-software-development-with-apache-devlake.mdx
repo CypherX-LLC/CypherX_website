@@ -1,0 +1,139 @@
+---
+title: "Measuring AI Value in Software Development: A Completed Client Project with Apache DevLake"
+date: 2026-08-10
+description: A completed proof of concept using Apache DevLake, Grafana, AI-tool telemetry, surveys, and cost modeling to evaluate AI-assisted software development.
+image: /images/blog/measuring-ai-value-in-software-development-with-apache-devlake.png
+type: blog
+slug: measuring-ai-value-in-software-development-with-apache-devlake
+---
+
+## Project overview
+
+This client project was completed as a time-boxed proof of concept to evaluate the value of AI-assisted software development. The project used open-source measurement approach built around Apache DevLake and Grafana, supplemented by AI-tool telemetry, developer surveys, and a cost model.
+
+The objective was not simply to count AI interactions. It was to bring adoption, usage intensity, developer feedback, delivery performance, quality indicators, and costs into a shared evaluation framework. The Project addressed the technical groundwork needed for an informed investment and scaling decision, without turning developer analytics into individual performance monitoring.
+
+Apache DevLake provided the software-delivery data foundation. It is licensed under Apache License 2.0 and documents integrations for GitLab, Jira, Jenkins, and other engineering systems, alongside Grafana-based analytics and DORA reporting. These capabilities made it a suitable foundation for the selected scope—not a claim of complete feature parity with DX. 
+
+## The client challenge
+
+AI-assisted development tools introduced recurring license and operating costs, but the information needed to assess their contribution was fragmented. Usage telemetry sat apart from source control, CI/CD, ticketing, and developer feedback.
+
+The project addressed five questions:
+
+- Were the available AI tools being adopted by the pilot teams?
+- How regularly and in which development activities were they used?
+- What time savings did developers report, and what changes were visible in delivery data?
+- Did faster delivery coincide with additional review work, rework, incidents, or security findings?
+- What evidence and assumptions could support a decision on enablement, license allocation, and broader rollout?
+
+A central distinction was maintained throughout the evaluation: tool activity, perceived time savings, and delivery outcomes were different measures. None was treated as a substitute for the others.
+
+## My role
+
+My role focused on technical integration and the preparation of the AI-value evaluation. The work covered platform configuration, source integration, identity and team mapping, metric modeling, data-quality checks, privacy controls, and reporting.
+
+This included translating the evaluation requirements into a usable data model, investigating collection and mapping errors, and preparing dashboards and exports for the final assessment. Technical documentation and an effort estimate for later scaling formed part of the handover.
+
+## Technical implementation
+
+### Open-source measurement foundation
+
+Apache DevLake was used as the foundation for consolidating software-delivery data. Its documented domain model includes commits, pull requests, issues, pipelines, and deployments, providing a common structure for cross-system analysis. Its DORA configuration supports defining code changes, production deployments, and incidents at project level.
+
+The project connected GitLab, CI/CD, and ticketing data and configured the relevant project and team structures. Repository, pipeline, deployment, and incident mappings were treated as part of the measurement model: an incorrect production-deployment definition would undermine the resulting delivery metrics.
+
+Grafana provided the reporting layer. AI telemetry, survey responses, and cost inputs supplemented the delivery data through project-specific integration and reporting logic. This additional work was not presented as an out-of-the-box DevLake AI-value framework.
+
+<BlogCta />
+
+### AI-tool telemetry
+
+AI usage data was handled through a separate integration layer rather than conflated with source-control activity. GitHub's Copilot usage-metrics documentation provides an authoritative source for adoption and engagement reporting, with availability and coverage dependent on the relevant account, permissions, and telemetry settings. 
+
+The measurement approach kept vendor-reported activity separate from inferred benefit. Accepted suggestions, generated code, or chat activity could describe usage, but did not establish hours saved or identify the cause of a change in delivery performance.
+
+API details were treated as version-dependent integration concerns. Current vendor documentation supports the technical approach; it does not establish which endpoint or product version was deployed during the client engagement.
+
+### Identity, teams, and access
+
+Identity and team mapping connected the AI-tool and delivery-system views. The mapping work addressed inconsistent identifiers, unmatched accounts, and team membership across the participating systems.
+
+Time alignment mattered. GitHub's current team-level reporting guidance, for example, requires joining daily user activity with the corresponding daily team mapping rather than applying one team snapshot to a whole reporting period. This avoids attributing historical activity to the wrong team.
+
+SSO and permissions were addressed at the deployed access layer. Authentication, administrative access, and reporting access were separate concerns; native DevLake functionality was not assumed to provide the entire identity and authorization solution.
+
+## Measurement and baseline
+
+The Project combined a baseline and follow-up evaluation with three types of evidence:
+
+| Evidence | What it addressed | Interpretation boundary |
+|---|---|---|
+| AI-tool telemetry | Adoption, active usage, and supported feature-level activity | Usage did not prove productivity improvement |
+| Developer surveys | Perceived time savings, experience, and adoption barriers | Responses remained self-reported estimates |
+| Delivery and quality data | Lead time, deployments, review flow, failures, and rework | Observed changes did not establish AI causality |
+
+Adoption was modeled against the eligible population for the reporting period. Usage intensity described how consistently the tools were used, rather than relying only on license assignment.
+
+Survey-based time savings were evaluated separately from system-observed delivery changes. The system-side analysis used delivery timestamps and outcome indicators; elapsed lead time was not described as hands-on development time saved.
+
+The DORA component drew on DevLake's documented deployment frequency, lead time for changes, change failure rate, and recovery-time reporting. Interpretation depended on the configured deployment and incident definitions. [3]
+
+Quality and risk assessment covered review effort, rework, change failures, and security findings where source coverage supported them. Review turnaround was distinguished from actual reviewer effort: timestamps alone did not reveal how much active work a review required.
+
+## Data quality and privacy
+
+The integration work included checks on collection completeness, freshness, duplicate records, missing identities, and consistency between source data and reported metrics. Exceptions were investigated rather than silently interpreted as zero activity.
+
+The privacy approach focused on data minimization and team-level evaluation. It covered restricted access to identifiable source data, aggregation thresholds, retention requirements, and separation of administrative and reporting permissions. The reporting scope excluded individual rankings and individual performance assessment.
+
+Pseudonymization was not treated as anonymity. Replacing an account name with another identifier did not, by itself, prevent re-identification. Small cohorts and detailed filtering therefore remained relevant disclosure risks.
+
+Data-protection and co-determination requirements were part of the project scope. This case study does not claim a legal certification, formal works-council approval, or independently verified compliance outcome.
+
+## ROI and decision support
+
+The financial model connected the benefit assessment to license costs and the effort required to implement and operate the measurement solution.
+
+The evaluation separated two economic concepts:
+
+- **Capacity value:** an estimate of engineering capacity potentially released for other work.
+- **Realized financial savings:** an actual reduction in expenditure, which required separate evidence.
+
+Reported time savings were not automatically booked as cash savings. The model also avoided counting the same benefit twice through both survey responses and shorter delivery times.
+
+For a consistent evaluation period, the calculation structure was:
+
+```text
+Estimated capacity value = estimated hours saved × loaded hourly cost
+Total cost               = AI licenses + implementation + operating costs
+Scenario net value       = estimated capacity value − total cost
+Scenario ROI             = scenario net value / total cost
+```
+
+These were scenario calculations, not proof of realized ROI. Assumptions, uncertainty, and data coverage remained visible alongside the results. The model supported evaluating enablement needs, license utilization, and scaling options without implying that adoption alone justified expansion.
+
+## Delivered work and handover
+
+The completed Project brought together the following workstreams:
+
+- Apache DevLake setup and reporting configuration.
+- Integration of GitLab, CI/CD, ticketing, and AI-tool telemetry.
+- Identity and team mapping across the relevant systems.
+- AI adoption, usage, delivery, quality, and cost metric definitions.
+- Baseline and follow-up measurement, including developer feedback.
+- Data-quality validation and error investigation.
+- Data minimization, aggregation, and access-control requirements.
+- Dashboards and exports for the AI-value assessment.
+- Technical documentation and an effort estimate for later scaling.
+- Decision support for enablement, investment, and license strategy.
+
+The project ended at Project scope. A completed measurement Project was not equivalent to a company-wide production rollout, nor did it automatically establish a positive return on AI investment.
+
+## Outcome and limits
+
+The project addressed the missing measurement foundation: connecting AI usage with delivery, quality, developer experience, and cost in one evaluation approach. Its focus was the technical preparation of a defensible decision, rather than a vendor-defined productivity score.
+
+No numerical improvement, realized savings figure, positive ROI result, or final rollout decision is claimed here. Those conclusions require the client's actual evaluation results. Team count, project duration, deployment versions, and client identity are also intentionally omitted because they have not been supplied.
+
+The core lesson was methodological: measuring AI value required more than telemetry. It required reliable integration, explicit metric definitions, developer feedback, quality checks, and clear limits on interpretation. Apache DevLake supplied the open-source delivery-data foundation; the AI-specific integration and evaluation model completed the Project scope.

@@ -1,101 +1,170 @@
 ---
-title: "Personal Development Workspace: From Unstructured Requirements to a Hosted HR Web Application"
+title: "Personal Development Workspace: Connecting HR Development with Frappe LMS"
 date: 2026-06-10
-description: A completed HR software project that transformed unstructured personnel development requirements into a maintainable, tested, and hosted full-stack web application.
+description: A completed HR web application that connected personnel-development requirements, user and role structures, and learning records from Frappe LMS.
 image: /images/blog/personal-development-workspace-hr-web-application.png
 type: blog
 slug: personal-development-workspace-hr-web-application
 ---
 
-## Project and problem
+## Project overview
 
-The client needed a structured HR application for personnel development. We delivered the **Personal Development Workspace**, a full-stack web application for the personnel development team and other authorised users. We took the project from an analysis of the existing content and an agreed Project scope to a hosted application with a defined architecture, data model, basic user and role structures, tests, bug fixes, and technical documentation.
+The client needed a practical workspace for personnel development: a place where authorised users could work with employee-development information and connect it to relevant learning. We delivered the **Personal Development Workspace**, a hosted full-stack HR web application connected to [Frappe Learning](https://github.com/frappe/lms), an open-source Learning Management System. The workspace brought together structured requirements, user and role foundations, the client's development data, and learning records from the LMS.
 
-We assessed existing open-source solutions as possible building blocks and chose between reuse, modification, and custom development according to fit. Working closely with the client's personnel development contact kept domain priorities connected to technical decisions. The result was a working first version and a maintainable codebase for continued product development.
+The result was not a second learning platform. The workspace provided the HR and personnel-development context, while Frappe LMS remained the system for courses and learning activity. This separation let the product connect development needs with learning without copying the LMS's course-content model into the HR application.
 
-## What we built and who used it
+The interface views below are illustrative visuals created for this case study. They show the delivered product concept and its integration boundary; they are not copied screenshots from Frappe LMS.
 
-The Project brought the React/Next.js frontend, Node.js backend, PostgreSQL database, and basic user and role structures together in one web application. The client's personnel development contact provided the specialist perspective during delivery. Authorised users worked through the frontend, while the backend handled application logic and the database stored the information covered by the Project.
+![Personal Development Workspace dashboard showing skills, learning progress, and recent activity](/images/blog/personal-development-workspace-dashboard.svg)
 
-The prioritised requirements, architecture, data model, tests, deployment setup, and technical documentation formed the product's supporting foundation. They gave later requirements a clear baseline and made the first version easier to extend.
+## The use case and its users
 
-## How the project worked end to end
+The workspace addressed a common gap in personnel development: requirements, employee context, and learning activity often live in separate places. The personnel-development team needed a structured application rather than a collection of unconnected documents. Authorised users could use the workspace to review development context, maintain user and role structures, and see learning information alongside the relevant profile.
 
-1. **Analyse the starting material.** We reviewed the existing content and requirements to identify overlaps, gaps, priorities, and unresolved decisions.
-2. **Structure and prioritise the needs.** We converted unstructured input into clear requirements for the first usable version.
-3. **Agreement of the Project boundary.** Together with the client's personnel development contact, we selected the functions that belonged in the first release and separated them from later enhancements.
-4. **Evaluate reuse against custom development.** We assessed existing open-source solutions and decided where reuse, modification, or new development best matched the requirements.
-5. **Design the technical foundation.** We translated the agreed scope into an architecture, data model, and clear boundaries between the frontend, backend, database, and user management.
-6. **Implement the application.** We developed the interface, server-side logic, data layer, and basic user and role structures as one product.
-7. **Test and correct the first version.** We tested the application and fixed issues found during delivery.
-8. **Deploy and document the system.** We deployed the application in the hosting environment and documented the technical foundation for maintenance and further development.
+A typical flow connected the two systems:
+
+1. **Start with the employee-development context.** The workspace held the relevant user, role, and development information defined for the project.
+2. **Identify a learning need.** A skill or development requirement gave the user a reason to look for supporting learning rather than browsing an unrelated catalogue.
+3. **Find matching learning.** The workspace requested relevant course and learning-record data from Frappe LMS through the backend API.
+4. **Show the learning status in context.** Course, enrollment, and progress information could be presented next to the employee-development view. The LMS remained responsible for the underlying learning activity.
+5. **Continue the work in the right system.** The user could follow the learning action in Frappe LMS, while the workspace remained the place for the HR-development context.
+
+This flow made the connection useful: it linked a development need to learning data without pretending that the HR workspace replaced the LMS.
 
 ## Technical implementation
 
-### Full-stack architecture and data model
+### Full-stack application foundation
 
 <BlogCta />
 
-We separated the user-facing frontend, backend application logic, and persistent data layer. The architecture and data model gave the Project clear technical boundaries and kept product concepts out of interface code alone.
+We built the workspace with a React/Next.js frontend, a Node.js backend, and PostgreSQL for persistent application data. Docker and CI/CD supported repeatable delivery. The frontend handled the user experience; the backend owned application logic, access checks, data mapping, and communication with the external LMS; PostgreSQL stored the workspace's own records.
 
-### Technology choices and trade-offs
+The architecture separated three kinds of data:
 
-We chose a React/Next.js frontend, a Node.js backend, PostgreSQL for persistence, and Docker with CI/CD for delivery. The choices balanced fast MVP delivery with a codebase that could support continued development.
+| Data area | System of record | Use in the workspace |
+|---|---|---|
+| Users, roles, and personnel-development context | Personal Development Workspace | Provide the HR context and enforce the workspace's access model. |
+| Courses, chapters, lessons, enrollments, and learning progress | Frappe LMS | Supply learning options and the learner's current learning state. |
+| Integration mapping and synchronisation metadata | Personal Development Workspace | Link a workspace user to the corresponding LMS learner and record the freshness of imported data. |
 
-- **React and Next.js:** React provided a reusable component model for the application interface, while Next.js supplied application conventions such as routing and production builds. The trade-off was accepting framework conventions and the additional complexity of deciding which work belonged in the browser or on the server instead of keeping the frontend entirely client-side.
-- **Node.js:** Using Node.js kept the web stack coherent and suited an API-driven application with I/O-heavy work. The trade-off was that CPU-intensive processing would need to be isolated or moved to dedicated workers rather than blocking the application process.
-- **PostgreSQL:** HR data has relationships between users, roles, and domain records. PostgreSQL provided transactions, constraints, and a relational model that made those relationships explicit. The trade-off was the need to manage schema changes and migrations, with less freedom to store changing records as arbitrary document shapes.
-- **Docker:** Containerising the application made local, staging, and hosted environments more consistent. The trade-off was extra image, configuration, and operational work compared with deploying directly to a host runtime.
-- **CI/CD:** Automated checks and repeatable deployment reduced the risk of shipping an untested change and supported the maintainability goal. The trade-off was the time required to maintain pipeline configuration, secrets, and environment-specific settings.
+The exact field names, identifiers, and deployed versions were configuration details of the client environment. The important architectural decision was to keep the boundary explicit: the workspace did not silently create a second authoritative copy of course content or learning progress.
 
-This stack avoided a heavier enterprise platform for the first version, but it did not remove the need for deliberate access-control design, database migration discipline, and operational monitoring as the product grew.
+### The Frappe LMS connection
+
+Frappe Learning is a Frappe Framework application. Its documented learning model includes a three-level **course → chapter → lesson** structure, learners, batches, enrollments, assessments, progress, and certificates ([Frappe LMS repository](https://github.com/frappe/lms), [course documentation](https://docs.frappe.io/learning/create-a-course)). That model gave the workspace a clear vocabulary for displaying learning information without putting LMS business logic into the HR application.
+
+The connection used the Frappe HTTP API from the Node.js backend. Frappe's framework automatically exposes DocTypes as REST resources. The documented patterns are:
+
+```text
+GET  /api/resource/{doctype}
+GET  /api/resource/{doctype}/{name}
+POST /api/resource/{doctype}
+PUT  /api/resource/{doctype}/{name}
+```
+
+For example, an integration can request an LMS course resource through the relevant DocType endpoint, subject to the permissions of the API user. Frappe also exposes whitelisted server methods under `/api/method/{dotted.path}` for operations that are not simple document reads or writes ([Frappe REST API](https://docs.frappe.io/framework/user/en/guides/integration/rest_api), [REST API details](https://docs.frappe.io/framework/user/en/api/rest), [LMS API source](https://github.com/frappe/lms/blob/develop/lms/lms/api.py)).
+
+The practical data path was therefore:
+
+```text
+Authorised user
+      |
+      v
+Next.js interface
+      |
+      v
+Node.js backend  ---- REST/API request ---->  Frappe LMS
+      |                                          |
+      v                                          v
+PostgreSQL workspace data              courses, enrollments,
+                                        progress, learning records
+```
+
+The backend acted as the integration boundary. It mapped the LMS response into the workspace's view model, handled unavailable or stale records, and kept credentials away from the browser. Frappe documents token authentication using `Authorization: token api_key:api_secret`; the integration user therefore needed only the permissions required for the selected LMS data ([Frappe REST authentication](https://docs.frappe.io/framework/user/en/api/rest)). The exact token arrangement and endpoint mapping remain client configuration details rather than public product facts.
+
+![Learning view showing Frappe LMS course data and an active API connection](/images/blog/personal-development-workspace-learning-connection.svg)
+
+### Synchronisation and data ownership
+
+The integration was designed around a bounded synchronisation pattern:
+
+- the workspace stored the employee and development context;
+- Frappe LMS supplied the learning catalogue and learner records needed by the workspace;
+- the backend translated LMS identifiers into the workspace's integration mapping;
+- the UI displayed when a learning record was last synchronised; and
+- learning completion remained an LMS concern, while development decisions remained a workspace concern.
+
+Frappe Learning calculates course progress from completed lessons and supports learning activities such as quizzes and assignments ([course progress calculation](https://docs.frappe.io/learning/others/course-progress-calculation)). The workspace could use that progress as context, but it did not reimplement those completion rules. This avoided inconsistent progress values between the two systems.
+
+A webhook can be useful when a near-real-time update is required. Frappe documents configurable outbound webhooks for DocType events, including signed requests with `X-Frappe-Webhook-Signature` ([Frappe webhooks](https://docs.frappe.io/framework/v14/user/en/guides/integration/webhooks)). Webhooks are an available extension point, not a claim that every event or webhook configuration was enabled in this project. The deployed connection remained dependent on the client's Frappe/LMS version, permissions, selected fields, and agreed synchronisation timing.
 
 ### Users, roles, and authorisation foundation
 
-We implemented basic user and role structures as part of the Project. They established the first access-control foundation and left room for more detailed permissions as the product developed.
+Basic user and role structures were implemented in the workspace. They established the first access-control foundation for authorised users and provided a place to refine permissions as the product developed. The LMS had its own user and role model; the integration therefore needed an explicit mapping instead of assuming that a role in one system automatically granted the same access in the other.
+
+![Roles and access screen showing workspace permissions and the Frappe LMS integration boundary](/images/blog/personal-development-workspace-access-roles.svg)
 
 ### Maintainability, testing, and deployment
 
-We organised the codebase for maintenance and extension. Testing and bug fixing accompanied implementation, followed by deployment in the hosting environment and technical documentation for the handover.
+We organised the codebase for maintenance and extension. Testing and bug fixing accompanied implementation, followed by deployment in the hosting environment and technical documentation for the handover. The API boundary, data ownership rules, and mapping metadata were documented so that future changes could be made without coupling the HR data model to undocumented LMS internals.
 
-## Design principles
+## How we delivered the project
 
-We followed three practical principles:
-
-- **Define the Project before expanding the scope.** We prioritised the requirements and agreed the first-version boundary with the client's personnel development contact.
-- **Reuse before unnecessary reinvention.** We evaluated open-source options and retained the ability to modify a suitable solution or develop missing functionality.
-- **Keep clear technical boundaries.** The architecture, data model, full-stack structure, user and role foundation, tests, deployment, and documentation made later changes easier to locate and manage.
+1. **Analyse the starting material.** We reviewed existing content and unstructured requirements to identify the problem space, overlaps, gaps, and unresolved decisions.
+2. **Structure and prioritise the needs.** We converted the input into clear requirements for the first usable version of the workspace.
+3. **Agree the project boundary.** Together with the client's personnel-development contact, we selected what belonged in the first release and separated it from later enhancements.
+4. **Evaluate reuse against custom development.** We assessed open-source solutions, including Frappe LMS as the learning-system building block, and decided where reuse, integration, modification, or new development best matched the requirements.
+5. **Design the integration boundary.** We defined which information belonged in the workspace, which learning records came from Frappe LMS, how the systems were connected through the backend API, and how users were mapped.
+6. **Build the application.** We implemented the React/Next.js interface, Node.js application logic, PostgreSQL data layer, basic roles, and LMS data connection.
+7. **Test and correct the first version.** We tested the application and fixed issues found during delivery, including the workflows crossing the application and learning-system boundary.
+8. **Deploy and document the system.** We deployed the application in the hosting environment and documented the technical foundation, data ownership, and integration decisions for continued maintenance.
 
 ## Consulting and domain collaboration
 
-We combined consulting and implementation. Our contact in the client's personnel development team contributed the domain expertise, while we converted that input into requirements, scope, architecture, data structures, and application behaviour.
+We combined consulting and implementation. The client's personnel-development contact contributed the domain perspective, while we translated that input into requirements, scope, architecture, data structures, access foundations, and application behaviour.
 
-The collaboration produced practical decisions for our engineering work:
+The collaboration produced practical decisions for engineering work:
 
-- what belonged in the Project;
-- where an existing open-source solution fit;
-- where custom development was necessary; and
-- how the application needed to remain adaptable.
+- which personnel-development information belonged in the workspace;
+- which learning records should remain in Frappe LMS;
+- how the workspace should connect development context with learning data;
+- where the API boundary and user mapping should sit; and
+- where reuse, modification, or custom development was appropriate.
 
-Technical documentation completed the handover and preserved the information needed to maintain and extend the application.
+Technical documentation completed the handover and preserved the information needed to maintain and extend both the application and its integration.
 
 ## Completed outputs
 
 The project delivered:
 
-- analysis of existing content and unstructured requirements;
+- analysis of existing content and unstructured personnel-development requirements;
 - a structured and prioritised requirements baseline;
-- an agreed Project functional scope;
-- coordination with the client's personnel development contact;
-- evaluation of open-source reuse, modification, and custom development paths;
-- technical architecture and data model design;
-- frontend, backend, and database implementation;
+- an agreed project functional scope;
+- a hosted Personal Development Workspace;
+- React/Next.js frontend implementation;
+- Node.js backend implementation;
+- PostgreSQL persistence for workspace data;
+- Docker and CI/CD delivery foundations;
 - basic user and role structures;
-- a maintainable and extensible codebase;
-- testing and bug fixing;
+- a backend API connection to Frappe LMS;
+- a data boundary separating workspace records from LMS learning records;
+- mapping and presentation of relevant course, enrollment, and progress information;
+- testing and bug fixing across the application and integration boundary;
 - deployment in the hosting environment; and
 - technical documentation for continued maintenance and development.
 
 ## Conclusion
 
-We turned fragmented personnel development input into a hosted full-stack product. The completed Project connected domain clarification, open-source evaluation, technical design, implementation, basic access structures, testing, deployment, and documentation in one delivery. It gave the client a working product baseline and a maintainable codebase for continued development.
+The Personal Development Workspace turned fragmented personnel-development input into a hosted HR product with a clear learning-system connection. React/Next.js, Node.js, PostgreSQL, Docker, and CI/CD formed the technical foundation. Frappe LMS supplied the learning-system capabilities and records through a backend API connection, while the workspace kept ownership of its personnel-development context, access structures, and user experience.
+
+The result was a maintainable first version that connected people-development work with learning activity without duplicating the learning platform.
+
+## Sources
+
+1. [Frappe LMS repository](https://github.com/frappe/lms)
+2. [Frappe LMS: Create a Course](https://docs.frappe.io/learning/create-a-course)
+3. [Frappe LMS: Course Progress Calculation](https://docs.frappe.io/learning/others/course-progress-calculation)
+4. [Frappe Framework: REST API guide](https://docs.frappe.io/framework/user/en/guides/integration/rest_api)
+5. [Frappe Framework: REST API details and authentication](https://docs.frappe.io/framework/user/en/api/rest)
+6. [Frappe LMS API source](https://github.com/frappe/lms/blob/develop/lms/lms/api.py)
+7. [Frappe Framework: Webhooks](https://docs.frappe.io/framework/v14/user/en/guides/integration/webhooks)

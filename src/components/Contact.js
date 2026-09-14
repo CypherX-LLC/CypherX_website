@@ -8,16 +8,6 @@ export default function ContactForm() {
     e.preventDefault();
 
     const form = e.currentTarget;
-    const captchaResponse = form.elements.namedItem("g-recaptcha-response")
-      ?.value;
-
-    if (!captchaResponse) {
-      setStatus({
-        type: "error",
-        message: "Please complete the CAPTCHA before sending your message.",
-      });
-      return;
-    }
 
     setStatus({ type: "submitting", message: "Sending your message…" });
 
@@ -46,8 +36,7 @@ export default function ContactForm() {
       console.error("Contact form submission failed", error);
       setStatus({
         type: "error",
-        message:
-          "We could not send your message. Please check the reCAPTCHA and try again.",
+        message: "We could not send your message. Please try again.",
       });
     }
   };
@@ -59,7 +48,6 @@ export default function ContactForm() {
       method="post"
       netlify-honeypot="bot-field"
       data-netlify="true"
-      data-netlify-recaptcha="true"
       onSubmit={handleSubmit}
       suppressHydrationWarning
     >
@@ -107,12 +95,6 @@ export default function ContactForm() {
               required="required"
             />
           </div>
-          <div
-            className="editorial-captcha"
-            data-netlify-recaptcha="true"
-            dangerouslySetInnerHTML={{ __html: "" }}
-            suppressHydrationWarning
-          />
           {status.message && (
             <p className="contact_status" role="status" aria-live="polite">
               {status.message}

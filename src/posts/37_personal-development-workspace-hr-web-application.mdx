@@ -9,13 +9,13 @@ slug: personal-development-workspace-hr-web-application
 
 ## Project and problem
 
-The client needed a structured HR application for personnel development. We delivered the **Personal Development Workspace**, a full-stack web application for the personnel development team and other authorised users. We took the project from an analysis of the existing content and an agreed MVP scope to a hosted application with a defined architecture, data model, basic user and role structures, tests, bug fixes, and technical documentation.
+The client needed a structured HR application for personnel development. We delivered the **Personal Development Workspace**, a full-stack web application for the personnel development team and other authorised users. We took the project from an analysis of the existing content and an agreed Project scope to a hosted application with a defined architecture, data model, basic user and role structures, tests, bug fixes, and technical documentation.
 
 We assessed existing open-source solutions as possible building blocks and chose between reuse, modification, and custom development according to fit. Working closely with the client's personnel development contact kept domain priorities connected to technical decisions. The result was a working first version and a maintainable codebase for continued product development.
 
 ## What we built and who used it
 
-The MVP brought the frontend, backend, database, and basic user and role structures together in one web application. The client's personnel development contact provided the specialist perspective during delivery. Authorised users worked through the frontend, while the backend handled application logic and the database stored the information covered by the MVP.
+The Project brought the React/Next.js frontend, Node.js backend, PostgreSQL database, and basic user and role structures together in one web application. The client's personnel development contact provided the specialist perspective during delivery. Authorised users worked through the frontend, while the backend handled application logic and the database stored the information covered by the Project.
 
 The prioritised requirements, architecture, data model, tests, deployment setup, and technical documentation formed the product's supporting foundation. They gave later requirements a clear baseline and made the first version easier to extend.
 
@@ -23,7 +23,7 @@ The prioritised requirements, architecture, data model, tests, deployment setup,
 
 1. **Analyse the starting material.** We reviewed the existing content and requirements to identify overlaps, gaps, priorities, and unresolved decisions.
 2. **Structure and prioritise the needs.** We converted unstructured input into clear requirements for the first usable version.
-3. **Agree the MVP boundary.** Together with the client's personnel development contact, we selected the functions that belonged in the first release and separated them from later enhancements.
+3. **Agreement of the Project boundary.** Together with the client's personnel development contact, we selected the functions that belonged in the first release and separated them from later enhancements.
 4. **Evaluate reuse against custom development.** We assessed existing open-source solutions and decided where reuse, modification, or new development best matched the requirements.
 5. **Design the technical foundation.** We translated the agreed scope into an architecture, data model, and clear boundaries between the frontend, backend, database, and user management.
 6. **Implement the application.** We developed the interface, server-side logic, data layer, and basic user and role structures as one product.
@@ -36,11 +36,23 @@ The prioritised requirements, architecture, data model, tests, deployment setup,
 
 <BlogCta />
 
-We separated the user-facing frontend, backend application logic, and persistent data layer. The architecture and data model gave the MVP clear technical boundaries and kept product concepts out of interface code alone.
+We separated the user-facing frontend, backend application logic, and persistent data layer. The architecture and data model gave the Project clear technical boundaries and kept product concepts out of interface code alone.
+
+### Technology choices and trade-offs
+
+We chose a React/Next.js frontend, a Node.js backend, PostgreSQL for persistence, and Docker with CI/CD for delivery. The choices balanced fast MVP delivery with a codebase that could support continued development.
+
+- **React and Next.js:** React provided a reusable component model for the application interface, while Next.js supplied application conventions such as routing and production builds. The trade-off was accepting framework conventions and the additional complexity of deciding which work belonged in the browser or on the server instead of keeping the frontend entirely client-side.
+- **Node.js:** Using Node.js kept the web stack coherent and suited an API-driven application with I/O-heavy work. The trade-off was that CPU-intensive processing would need to be isolated or moved to dedicated workers rather than blocking the application process.
+- **PostgreSQL:** HR data has relationships between users, roles, and domain records. PostgreSQL provided transactions, constraints, and a relational model that made those relationships explicit. The trade-off was the need to manage schema changes and migrations, with less freedom to store changing records as arbitrary document shapes.
+- **Docker:** Containerising the application made local, staging, and hosted environments more consistent. The trade-off was extra image, configuration, and operational work compared with deploying directly to a host runtime.
+- **CI/CD:** Automated checks and repeatable deployment reduced the risk of shipping an untested change and supported the maintainability goal. The trade-off was the time required to maintain pipeline configuration, secrets, and environment-specific settings.
+
+This stack avoided a heavier enterprise platform for the first version, but it did not remove the need for deliberate access-control design, database migration discipline, and operational monitoring as the product grew.
 
 ### Users, roles, and authorisation foundation
 
-We implemented basic user and role structures as part of the MVP. They established the first access-control foundation and left room for more detailed permissions as the product developed.
+We implemented basic user and role structures as part of the Project. They established the first access-control foundation and left room for more detailed permissions as the product developed.
 
 ### Maintainability, testing, and deployment
 
@@ -50,7 +62,7 @@ We organised the codebase for maintenance and extension. Testing and bug fixing 
 
 We followed three practical principles:
 
-- **Define the MVP before expanding the scope.** We prioritised the requirements and agreed the first-version boundary with the client's personnel development contact.
+- **Define the Project before expanding the scope.** We prioritised the requirements and agreed the first-version boundary with the client's personnel development contact.
 - **Reuse before unnecessary reinvention.** We evaluated open-source options and retained the ability to modify a suitable solution or develop missing functionality.
 - **Keep clear technical boundaries.** The architecture, data model, full-stack structure, user and role foundation, tests, deployment, and documentation made later changes easier to locate and manage.
 
@@ -60,7 +72,7 @@ We combined consulting and implementation. Our contact in the client's personnel
 
 The collaboration produced practical decisions for our engineering work:
 
-- what belonged in the MVP;
+- what belonged in the Project;
 - where an existing open-source solution fit;
 - where custom development was necessary; and
 - how the application needed to remain adaptable.
@@ -73,7 +85,7 @@ The project delivered:
 
 - analysis of existing content and unstructured requirements;
 - a structured and prioritised requirements baseline;
-- an agreed MVP functional scope;
+- an agreed Project functional scope;
 - coordination with the client's personnel development contact;
 - evaluation of open-source reuse, modification, and custom development paths;
 - technical architecture and data model design;
@@ -86,4 +98,4 @@ The project delivered:
 
 ## Conclusion
 
-We turned fragmented personnel development input into a hosted full-stack product. The completed MVP connected domain clarification, open-source evaluation, technical design, implementation, basic access structures, testing, deployment, and documentation in one delivery. It gave the client a working product baseline and a maintainable codebase for continued development.
+We turned fragmented personnel development input into a hosted full-stack product. The completed Project connected domain clarification, open-source evaluation, technical design, implementation, basic access structures, testing, deployment, and documentation in one delivery. It gave the client a working product baseline and a maintainable codebase for continued development.

@@ -68,4 +68,4 @@ https://blog.fleek.co/posts/Gatsby-Fleek
 
 ## contact form (Netlify)
 
-The contact form submits to Netlify Forms as `contact-recaptcha` and uses Netlify’s built-in reCAPTCHA challenge. No Google reCAPTCHA environment variables are required for the form. Configure a Form submission notification in Netlify addressed to the inbox that should receive `contact-recaptcha` submissions.
+The contact form submits to Netlify Forms as `contact-recaptcha` and uses Netlify’s honeypot spam protection. Configure a Form submission notification in Netlify addressed to the inbox that should receive `contact-recaptcha` submissions.

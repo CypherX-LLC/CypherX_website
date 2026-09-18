@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Camunda 8 workflow with testing checkpoints</title>
+  <desc id="desc">An abstract workflow path moves through process nodes, branches into delayed work, and ends at Telegram and email notification shapes.</desc>
+  <rect width="1200" height="700" fill="#f5eee5"/>
+  <circle cx="1040" cy="120" r="170" fill="#f2c4a7" opacity=".55"/>
+  <circle cx="180" cy="590" r="220" fill="#b8d8d1" opacity=".55"/>
+  <path d="M105 350 C205 190 285 500 390 350 S585 190 690 350 S885 500 1000 350" fill="none" stroke="#272b35" stroke-width="18" stroke-linecap="round"/>
+  <path d="M690 350 C750 270 790 185 900 185" fill="none" stroke="#e47755" stroke-width="12" stroke-linecap="round"/>
+  <path d="M690 350 C760 445 830 515 930 515" fill="none" stroke="#e47755" stroke-width="12" stroke-linecap="round"/>
+  <g fill="#fffaf4" stroke="#272b35" stroke-width="9">
+    <rect x="55" y="295" width="100" height="110" rx="28"/>
+    <rect x="245" y="295" width="100" height="110" rx="28"/>
+    <rect x="505" y="295" width="100" height="110" rx="28"/>
+    <rect x="640" y="295" width="100" height="110" rx="28"/>
+  </g>
+  <g fill="#e47755" stroke="#272b35" stroke-width="9">
+    <circle cx="390" cy="350" r="48"/>
+    <circle cx="690" cy="350" r="48"/>
+  </g>
+  <g fill="#fffaf4" stroke="#272b35" stroke-width="9">
+    <rect x="860" y="130" width="110" height="90" rx="20"/>
+    <rect x="860" y="470" width="110" height="90" rx="20"/>
+    <rect x="990" y="305" width="125" height="90" rx="20"/>
+  </g>
+  <g fill="none" stroke="#4d9b91" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M82 350 l20 22 38-48"/>
+    <path d="M272 350 l20 22 38-48"/>
+    <path d="M532 350 l20 22 38-48"/>
+    <path d="M886 175 h58 M886 515 h58"/>
+  </g>
+  <g fill="#272b35">
+    <circle cx="155" cy="350" r="7"/><circle cx="245" cy="350" r="7"/>
+    <circle cx="445" cy="350" r="7"/><circle cx="505" cy="350" r="7"/>
+    <circle cx="740" cy="350" r="7"/><circle cx="860" cy="185" r="7"/>
+    <circle cx="860" cy="515" r="7"/><circle cx="990" cy="350" r="7"/>
+  </g>
+</svg>

@@ -1,0 +1,114 @@
+---
+title: "Camunda 8 Workflow Automation: Why Testing Matters"
+date: 2026-08-18
+description: A completed internal content feedback workflow built with Camunda 8, WordPress, reporting integrations, and Telegram or email delivery, with testing at the center.
+image: /images/blog/camunda-8-workflow-testing.svg
+type: blog
+slug: camunda-8-workflow-testing
+---
+
+## An internal content feedback workflow
+
+Internal articles often move through several systems before their authors receive useful feedback. WordPress holds the published article, analytics sits elsewhere, and the result still needs to reach the people who wrote or manage the content. Building an internal content feedback workflow to connect those steps without hiding the business process inside a collection of unrelated scripts helps.
+
+The product, a Camunda 8 workflow that starts from a WordPress publication event, correlates the article by its URL or identifier, gathers the relevant reporting data, and delivers the result through Telegram or email. Internal authors and content stakeholders receive a consistent path from publication to feedback. The workflow also includes a manual test route so the process could be exercised without sending live notifications to the normal audience.
+
+<BlogCta />
+
+## What the workflow did
+
+The process connects four responsibilities:
+
+- **WordPress** remained the editorial system where internal articles were written and published.
+- **Camunda 8** owned the sequence, waiting periods, branching, correlation, retries, and completion state.
+- **Reporting services** supplied the article-level data used in the feedback message or report link.
+- **Telegram and email** delivered the result to the intended recipients.
+
+The workflow did not turn Camunda into a replacement CMS or analytics platform. It gave those systems an explicit orchestration boundary. Each integration had a clear place in the process, while the BPMN model showed how a publication became a follow-up action.
+
+## How the process works end to end
+
+A typical article follows this sequence:
+
+1. **WordPress published an internal article.** The integration passed the article URL or identifier and the basic metadata needed to start the workflow.
+2. **Camunda 8 created a process instance.** The process normalized the incoming values and used a stable article reference for correlation and runtime diagnosis.
+3. **The workflow prepared the report context.** It derived the article-specific parameters needed to retrieve or construct the reporting result.
+4. **The process split into visible branches.** Immediate delivery, delayed follow-up, and event-driven updates remained separate BPMN paths instead of being hidden in timer code.
+5. **The result was delivered.** The workflow sent the relevant link or summary through Telegram or email, depending on the configured notification route.
+6. **The process recorded completion or failure.** A failed external call stayed visible as a workflow problem that could be retried or investigated, rather than disappearing into a background script.
+
+This flow made the business purpose easy to explain: publish an article, wait for the right reporting point, and return useful feedback to the people responsible for the content.
+
+## Why Camunda 8 is the right orchestration layer
+
+BPMN gives two representations of the same product. The diagram explained the workflow to people reviewing the content-feedback process. The deployed process definition gave the engine an executable model with events, tasks, gateways, and timers.
+
+That distinction mattered because the difficult part was not sending one message. The difficult part was coordinating several systems and time horizons without losing the relationship to the original article. A stable article reference acted as the process identity. It made it easier to find the right instance during testing and to understand which article a delayed task belonged to.
+
+The model also made long-running behavior explicit. A timer branch was visible as a timer branch. An event wait was visible as an event wait. A notification task was separate from the service that performed the actual send. This separation kept the process understandable while leaving API-specific details in integration code.
+
+In Camunda 8, a service task can be implemented by a job worker. Camunda's [BPMN documentation](https://docs.camunda.io/docs/components/modeler/bpmn/) describes this boundary: the process model declares the task type, and a worker performs the associated application work. That was a useful division for the WordPress, reporting, Telegram, and email connections. The BPMN process coordinated them; the workers handled request construction, response mapping, and error handling.
+
+## Testing was part of the process design
+
+The most important lesson from this type of automation is that a process diagram is not a test plan. A workflow can look correct while still failing on duplicate publication events, missing URLs, malformed report parameters, delayed timers, or an unavailable notification service.
+
+We therefore treated the test path as a product capability. The process had a manual entry point that allowed us to provide controlled article data and run the normal workflow without relying on a new WordPress publication. Test notifications were directed away from normal recipients. This made it possible to inspect the process repeatedly, backfill a case, and verify a change before enabling the production route.
+
+The test cases followed the real boundaries of the workflow:
+
+- a valid WordPress publication starts the defined process;
+- a duplicate event does not create an untraceable second workflow;
+- missing or malformed article data stops at a clear validation point;
+- the reporting step receives the correct article reference and time range;
+- the immediate notification uses the configured Telegram or email route;
+- a delayed timer resumes the correct process instance;
+- a reporting failure follows the modeled error path;
+- a Telegram or email failure remains observable and retryable; and
+- the workflow completes only after the required delivery work succeeds.
+
+This matrix tested more than the happy path. It checked that data stayed associated with the right article and that external failures behaved as designed.
+
+Camunda's current [testing guidance](https://docs.camunda.io/docs/components/best-practices/development/testing-process-definitions/) recommends separating process tests from workflow-independent domain tests and from close-to-production integration tests. That separation maps well to this project:
+
+1. **Unit tests** cover URL normalization, report parameter construction, message formatting, and error classification without starting a workflow.
+2. **Process tests** cover BPMN paths, variables, gateways, timers, worker interactions, and the defined process state. External notification and analytics services are mocked at this level.
+3. **Integration tests** verify the adapters against an environment close to the deployed setup, including authentication, payload mapping, and response handling.
+4. **End-to-end checks** confirm that a controlled WordPress publication can travel through the full process and produce the configured test notification.
+
+For Java-based Camunda 8 process applications, [Camunda Process Test](https://docs.camunda.io/docs/apis-tools/testing/getting-started/) provides JUnit 5 support, local Docker/Testcontainers or remote runtimes, BPMN deployment helpers, process assertions, time control, worker mocking, and process-coverage reports. These are Camunda 8 testing capabilities, not claims that every available option belongs in every project. The key principle is to test the process at the level where its business behavior is defined.
+
+## Observability and safe delivery
+
+A workflow that waits for days needs better diagnosis than a one-off request handler. The article URL or identifier gave each instance a meaningful correlation value. Process variables preserved the inputs needed to understand the current state, while separate tasks made it possible to locate the failing boundary.
+
+Notification routing also belonged in the process data rather than in hard-coded branching scattered through the integration code. The same workflow could use a safe test destination during validation and the configured Telegram or email route for normal delivery. This reduced the risk of testing by accidentally notifying the wider internal audience.
+
+The reporting result was shared as a link or structured message rather than copied into multiple systems. That kept the workflow focused on orchestration and reduced the chance of creating conflicting versions of the underlying data.
+
+## What we delivered
+
+The completed project delivered:
+
+- a Camunda 8 BPMN process for internal article feedback;
+- an integration boundary for WordPress publication events;
+- stable article correlation for process diagnosis and follow-up work;
+- reporting-data retrieval and article-specific parameter handling;
+- immediate and delayed workflow branches;
+- Telegram and email notification paths;
+- a manual test and backfill entry point;
+- separated test and normal notification destinations;
+- modeled error and retry behavior for external services; and
+- a test strategy covering process behavior, integration boundaries, failure paths, and end-to-end delivery.
+
+## Conclusion
+
+The project turned internal content feedback into an explicit, testable workflow. WordPress remained the editorial source, reporting services remained responsible for the underlying data, and Telegram or email remained the delivery channels. Camunda 8 connected those systems through a process model that made correlation, waiting, branching, and failure visible.
+
+The strongest result was not a single integration. It was a workflow that could be explained, tested, inspected, and changed without losing track of the article that started it.
+
+## Sources
+
+- [Camunda 8 BPMN documentation](https://docs.camunda.io/docs/components/modeler/bpmn/)
+- [Testing process definitions](https://docs.camunda.io/docs/components/best-practices/development/testing-process-definitions/)
+- [Camunda Process Test: Getting started](https://docs.camunda.io/docs/apis-tools/testing/getting-started/)

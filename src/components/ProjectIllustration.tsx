@@ -27,7 +27,7 @@ const ProjectIllustration = ({ index }: ProjectIllustrationProps) => (
       <>
         <div className="editorial-ledger">
           <div>
-            <strong>NOVEM / OPERATIONS</strong>
+            <strong>ASSETS / OPERATIONS</strong>
             <span>↗</span>
           </div>
           <div>

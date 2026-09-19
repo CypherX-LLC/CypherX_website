@@ -5,7 +5,7 @@ items:
     text: AI-assisted recruitment with evidence-based screening and human approval gates
     link: /askcharles/
 
-  - title: Multi-Agent Telegram Manager
+  - title: AI Agent Orchestrator/Harness
     text: Manager-specialist orchestration for delegated AI work with persistent state
     link: /ai-agent-manager-system/
 
@@ -13,28 +13,56 @@ items:
     text: Runtime security guardrails, data-loss prevention, and behavioral controls for AI systems
     link: /ai-agent-security/
 
+  - title: Governed GitLab Agent Chain
+    text: Traceable Jira-to-GitLab workflow for AI-assisted software delivery
+    link: /governed-gitlab-agent-chain/
+
+  - title: AI Value Measurement with Apache DevLake
+    text: Measurement foundation for evaluating AI-assisted software development
+    link: /ai-value-measurement-devlake/
+
+  - title: Trusted Data & AI Hub
+    text: Governed route from enterprise data to reusable analytics and AI
+    link: /trusted-data-ai-hub/
+
+  - title: AI Trust & Data Access Framework
+    text: Governance operating model for secure BI and GenAI use
+    link: /ai-trust-data-access-framework/
+
+  - title: Personal Development Workspace
+    text: HR development workspace connected to Frappe LMS
+    link: /personal-development-workspace/
+
+  - title: Online Seminar Marketing System
+    text: In-house platform for seminar registration, CRM synchronization, attendance, and follow-up
+    link: /online-seminar-marketing-system/
+
+  - title: Precious-Metals Marketing Website
+    text: Fast, flexible website for precious-metals operations
+    link: /precious-metals-marketing-website/
+
   - title: OpenCode Telegram Bot
     text: Mobile Telegram interface for managing OpenCode AI development sessions
     link: /opencode-telegram-bot/
 
-  - title: Novem Exclusive Backoffice
-    text: Auditable backoffice for precious-metals and cryptocurrency operations
+  - title: CRM/ERP Backoffice System
+    text: Auditable CRM/ERP backoffice for precious-metals and digital-asset operations
     link: /precious-metals-saas/
 
-  - title: Novem Infrastructure
-    text: Terraform-managed staging, production, and pull-request preview environments
+  - title: Deployment Automation & DevOps
+    text: Terraform-managed deployment automation with preview environments and production safeguards
     link: /novem-infrastructure/
 
-  - title: Novem API MCP Server
-    text: Controlled MCP gateway for Novem backoffice business operations
+  - title: Secure AI Integration Gateway
+    text: Controlled MCP gateway for secure AI access to business operations
     link: /novem-api-mcp-server/
 
-  - title: Novem Token Services
-    text: Token exchange, credit-card onboarding, and blockchain settlement services
+  - title: Token Exchange & Blockchain Settlement
+    text: Token exchange, payment onboarding, and blockchain settlement services
     link: /novem-token-services/
 
-  - title: Novem Minting UI
-    text: Wallet-connected operations console for NNN and NVM token contracts
+  - title: Token Minting & Operations Console
+    text: Wallet-connected console for controlled token minting and contract operations
     link: /novem-minting-ui/
 
   - title: Ghostmarket Multichain NFT Marketplace

@@ -1,0 +1,41 @@
+---
+title: "Online Seminar Marketing System"
+description: "In-house platform for seminar registration, CRM synchronization, attendance, and follow-up"
+type: portfolio
+---
+
+import Mdx from "../components/portfolio-mdx";
+import MdxHead from "../components/MdxHead";
+export const Head = MdxHead;
+
+## Project: Online Seminar Marketing System
+
+### Situation
+
+Seminar registration triggered a chain of activities across campaigns, contacts, CRM records, webinar access, reminders, attendance, and follow-up. Managing those steps as disconnected automations made data quality and recovery difficult.
+
+### Task
+
+Build an in-house marketing platform that owns the seminar workflow and connects external CRM, webinar, email, and reporting services through an internal integration layer.
+
+### Action
+
+- Built a reusable event and registration model for seminar series and individual sessions
+- Captured consent, campaign attribution, and UTM information with each registration
+- Added CRM, webinar, email, and reporting adapters behind the internal workflow
+- Implemented contact matching, attendance processing, confirmation, reminders, and post-event branches
+- Added idempotent processing, retry handling, integration status, and manual-review paths
+- Connected registration, attendance, engagement, and conversion data for campaign reporting
+- Added configuration for marketing and sales teams to operate repeated seminars without rebuilding the process
+
+### Result
+
+Delivered an internal seminar marketing product that connects campaign acquisition to registration, attendance, follow-up, and attribution without depending on Zapier for the core business workflow.
+
+### Technologies
+
+Marketing API, canonical event data model, CRM integrations, webinar integrations, email automation, event processing, campaign attribution
+
+[Contact us](/contact) to discuss your marketing systems project.
+
+export default Mdx;

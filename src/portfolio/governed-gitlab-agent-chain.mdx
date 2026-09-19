@@ -1,0 +1,41 @@
+---
+title: "Governed GitLab Agent Chain"
+description: "Traceable Jira-to-GitLab workflow for AI-assisted software delivery"
+type: portfolio
+---
+
+import Mdx from "../components/portfolio-mdx";
+import MdxHead from "../components/MdxHead";
+export const Head = MdxHead;
+
+## Project: Governed GitLab Agent Chain
+
+### Situation
+
+A software delivery agent needed to work inside existing planning, repository, review, and permission controls. The challenge was preserving context from a Jira requirement through technical planning and implementation without treating AI output as authoritative.
+
+### Task
+
+Connect Git-Agent, Jira, and GitLab through an explicit handover that turns an approved requirement into reviewable development work.
+
+### Action
+
+- Defined the Jira readiness state that starts technical processing
+- Established a handover contract covering story context, acceptance criteria, links, status, and merge-request references
+- Added an intake stage to gather repository and documentation context
+- Added a specification stage covering affected components, interfaces, data-model implications, risks, and tests
+- Added an implementation stage that starts development, runs the pipeline, and opens a merge request
+- Preserved human approval between specification and implementation
+- Applied scoped credentials, protected branches, review controls, and auditability requirements
+
+### Result
+
+Created a traceable agent chain that moves from an approved Jira story to a reviewable GitLab change while keeping engineering decisions and release controls visible.
+
+### Technologies
+
+Git-Agent, Jira, GitLab, GitLab CI/CD, webhooks, repository automation, merge requests, scoped access controls
+
+[Contact us](/contact) to discuss your AI-assisted delivery workflow.
+
+export default Mdx;

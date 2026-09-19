@@ -16,16 +16,12 @@ const ProjectIllustration = ({ index }: ProjectIllustrationProps) => (
             <span className="editorial-check">✓</span> Human approval
           </div>
         </div>
-        <span className="editorial-caption">
-          Conceptual workflow / not product UI
-        </span>
       </>
     ) : index === 1 ? (
       <>
         <div className="editorial-security-rings">
           <span>Guardrails</span>
         </div>
-        <span className="editorial-caption">Conceptual security model</span>
       </>
     ) : (
       <>
@@ -47,9 +43,6 @@ const ProjectIllustration = ({ index }: ProjectIllustrationProps) => (
             <span>↳</span>
           </div>
         </div>
-        <span className="editorial-caption">
-          Conceptual ledger / not product UI
-        </span>
       </>
     )}
   </div>

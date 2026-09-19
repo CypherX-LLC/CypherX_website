@@ -243,7 +243,6 @@
 .editorial-more-projects,
 .editorial-more-services {
   margin-top: 28px;
-  border-top: 1px solid var(--line);
   padding-top: 18px;
   font-size: var(--text-body);
   line-height: 1.6;
@@ -264,7 +263,6 @@
 }
 .editorial-more-projects {
   margin-top: 32px;
-  border-top: 1px solid var(--line);
   padding-top: 16px;
 }
 .editorial-more-projects summary {

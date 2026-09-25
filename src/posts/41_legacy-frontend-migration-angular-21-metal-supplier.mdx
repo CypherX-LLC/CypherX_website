@@ -1,0 +1,70 @@
+---
+title: "From Legacy Frontend to Angular 21: Modular Architecture and a Design System for a Metal Supplier"
+date: 2026-09-03
+description: A completed migration of a metal supplier's legacy frontend to Angular 21, with new project infrastructure, a modular architecture, and a design system of reusable UI components and templates.
+image: /images/blog/legacy-frontend-migration-angular-21-metal-supplier.png
+type: blog
+slug: legacy-frontend-migration-angular-21-metal-supplier
+---
+
+## Project overview
+
+A metal supplier operated its web frontend on a legacy codebase of plain JavaScript, HTML, and CSS that had grown over years. Without a component model or build structure, changes touched many places at once, screens had drifted apart visually, and extending the application was slower and riskier than it should have been. The client chose Angular 21 as the migration target and engaged us to build the base for it.
+
+We migrated the legacy frontend to **Angular 21** and delivered the surrounding platform: a clean project infrastructure, a modular architecture with clear feature boundaries, and a design system of reusable UI components and templates. The supplier's users now work with a consistent, modern interface, and its development team builds new screens by assembling tested components instead of patching aging code.
+
+Angular 21 is the release line published on 19 November 2025, with zoneless change detection enabled by default ([Angular v21 release](https://angular.dev/events/v21), [zoneless guide](https://angular.dev/guide/zoneless)). The rest of this article describes how we used that platform in the migration.
+
+## What we delivered
+
+The project had three connected deliverables that together form one product:
+
+- **Project infrastructure.** A configured Angular 21 workspace with a defined build, environment, linting, and testing setup, so every screen is developed and verified the same way.
+- **Modular architecture.** The application split into feature areas with explicit boundaries and shared libraries, replacing the entangled legacy structure.
+- **Design system.** A library of reusable UI components and page templates with shared styling conventions, so screens stay visually and behaviourally consistent.
+
+For the people using the frontend daily, this meant a faster, more consistent interface. For the development team, it meant a codebase where a change in one feature does not silently break another, and where new functionality starts from reviewed building blocks.
+
+<BlogCta />
+
+## How the migration worked
+
+1. **Inventory the legacy frontend.** We catalogued the existing HTML/CSS pages, hand-written JavaScript, and interaction patterns to decide what to carry over and what to consolidate.
+2. **Set up the Angular 21 workspace.** We created the project infrastructure — build configuration, environments, linting, formatting, and testing — aligned with current Angular guidance.
+3. **Define module boundaries.** We grouped functionality into feature areas with explicit public interfaces and shared libraries for cross-cutting code, following Angular's architecture recommendations ([NgModule overview](https://angular.dev/guide/ngmodules/overview)).
+4. **Build the design system.** We implemented the reusable components on Angular's current component model and defined shared styling so components stay consistent across screens.
+5. **Create templates.** Common page structures became templates that developers assemble rather than rebuild for each screen.
+6. **Migrate screen by screen.** Legacy screens were rebuilt on the new base with design-system components, checked against their original behaviour, and integrated into the modular structure.
+
+## Technical implementation
+
+### Angular 21 as the target platform
+
+Angular 21 requires TypeScript 5.9 ([version compatibility](https://angular.dev/reference/versions)) and consolidates the framework's modern development model. Two aspects mattered most for this migration:
+
+- **Zoneless change detection is stable and enabled by default in Angular 21** ([zoneless guide](https://angular.dev/guide/zoneless)). The application does not depend on Zone.js patching; change detection is driven by Angular itself, which is especially useful for a frontend rebuilt from scratch on this version.
+- **Standalone components are the recommended default**, while NgModules remain supported where they are still useful ([NgModule overview](https://angular.dev/guide/ngmodules/overview)). Ordinary feature code in the new application is standalone, without NgModule boilerplate.
+
+### Component model and templates
+
+The design-system components use Angular's built-in control flow syntax — `@if`, `@for`, and `@switch` ([control flow guide](https://angular.dev/guide/templates/control-flow)) — instead of older structural directives. For heavier screen sections, the built-in deferrable views (`@defer`) provide a documented path to lazy-load dependencies and keep initial rendering light ([deferrable views guide](https://angular.dev/guide/templates/defer)). Angular's signal APIs are available across the platform for explicit, fine-grained reactivity ([signals guide](https://angular.dev/guide/signals)), and the workspace is on the current version so feature teams can adopt them incrementally.
+
+### Modular architecture
+
+The workspace separates feature code from shared code. Each feature area exposes a defined interface to the rest of the application, and cross-cutting UI, logic, and the design-system components live in shared libraries. This structure makes ownership clear: a team can work inside a feature without reaching into another feature's internals, and the design system evolves in one place that all features consume.
+
+### Design system
+
+The component library covers the recurring UI elements of the application — navigation, inputs, tables, dialogs, and feedback components — with shared styling for colors, spacing, and typography. On top of the components, page templates capture the common screen structures, so a new list, detail, or form screen starts from an agreed layout rather than a blank file.
+
+## Completed outputs
+
+- A configured Angular 21 workspace with build, lint, and test infrastructure.
+- A modular application architecture with feature boundaries and shared libraries.
+- A design-system library of reusable UI components with shared styling.
+- Page templates for the application's common screen types.
+- The legacy frontend's screens migrated onto the new architecture.
+
+## Conclusion
+
+The metal supplier ended the project with more than a framework upgrade. It now has a frontend platform: an Angular 21 application whose infrastructure, module boundaries, and design system make future changes predictable. New screens are assembled from tested components, styling stays consistent through the shared design system, and the team can extend the application without the coupling that made the legacy frontend expensive to change.

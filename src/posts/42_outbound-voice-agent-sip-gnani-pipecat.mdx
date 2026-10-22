@@ -1,0 +1,96 @@
+---
+title: "Outbound Voice Agent: From SIP Calls to Contextual Human Handoffs"
+date: 2026-10-22
+description: A completed SIP voice agent using Gnani and Pipecat to classify call responses, transfer interested callers with context, and handle pauses in speech.
+image: /images/blog/outbound-voice-agent-sip-gnani-pipecat.png
+type: blog
+slug: outbound-voice-agent-sip-gnani-pipecat
+---
+
+The client needed a way to handle the opening of outbound calls and identify which conversations needed a human agent. We built an outbound voice agent that placed calls through SIP, greeted the person who answered, listened to their response, and classified it as **interested**, **not interested**, or **callback**. For interested participants, it made a warm transfer to a human agent with conversation context.
+
+The product connected automated first contact with a human led conversation. Call participants spoke to the voice agent, while the client's human agents received the interested calls and the context needed to continue them. Gnani supplied speech recognition and synthesized responses; Pipecat managed conversation state and turn taking.
+
+## How a call worked
+
+We connected the call flow from dialing to handoff:
+
+1. **Dial through SIP.** The voice agent initiated the outbound call.
+2. **Play the greeting.** It opened the conversation with the person who answered.
+3. **Stream the response.** Audio went to Gnani's speech to text service over a WebSocket connection, using audio chunks at 100 ms intervals in this implementation.
+4. **Classify the response.** The agent identified whether the participant was interested, not interested, or asking for a callback.
+5. **Transfer interested calls.** It made a warm transfer to a human agent and passed conversation context along with the call.
+
+The callback category captured a different response from either acceptance or rejection. It did not mean the person was ready to speak with a human agent immediately.
+
+<BlogCta />
+
+## Speech recognition, responses, and conversation state
+
+We used **Gnani WebSocket streaming for speech to text**, **Gnani text to speech for responses**, and **Pipecat for conversation state and turn taking**.
+
+Each part served a different purpose. Speech recognition supplied the words needed to interpret the response. Text to speech supplied the agent's spoken replies. Conversation state kept track of where the call was in the interaction, while turn taking determined when the agent should listen and when it should respond.
+
+Gnani's [real time STT documentation](https://docs.gnani.ai/api/STT/stt-websocket) describes streaming audio and receiving transcript segments over a persistent WebSocket connection. The 100 ms interval above describes this project's audio chunking, not a general configuration recommendation for every Gnani API version.
+
+## The pause that exposed a turn-taking problem
+
+During an early call, the agent cut a participant off in the middle of a sentence. The person had paused to think, but the system treated the silence as the end of their turn.
+
+Our initial silence threshold was **1.2 seconds**. We increased it to **3.5 seconds** and added a **voice activity detection (VAD) check before triggering end of turn**. The change gave participants more room to pause and added a speech activity check to the decision to respond.
+
+The mistake was treating a pause as a reliable sign that a thought was complete. Speech activity and conversational completion are different signals: Pipecat's [speech input and turn detection guide](https://docs.pipecat.ai/pipecat/learn/speech-input) explicitly distinguishes VAD's speech versus silence detection from the decision that a user has finished their turn.
+
+The longer threshold was a project specific adjustment, not a universal setting. It allowed more silence before a response, trading some responsiveness for more time to finish speaking. The VAD check did not make the system understand whether every thought was complete.
+
+## Why we selected Gnani rather than self hosted Whisper
+
+Our self hosted Whisper tests showed a gap between test recordings and actual calls: word error rate was **10% on the test recordings** and **25% on calls**. This metric is especially important as the voice agent depends on the recognized response to choose the next step.
+
+We selected Gnani for the delivered speech stack. The Whisper figures describe our own tests, not a general benchmark of Whisper or a measured accuracy advantage for Gnani. Provider choice did not remove the need to test recognition on the calls the agent actually handled.
+
+## Infrastructure: running the calls on AWS
+
+The agent ran on **AWS in a European region** and dialled out through a **Twilio SIP trunk**. Twilio carried the call leg while a containerised bot process on AWS ran the conversation.
+
+How each layer was set:
+
+- **Telephony:** Twilio SIP trunk, with narrowband 8 kHz call audio. Phone calls are narrowband, so the pipeline handled telephony audio rather than wideband microphone audio.
+- **Hosting:** AWS in a European region. Voice is latency sensitive, and a bot placed far from the caller adds audible delay even when every service is fast.
+- **Process model:** one bot process per call, on long lived hosts with warm capacity. A call holds a process for its whole duration, and cold starts are hard to hide on a phone line.
+- **Audio to speech recognition:** 100 ms chunks over the WebSocket, paced in real time. Gnani requires real-time cadence, and buffering audio then bursting it degrades recognition.
+- **Turn taking:** a 3.5 s silence threshold with a VAD check before end-of-turn, because the original 1.2 s version cut people off mid-sentence.
+- **Configuration:** API keys injected as environment variables, so credentials stay out of the container image.
+
+Three decisions mattered more than the instance size.
+
+**Placement.** The bot ran in Europe, close to both the carrier handling the calls and the speech service it streamed audio to. Voice latency adds up across hops, so the region choice was a latency decision rather than a compliance one.
+
+**Warm capacity instead of cold starts.** A Pipecat bot is a Python process that runs one conversation and exits, and the development runner that serves a bot locally is not meant for live traffic ([Pipecat: running bots in production](https://docs.pipecat.ai/pipecat/deployment/running-bots-in-production)). Telephony makes the timing tighter still, because a person who has just answered expects to hear something within a second or two, which rules out dispatch patterns that start a fresh machine per call ([Pipecat: telephony in production](https://docs.pipecat.ai/pipecat/deployment/telephony-in-production)). We therefore kept hosts warm and started a bot process per call on hosts that were already running.
+
+**Voice activity detection close to the audio.** Pipecat runs Silero VAD locally on a single CPU thread and processes 30 ms audio chunks in under a millisecond ([Pipecat: speech input and turn detection](https://docs.pipecat.ai/pipecat/learn/speech-input)), so the added VAD check cost almost nothing in latency or compute.
+
+One consequence of the longer threshold is easy to miss. Pipecat's built in latency figures for speech recognition assume the default VAD stop timing of 0.2 seconds, so changing that timing means the built in figure no longer matches the deployment and latency has to be measured against real calls ([Pipecat: STT latency tuning](https://docs.pipecat.ai/pipecat/fundamentals/stt-latency-tuning)).
+
+## Project Summary
+
+A connected outbound calling workflow with:
+
+- SIP dialing and an opening greeting.
+- WebSocket speech recognition with 100 ms audio chunking.
+- Spoken responses through Gnani TTS.
+- Three response categories: interested, not interested, and callback.
+- Warm transfer with context for interested participants.
+- Conversation state and turn-taking managed through Pipecat.
+- An AWS deployment in a European region with Twilio SIP dialling.
+- A revised silence threshold and a VAD check before end of turn.
+
+The product handled the initial exchange and connected interested participants to a human agent with context. The early interruption also shaped the implementation: making the call flow work required attention not just to what people said, but to the pauses they took while saying it.
+
+## Sources
+
+- [Gnani: Speech-to-Text (Realtime)](https://docs.gnani.ai/api/STT/stt-websocket)
+- [Pipecat: Speech Input & Turn Detection](https://docs.pipecat.ai/pipecat/learn/speech-input)
+- [Pipecat: Running Bots in Production](https://docs.pipecat.ai/pipecat/deployment/running-bots-in-production)
+- [Pipecat: Telephony in Production](https://docs.pipecat.ai/pipecat/deployment/telephony-in-production)
+- [Pipecat: STT Latency Tuning](https://docs.pipecat.ai/pipecat/fundamentals/stt-latency-tuning)

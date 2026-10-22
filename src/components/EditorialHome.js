@@ -132,7 +132,9 @@ const EditorialHome = ({ posts }) => {
           ))}
         </div>
         <details className="editorial-more-projects">
-          <summary>More projects</summary>
+          <summary>
+            <span>More projects</span>
+          </summary>
           <ul>
             {PortfolioData.items
               .filter(
@@ -161,7 +163,7 @@ const EditorialHome = ({ posts }) => {
             in your way?
           </h2>
           <p className="editorial-lead">
-            Start with the business problem. Bring in the engineering expertise
+            We start with the business problem and bring in the engineering expertise
             it actually needs.
           </p>
         </div>
@@ -182,18 +184,25 @@ const EditorialHome = ({ posts }) => {
             </article>
           ))}
           <details className="editorial-more-services">
-            <summary>More services</summary>
+            <summary>
+              <span>More services</span>
+            </summary>
             <ul>
-              {FeaturesData.items
-                .filter(
-                  (service) =>
-                    !services.some((featured) => featured.link === service.link)
-                )
-                .map((service) => (
-                  <li key={service.link}>
-                    <Link to={service.link}>{service.title}</Link>
-                  </li>
-                ))}
+              {[
+                FeaturesData.items[0],
+                ...FeaturesData.items
+                  .slice(1)
+                  .filter(
+                    (service) =>
+                      !services.some(
+                        (featured) => featured.link === service.link
+                      )
+                  ),
+              ].map((service) => (
+                <li key={service.link}>
+                  <Link to={service.link}>{service.title}</Link>
+                </li>
+              ))}
             </ul>
           </details>
         </div>
@@ -251,11 +260,7 @@ const EditorialHome = ({ posts }) => {
       >
         <div>
           <div className="editorial-kicker">04 / Field notes</div>
-          <h2 id="thinking-title">
-            Thinking from
-            <br />
-            the work.
-          </h2>
+          <h2 id="thinking-title">Meditations.</h2>
           <p>Practical perspectives from the existing CypherX blog.</p>
           <Link className="editorial-text-link" to="/blog/">
             Visit the blog <span aria-hidden="true">↗</span>
@@ -306,8 +311,8 @@ const EditorialHome = ({ posts }) => {
           <details>
             <summary>What happens after we get in touch?</summary>
             <p>
-              Use the contact page to share the challenge and context. CypherX
-              can then discuss a suitable next step.
+              We hear you out, discuss your needs, propose a focus area, MVP or
+              a focused engagement and explore potential solutions.
             </p>
           </details>
         </div>

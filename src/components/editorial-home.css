@@ -249,8 +249,46 @@
 }
 .editorial-more-projects summary,
 .editorial-more-services summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
   font-size: var(--text-control);
+  font-weight: 600;
+  color: var(--accent-text);
+  list-style: none;
+}
+.editorial-more-projects summary > span,
+.editorial-more-services summary > span {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.editorial-more-projects summary::-webkit-details-marker,
+.editorial-more-services summary::-webkit-details-marker {
+  display: none;
+}
+.editorial-more-projects summary::after,
+.editorial-more-services summary::after {
+  content: "+";
+  display: inline-block;
+  border: 1px solid currentColor;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: var(--text-caption);
+  line-height: 18px;
+  text-align: center;
+  flex: none;
+}
+.editorial-more-projects[open] summary::after,
+.editorial-more-services[open] summary::after {
+  content: "−";
+}
+.editorial-more-projects summary:hover,
+.editorial-more-services summary:hover {
+  color: var(--accent);
 }
 .editorial-more-projects li,
 .editorial-more-services li {
@@ -264,10 +302,6 @@
 .editorial-more-projects {
   margin-top: 32px;
   padding-top: 16px;
-}
-.editorial-more-projects summary {
-  cursor: pointer;
-  font-size: var(--text-control);
 }
 .editorial-more-projects ul {
   columns: 3;

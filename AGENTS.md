@@ -49,6 +49,8 @@ python3 ~/.agents/skills/image-generation/scripts/generate_image.py \
 
 Articles, cover images and copy are committed **directly on `main`** and pushed. Do not create a feature branch, PR or merge step for a blog post. The "never commit on `main`" coding rule does not apply to content work in this repository.
 
+The post in `src/posts/` is the only copy of the article. Do not keep a duplicate body under `docs/` and do not create extra documentation folders for content work.
+
 ---
 
 ## Post Generation CLI (No LLM)

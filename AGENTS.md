@@ -45,6 +45,10 @@ python3 ~/.agents/skills/image-generation/scripts/generate_image.py \
 4. Inspect the generated image and confirm it is relevant, legible, and free of unwanted text.
 5. Pass that exact generated file as `--image-path` when creating the post, then set frontmatter `image` to `/images/blog/<slug>.png`.
 
+### Git workflow for content
+
+Articles, cover images and copy are committed **directly on `main`** and pushed. Do not create a feature branch, PR or merge step for a blog post. The "never commit on `main`" coding rule does not apply to content work in this repository.
+
 ---
 
 ## Post Generation CLI (No LLM)

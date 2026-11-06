@@ -33,8 +33,6 @@ The important design choice was that all of this shared one structure. An automa
 
 ## How a requirement became a verified feature
 
-<BlogCta />
-
 1. **We reviewed the requirement for testability.** Vague acceptance criteria were tightened before test design started, because a test case derived from an unclear requirement only documents the ambiguity.
 2. **We derived test conditions and test cases.** Each requirement was broken into conditions, then into concrete test cases with preconditions, steps and expected results in Xray.
 3. **We ranked and planned.** Test cases were ordered by business risk and change impact, and the release plan named which ones ran automated, which manually, and on which devices and browsers.
@@ -42,6 +40,8 @@ The important design choice was that all of this shared one structure. An automa
 5. **Manual execution filled the rest.** Exploratory passes, new features and device-specific behaviour were executed by hand and documented with the actual result and evidence.
 6. **Data checks closed the gap.** SQL queries confirmed that the same entity looked correct in the database, in the API response, in the web app and in the mobile app.
 7. **Results went back into the plan.** Failed or blocked tests, new defects and uncovered areas changed the next release plan instead of waiting for the next test cycle.
+
+<BlogCta />
 
 ## Where each tool did its job
 

@@ -1,0 +1,101 @@
+---
+title: "Testing One Product Across Three Surfaces: Robot Framework, Appium and Xray"
+date: 2026-11-06
+description: "A completed QA project for a product delivered as a web app, an API and a mobile app: test planning, Xray test design, Robot Framework and Appium automation, documented manual testing and SQL checks across components."
+image: /images/blog/testing-web-api-mobile-one-qa-process.png
+type: blog
+slug: testing-web-api-mobile-one-qa-process
+---
+
+The product we tested was delivered as three surfaces: a web application, an API and a mobile app. People used all three in the same working day. They started something in the web app, expected the mobile app to show it, and relied on the API to keep both in step. Testing each surface in its own tool missed the failures that hurt most, because those failures happened between components, not inside them.
+
+We ran QA for that product as one process instead of three. Requirements became structured test cases in Xray, the web and API layers were covered by Robot Framework, mobile flows were covered with Appium, manual tests were executed and documented in the same place, and SQL checks confirmed that the data the three surfaces showed was the data the system actually stored. Testers, developers and product owners worked from the same test cases and the same coverage view.
+
+## The test problem we had to solve
+
+Three surfaces produce three kinds of noise. The web app breaks on browsers and layouts. The API breaks on contracts, permissions and edge-case payloads. The mobile app breaks on device models, OS versions, permissions and network conditions. A team that tests them separately ends up with three half-answers and no single view of whether a release is ready.
+
+The harder problem was the data. A record saved through the web app had to appear in the mobile app with the same values and the same status. A state change triggered by the API had to be reflected everywhere, not just in the response body. Screen-level checks pass happily while the underlying rows are wrong, duplicated or missing. We wanted coverage that reached the data layer.
+
+## What we built
+
+We set up and operated a single test process for the product:
+
+- **Test planning per release**, with scope, risk ranking, entry and exit criteria, and a clear split between what would be automated and what needed a person.
+- **Structured test design in Xray**, with preconditions, steps and expected results, each test case linked to the requirement it verified.
+- **Automated regression in Robot Framework** for the web application and the API.
+- **Mobile automation with Appium** for the flows that only make sense on a real app on a real device.
+- **Manual test execution and documentation**, recorded against the same test cases with evidence attached.
+- **SQL-based validation of cross-component data flows**, checking what the system stored against what each surface displayed.
+- **Test management as a daily activity**: keeping the test backlog current, tracking execution, linking defects and reporting coverage to the team.
+
+The important design choice was that all of this shared one structure. An automated check, a manual check and a data check for the same requirement lived in the same place, under the same test case, so coverage could be answered with a report instead of a conversation.
+
+## How a requirement became a verified feature
+
+<BlogCta />
+
+1. **We reviewed the requirement for testability.** Vague acceptance criteria were tightened before test design started, because a test case derived from an unclear requirement only documents the ambiguity.
+2. **We derived test conditions and test cases.** Each requirement was broken into conditions, then into concrete test cases with preconditions, steps and expected results in Xray.
+3. **We ranked and planned.** Test cases were ordered by business risk and change impact, and the release plan named which ones ran automated, which manually, and on which devices and browsers.
+4. **Automation covered the repeatable layers.** API checks and stable web flows ran in Robot Framework; mobile flows ran through Appium.
+5. **Manual execution filled the rest.** Exploratory passes, new features and device-specific behaviour were executed by hand and documented with the actual result and evidence.
+6. **Data checks closed the gap.** SQL queries confirmed that the same entity looked correct in the database, in the API response, in the web app and in the mobile app.
+7. **Results went back into the plan.** Failed or blocked tests, new defects and uncovered areas changed the next release plan instead of waiting for the next test cycle.
+
+## Where each tool did its job
+
+**Robot Framework** carried the web and API regression. Its keyword-driven structure let us write a step once and reuse it across suites, keep API checks readable by people who do not write code daily, and select subsets of the suite by tag for a quick smoke run or a full regression. The [Robot Framework User Guide](https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html) describes exactly this model: keyword-driven and data-driven tests, reusable keywords and tag-based selection.
+
+**Appium** carried the mobile layer. It exposes the same WebDriver-based interface to Android and iOS through platform drivers such as UiAutomator2 and XCUITest ([Appium drivers](https://appium.io/docs/en/latest/ecosystem/drivers/)), which is why it fits a product that has to be checked on the real app rather than in a browser. The trade-off is speed: Appium tests are typically several times slower than native frameworks, and most of that cost comes from element lookup and session startup ([DeviceLab: why Appium tests are slow](https://devicelab.dev/blog/appium-slow-7-fixes-that-work)). Two consequences shaped the suite: locate elements by resource id or accessibility id rather than XPath, and avoid reinstalling the app for every test where the state does not require it. Speed decided the split as much as coverage did. Business rules were asserted where they are cheap to assert, and the mobile suite kept to what only a device can show: permissions, gestures, OS dialogs and app-to-app behaviour.
+
+**Xray** was the system of record. Test cases were designed there, executed there and linked to requirements there, so requirement coverage and execution status came from the same data. Xray's [Robot Framework integration](https://docs.getxray.app/space/XRAYCLOUD/44565270/Integration+with+Robot+Framework) lets automated runs report back against those test cases instead of living in a separate report nobody reconciles. Coverage then described the requirement, not the tool that happened to test it ([Xray coverage analysis](https://docs.getxray.app/space/XRAYCLOUD/44565185/Coverage+Analysis)).
+
+**SQL** was the cross-check. It is the only layer that can tell you whether a screen is lying.
+
+## Manual testing stayed, and stayed documented
+
+Automation did not replace manual work, and we did not pretend it could. New features were explored by hand before anyone wrote a selector. Visual and usability problems, awkward device behaviour and unclear error messages were found by a person using the product, not by an assertion.
+
+What changed was the record. A manual test was executed against a defined test case, with the actual result written down and screenshots or logs attached. When a test failed, the defect was linked to the test case and to the requirement behind it. That made manual effort visible in coverage and made a regression claim checkable later, when someone asked what exactly had been verified on a device three weeks ago.
+
+## Checking data across components
+
+Screen-level assertions prove that a value is displayed. They do not prove that it is the right value, stored once, in the right state. Our SQL checks compared the same entity across its whole path:
+
+- a record created in the web app appeared in the API response and in the mobile app with the same field values;
+- a status change made through one surface was reflected in the database and in the other surfaces, without intermediate states getting stuck;
+- totals and related records matched the source rows, instead of being recalculated differently by each component;
+- repeated actions did not create duplicate records or orphaned child rows;
+- data belonging to one account or user was never visible to another.
+
+These checks found the class of defect that survives a green UI suite: everything looks right while the data underneath is inconsistent.
+
+## Coverage we could defend
+
+We treated coverage as a question about requirements, not about the number of test cases. For each requirement we could say whether tests existed, what kind they were, whether they had run against this release, and what the last result was. Gaps were listed explicitly, so a decision to ship with a known gap was a decision, not an oversight. Risk ranking kept the newest and most expensive-to-fix areas at the front of the regression set, and the manual cases were part of that number rather than an unmeasured extra.
+
+## What we delivered
+
+- a release-by-release test plan with scope, risk ranking and exit criteria;
+- structured test designs and test cases derived from requirements in Xray, linked for coverage;
+- an automated regression suite in Robot Framework covering web and API;
+- Appium-based mobile automation for device-level flows;
+- executed and documented manual tests, with evidence and linked defects;
+- SQL checks validating cross-component data flows and stored state;
+- a working test management routine: maintained test backlog, tracked execution, defect linkage and coverage reporting;
+- a coverage picture the team could read before each release.
+
+## Conclusion
+
+The product was one system with three faces, and it needed one test process to match. Robot Framework made web and API regression repeatable. Appium reached the parts of the product that only exist on a device. Xray kept requirements, test cases, manual results and automated results in one place. SQL checked the data that all of them depended on.
+
+The lasting result was not a single suite. It was a way of working where a requirement, its tests, its execution history and the data behind it could be traced together, release after release.
+
+## Sources
+
+- [Robot Framework User Guide](https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html)
+- [Appium drivers](https://appium.io/docs/en/latest/ecosystem/drivers/)
+- [DeviceLab: 7 fixes that make Appium tests faster](https://devicelab.dev/blog/appium-slow-7-fixes-that-work)
+- [Xray: Integration with Robot Framework](https://docs.getxray.app/space/XRAYCLOUD/44565270/Integration+with+Robot+Framework)
+- [Xray: Coverage Analysis](https://docs.getxray.app/space/XRAYCLOUD/44565185/Coverage+Analysis)

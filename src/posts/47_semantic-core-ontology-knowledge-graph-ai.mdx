@@ -1,0 +1,176 @@
+---
+title: "A Semantic Core for AI Applications: Tool Selection, Ontology Modelling and Knowledge-Graph Integration"
+date: 2026-11-09
+description: A completed consulting engagement that selected semantic-layer tooling, modelled an OWL ontology and SKOS vocabularies, and connected a knowledge graph to AI applications with validated, traceable answers.
+image: /images/blog/semantic-core-ontology-knowledge-graph-ai.png
+type: blog
+slug: semantic-core-ontology-knowledge-graph-ai
+---
+
+# A Semantic Core for AI Applications: Tool Selection, Ontology Modelling and Knowledge-Graph Integration
+
+## Project and problem
+
+The client was building AI applications on top of its existing data. Each application interpreted the same business terms in its own way. Answers arrived without a definition, without an owner and without a path back to the record they came from.
+
+The missing piece was not another model or another vector index. It was shared meaning:
+
+- which concepts the business has;
+- how those concepts relate;
+- which labels people actually use;
+- where the data for each concept lives.
+
+We built a semantic core: a governed semantic layer with an ontology, controlled vocabularies and source mappings, validated by machine rules and published as a knowledge graph. AI applications query that graph while they answer. Domain experts supply the meaning, the semantic core holds it, and the applications read it through a restricted interface instead of guessing.
+
+## What we built, who used it and how value flowed
+
+The semantic core sits between the people who define business concepts and the software that uses them. It holds one agreed definition per concept.
+
+Four groups used it:
+
+- **Domain experts and term owners** defined concepts, labels, synonyms and the relationships between them.
+- **Data engineers** mapped those concepts to the source tables and records that hold them.
+- **AI product teams** queried the graph instead of writing business logic into prompts.
+- **Analysts and reviewers** checked that each answer traced back to a definition and a source.
+
+The value flow is short and repeatable:
+
+1. A domain expert describes a concept once, in business language.
+2. The concept enters a versioned model with a stable identifier.
+3. Machine rules validate the model and peers review it.
+4. Mappings connect the concept to the systems that hold its instances.
+5. At question time, an AI application retrieves the concept, its relationships and the underlying records.
+6. The answer cites the concept and the source instead of asserting a fact on its own.
+
+The goal was not to store more data. It was to give each piece of meaning an address that software can look up.
+
+## How the project ran end to end
+
+We started from the questions the AI applications had to answer, not from the available data or a preferred vendor. Starting from questions meant every modelling choice and every tool criterion could be checked against a real use.
+
+1. **Question inventory.** We collected the questions the AI applications needed to answer and the sources each question touched.
+2. **Tool selection.** We compared candidate tool classes against weighted criteria and documented a recommendation with an exit path.
+3. **Ontology and vocabulary modelling.** We turned recurring questions into competency questions, derived classes and relationships from them, and modelled the terminology as controlled vocabularies.
+4. **Source mapping.** We mapped each concept to the sources that hold its instances, so the graph points at the systems of record instead of copying them.
+5. **Validation and publication.** Machine-checkable rules and peer review ran before any model version reached the AI applications.
+6. **AI integration.** We gave the AI applications retrieval and a scoped query tool, with grounding rules that require a traceable basis for every answer.
+7. **Handover.** We transferred the modelling conventions, the review workflow and the change procedure to the client's team.
+
+<BlogCta />
+
+```text
+Business questions
+    -> competency questions
+        -> OWL ontology (classes, relations)
+        -> SKOS vocabularies (labels, synonyms)
+Source systems
+    -> concept-to-source mappings
+        ontology + vocabularies + mappings
+            -> knowledge graph
+               (SHACL shapes validate every published version)
+                -> read-only retrieval and query interface
+                    -> AI application
+                        -> answer citing concept and source
+```
+
+## Selecting tools for the semantic layer
+
+The first decision was which kind of layer should hold the meaning. We compared four candidate classes rather than a product shortlist, because each class carries a different long-term cost.
+
+- **Metrics-first BI semantic layer.** Holds dimensions, measures, joins and access rules. Fast and familiar to analysts, and strong for numbers. Limited relationship modelling, and usually scoped to metrics.
+- **Ontology and knowledge-graph platform.** Holds typed entities, relationships and reasoning. Expressive, and some platforms query sources in place. Costs modelling effort and creates dependency on one platform.
+- **Property graph database.** Holds nodes, edges and traversal. Good developer tooling and fast traversal. RDF and OWL are not the native model, so support usually comes from extensions.
+- **Standards-based core on a triple store.** Holds RDF, OWL, SKOS, SHACL and SPARQL. Portable model, open standards, replaceable engine. The team owns the conventions, validation and operations.
+
+We scored every class against the same weighted criteria:
+
+- **Semantic scope.** Can it express typed entities and relationships, or only metrics?
+- **Standards support.** How much of RDF, OWL, SKOS, SHACL and SPARQL is native?
+- **Source mapping.** Can concepts point at existing systems without a full copy?
+- **AI interface.** Can an agent query the model through a documented, restricted interface instead of free access to tables?
+- **Access control.** Does the layer itself enforce scopes and read-only access, or is that left to each application?
+- **Operability and exit.** Who runs upgrades, backups and validation, and how expensive is a later replacement?
+
+The recommendation split responsibilities. Metrics and calculations stay in an analytical model built for them. Meaning, relationships and terminology go into a standards-based semantic core:
+
+- an OWL ontology for what exists in the domain ([OWL 2](https://www.w3.org/TR/owl2-overview/));
+- SKOS vocabularies for how people name it ([SKOS](https://www.w3.org/TR/skos-reference/));
+- SHACL shapes for what a valid model looks like ([SHACL](https://www.w3.org/TR/shacl/));
+- SPARQL as the query interface ([SPARQL 1.1](https://www.w3.org/TR/sparql11-overview/)).
+
+Because the model is written in W3C standards rather than a proprietary object model, the engine underneath can be replaced. That was the documented exit path: the client can move to a different triple store or a commercial ontology platform without redoing the modelling work. We delivered the criteria, the comparison, the recommendation and a model that does not depend on one engine.
+
+## Modelling ontologies and vocabularies
+
+Modelling started from competency questions: the concrete questions the AI applications had to answer. A class or property stayed in the model only if it helped answer one of them. This kept the ontology readable and avoided a model that describes everything and answers nothing.
+
+We kept three artefacts separate instead of merging them into one graph:
+
+- **Ontology (OWL).** What kinds of things exist and which properties connect them. We kept it small and stable, and put instance detail into data rather than schema. We used OWL restrictions and property characteristics only where they changed a query result or a validation outcome.
+- **Vocabularies (SKOS).** How people name things. Each concept carries a preferred label, alternative labels used by different teams, and broader and narrower relations. Because terminology is published separately from the ontology, renaming a label does not change the ontology.
+- **Source mappings.** Which table, column or document field supplies instances of a concept. Mappings are stored as data, not hard-coded in application logic, so a change in a source schema shows up as a mapping change.
+
+Two conventions applied to every concept:
+
+- **Stable identifiers.** Identifiers follow a naming convention and are never reused. A retired concept stays addressable, is marked as deprecated and points to its replacement.
+- **One definition record.** Each concept carries a short plain-language definition, an owner, a source of truth and a version, all attached to the same identifier.
+
+OWL describes what is true by definition. It does not check whether a given record is correct. Data quality rules therefore live in SHACL shapes and source-level checks, not in the class hierarchy.
+
+SHACL shapes checked the model itself:
+
+- every concept has the required labels;
+- property values fall within the allowed ranges;
+- cardinality limits hold;
+- every published concept names an owner.
+
+The shapes ran on every model change. A version that failed them could not be published to the AI applications.
+
+Domain experts reviewed modelling decisions. Experts corrected terminology; we corrected structure. Each decision was recorded next to the model, so a later reader can see why a concept has its current shape.
+
+## Integrating the knowledge graph into AI applications
+
+The integration goal was narrow and testable: an AI application retrieves meaning and evidence from the graph before it answers, and it can show what it used.
+
+We combined four mechanisms:
+
+- **Graph retrieval alongside text retrieval.** Text retrieval still returns document passages. Entity mentions in those passages are matched to concept identifiers, and the relationships around those concepts are returned as structured context. Questions that span several relationships are answered from the graph, not from text that merely looks similar.
+- **A scoped query tool instead of raw SQL.** The AI application calls a tool that runs SPARQL against a read-only endpoint, with allow-listed graph scopes, timeouts and a result limit. The tool exposes the schema, the prefixes and curated example queries, so the model writes valid queries instead of guessing at structure. Exposing SPARQL to a language model through the Model Context Protocol is a published pattern ([MCP-over-SPARQL](https://ceur-ws.org/Vol-4293/paper15.pdf), [Model Context Protocol specification](https://modelcontextprotocol.io/specification)).
+- **Grounding rules in the application.** The assistant may state a business fact only if it resolves to a concept identifier and a source record. When retrieval returns nothing, the application says so. A plausible sentence without a resolvable basis counts as a defect.
+- **A regression question set.** We built a question set from the competency questions, each with its expected concepts and sources. It runs on every change to prompts, retrieval configuration or model version, and a change ships only if the set does not regress.
+
+Access control stays with the semantic core. It enforces read-only access and scope filtering, and the AI application never holds credentials for the underlying source systems. Each answer can be traced from the concept, through the mapping, to the record.
+
+The division of labour is explicit. The language model interprets the question and writes the answer. The graph supplies the definitions and the evidence. The model is not trusted to remember the business.
+
+## Operating model and handover
+
+The model has to keep matching the business after the project ends, so we handed over the process with it:
+
+- Each concept domain has a named owner on the business side.
+- Changes to published concepts pass SHACL validation and peer review before release.
+- Model versions are released as a unit, and applications pin the version they use.
+- Deprecated concepts stay addressable and point to their replacement.
+- The change procedure names the early warning signs to watch: validation failures, entity mentions that do not resolve to a concept, and queries that return nothing.
+
+## Completed outputs
+
+The client received:
+
+- a documented tool evaluation with weighted criteria, a comparison of candidate classes, a recommendation and an exit path;
+- an OWL ontology derived from competency questions, with naming conventions and ownership metadata;
+- SKOS vocabularies with preferred and alternative labels, synonyms and hierarchy for the client's terminology;
+- concept-to-source mappings that connect the graph to the systems of record without duplicating them;
+- SHACL shapes that gate every model release;
+- a published knowledge graph with a read-only, scoped query interface;
+- an AI integration with retrieval, a scoped query tool, grounding rules and a regression question set;
+- modelling conventions, a review workflow and a change procedure, handed over to the client's team.
+
+## Sources
+
+- [W3C OWL 2 Overview](https://www.w3.org/TR/owl2-overview/)
+- [W3C SKOS Reference](https://www.w3.org/TR/skos-reference/)
+- [W3C Shapes Constraint Language (SHACL)](https://www.w3.org/TR/shacl/)
+- [W3C SPARQL 1.1 Overview](https://www.w3.org/TR/sparql11-overview/)
+- [Model Context Protocol specification](https://modelcontextprotocol.io/specification)
+- [MCP-over-SPARQL: Giving AI the tools to query knowledge graphs](https://ceur-ws.org/Vol-4293/paper15.pdf)

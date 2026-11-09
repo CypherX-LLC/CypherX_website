@@ -1,79 +1,94 @@
 ---
 title: "From Job Ads to Forecasts: PostgreSQL, Python and Power BI"
 date: 2026-11-09
-description: "A completed job-ad analytics project: ads normalised in PostgreSQL, cleaned with Python, refreshed by AWS pipelines, reported as Power BI KPIs and forecast with time-series models."
+description: "A completed job-ad analytics project: ads normalised in PostgreSQL, cleaned with Python, refreshed by scheduled AWS pipelines, reported as Power BI KPIs on one semantic model and forecast with time-series models."
 image: /images/blog/job-ad-analytics-postgresql-power-bi.png
 type: blog
 slug: job-ad-analytics-postgresql-power-bi
 ---
 
-A job ad is a short piece of text: a title, a description, a location, sometimes a salary. One ad says little. Ads collected over months describe what an organisation is hiring for, where demand is moving and which skills are getting hard to find. The client wanted to read them that way, but the ads arrived from several channels in different formats and were counted by hand in spreadsheets.
+One job ad says little: a title, a description, a location, sometimes a salary. Collected over time, ads show which roles are in demand, where that demand sits and which skills keep coming up. The client wanted to read job ads that way. Raw ad text can't be counted reliably, though. Titles are free text, locations are inconsistent and skills are buried in prose.
 
-We built a job-ad analytics workspace around that need. Ads were collected and normalised into a PostgreSQL database, cleaned and enriched with Python, and refreshed by pipelines running on AWS. Analysts and business leads used Power BI dashboards built on one semantic model, with KPIs for demand, skills and posting activity, plus time-series forecasts for demand and for revenue and sales figures from operational data. They moved from counting ads to a shared, forecasted view of the market.
+We built a job-ad analytics workspace for the client's analysts and business stakeholders. Ads were collected and normalised into a PostgreSQL database, then cleaned and enriched with Python. Scheduled pipelines on AWS kept the data refreshed. Power BI reports and dashboards read from one semantic model, so each KPI for demand, skills and posting activity had a single definition. Time-series forecasts built on the same history projected job-ad demand, along with revenue and sales from operational data.
 
 ## Why job ads are hard to count
 
-Job-ad data looks simple until you try to report on it. Titles are written freely, so the same role appears as "Data Analyst", "Analytics Specialist" and "Data & Reporting Analyst". Locations arrive as city names, regions, postcodes and typos. Skills are buried in prose instead of being stored in a field. The same vacancy is posted twice, once by the employer and once by an agency. Salary appears in a minority of ads, and in several formats when it appears at all.
+Job-ad data looks simple until you try to report on it. People write titles however they like, so the same role appears as "Data Analyst", "Analytics Specialist" and "Data & Reporting Analyst". Locations arrive as city names, regions, postcodes and typos. Skills sit in the description text, not in a field. The same vacancy can be posted twice, once by the employer and once by an agency. Salary is often missing, and when it is given, the format varies.
 
-Counting rows in a spreadsheet answers none of the questions the business actually asks. How many ads for this role family this quarter, compared with last quarter? Which skills are rising? Where is demand concentrated? Is the number of new ads likely to keep rising next quarter? Each of those needs a stable definition, a clean table and a measure that everyone reads the same way.
+A raw row count answers none of the questions the business actually asks:
+
+- How many ads did this role family get this quarter, compared with last quarter?
+- Which skills are rising?
+- Where is demand concentrated?
+- Is the number of new ads likely to keep rising next quarter?
+
+Each of those needs a stable definition, a clean table and a measure that everyone reads the same way.
 
 ## What we built
 
-We delivered one analytics path from raw ads to decisions:
+We delivered one analytics path from raw ads to reported and forecast numbers:
 
-- **A PostgreSQL database** holding the ad data in related tables, with SQL used for both development and analysis.
-- **Python cleaning and enrichment**, turning ad text into structured fields: role family, seniority, location, employment type and mentioned skills.
-- **Automated pipelines on AWS** that refreshed the database on a schedule, with validation checks between the steps.
-- **A Power BI semantic model** with shared DAX measures, so a KPI was defined once instead of once per report.
-- **Dynamic Power BI dashboards** for demand, skills, pay disclosure and posting activity.
-- **Time-series forecasts** for job-ad demand and for revenue and sales figures taken from operational data.
-- **Agile delivery inside the client's SAFe setup**, with the analysis backlog reviewed alongside the rest of the work.
+- **A PostgreSQL database** holding ads, employers, locations, roles and skills in related tables. SQL was used to develop the schema, analyse the data and check what had been loaded.
+- **Python cleaning and enrichment**, which turned ad text into structured fields (role family, seniority, location and mentioned skills) and flagged near-duplicate ads.
+- **Scheduled pipelines on AWS** that refreshed the database and ran checks before the reporting tables were replaced.
+- **A Power BI semantic model** with shared DAX measures, so each KPI was defined once instead of once per report.
+- **Dynamic Power BI reports and dashboards** for demand, skills and posting activity.
+- **Predictive analytics in Python**, including time-series forecasts for job-ad demand and for revenue and sales from operational data.
+- **Agile delivery inside the client's SAFe setup**, with AI-assisted analysis tools used for routine query and rule work.
 
 ## How a job ad became a KPI
 
-1. **The ad was collected with its context.** Each record kept its source channel, publication date, first-seen date and the raw text, so a number could always be traced back to the ad behind it.
-2. **It was normalised.** Raw ads were loaded into related tables for ads, employers, locations, roles and skills, rather than into one wide sheet with everything in a column.
-3. **Python read the text.** Rules extracted mentioned skills, seniority signals, employment type and location, and near-duplicate ads were detected before they reached the reporting layer.
-4. **A scheduled pipeline refreshed the data.** The AWS jobs ran the extraction, loaded the results into PostgreSQL and stopped on a failed validation instead of publishing a partial load.
-5. **The semantic model turned rows into measures.** In Power BI, a KPI such as ads per role family per month existed as one DAX measure used by every visual and dashboard.
-6. **The forecast was reviewed, not published blind.** Time-series output was compared against actuals from earlier periods before it was shown to the business alongside the historical trend.
+1. **The ad was collected with its context.** Each record kept its raw text, its publication date and a reference to where it came from, so any number could be traced back to the ads behind it.
+2. **The ad was normalised into related tables.** Its employer, location, role and skills went into their own tables, linked by keys, instead of into one wide sheet.
+3. **Python read the text.** Rules extracted the role family, seniority, location and mentioned skills. Near-duplicate ads were flagged before they could be counted twice.
+4. **SQL checked the load.** Queries compared record counts between stages, looked for ads with missing locations and confirmed that the refresh had loaded the periods it was supposed to load. Only then were the reporting tables replaced.
+5. **The semantic model turned rows into measures.** In Power BI, a KPI such as ads per role family per period existed as one DAX measure, and every visual used that measure.
+6. **Reports and dashboards showed the result.** Dashboards carried the headline KPIs. The reports behind them held the detail, down to the ads that made up a number.
+7. **The same history fed the forecasts.** Time-series models projected the series forward, and their output was checked against earlier periods before the business saw it.
+
+Steps 1 to 4 ran on the AWS schedule at every refresh. Each new ad went through the same rules as every ad before it.
 
 <BlogCta />
 
-## The stack behind the numbers
+## Database and pipelines
 
-PostgreSQL carried the analysis layer. Separating ads, employers, locations and skills into related tables with defined keys made the questions cheap to answer: a role-family trend was a join and an aggregate, not a manual reclassification ([PostgreSQL documentation](https://www.postgresql.org/docs/current/)). SQL also did the checking work, comparing record counts between stages, finding ads with no location, and confirming that a refresh had loaded the periods it claimed to load.
+PostgreSQL held the analysis layer. Ads, employers, locations and skills sat in separate tables with defined keys, so a role-family trend took a join and an aggregate instead of a manual reclassification. The schema and queries used standard PostgreSQL data definition, data manipulation and query features, all covered in its [documentation](https://www.postgresql.org/docs/current/). SQL also did the evaluation work described in step 4, so a broken refresh was caught in the database before it reached a report.
 
-Python handled the part SQL is bad at: reading ad text. Cleaning and enrichment ran as scripted jobs, so the same rules applied to every refresh instead of to whichever spreadsheet was open at the time. The jobs ran on AWS on a schedule, with logging and a validation step before the reporting tables were replaced.
+Python handled what SQL does badly: reading ad text. Cleaning and enrichment ran as scripted jobs, so the same rules applied at every refresh. The same rules applied to every refresh, not to a hand-cleaned extract. The jobs ran on a schedule on AWS, and every run ended with the checks above.
 
-Power BI sat on top as one semantic model rather than a set of separate workbooks. Measures were written in DAX and reused, which is the difference between a dashboard and a pile of charts ([Measures in Power BI](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-measures)). Dashboards then combined tiles from those reports on a single page for the people who only wanted the headline numbers ([Power BI dashboards](https://learn.microsoft.com/en-us/power-bi/create-reports/service-dashboards)).
+## KPIs and dashboards in Power BI
 
-The dashboards were organised around the questions the business asked repeatedly:
+Power BI sat on top as one semantic model, not a set of separate workbooks. In Power BI, measures are formulas written in DAX. Their results recalculate as users filter and interact with a report, and a measure can be added to any visual like a normal field ([Measures in Power BI](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-measures)). Because the KPIs lived in the model, two reports could not show two different versions of "ads this quarter".
 
-- **Demand**: ad volume by role family, region and seniority, with month-on-month and year-on-year comparisons.
-- **Skills**: the most requested skills, how that ranking changed over time, and which skills appeared together in the same ad.
-- **Pay transparency**: how many ads disclosed a salary, and the ranges where they did.
-- **Posting activity**: how long ads stayed live and how many were new in the period.
+Microsoft describes a Power BI dashboard as a single page of tiles. Tiles are pinned from reports, each report is built on a semantic model, and selecting a tile opens the report behind it ([Power BI dashboards](https://learn.microsoft.com/en-us/power-bi/create-reports/service-dashboards)). We used that split. Dashboards showed the headline numbers, and the reports held the breakdowns.
 
-Each KPI could be opened down to ad level, so a surprising number could be explained rather than argued about.
+The KPIs were organised around the questions the business kept asking:
+
+- **Demand**: ad volume by role family, region and seniority, compared period on period.
+- **Skills**: the most requested skills and how that ranking changed over time.
+- **Posting activity**: how many ads were new in each period and how many were duplicates of ads already counted.
+
+Anyone could follow a surprising number down to the ads behind it and check it.
 
 ## Forecasting demand and revenue
 
-The forecasts came from the same clean history. For job-ad demand, the input was the monthly count of ads per role family; for revenue and sales, it was the operating figures the business already reported. We checked seasonality before choosing a method, because hiring demand and sales both follow the calendar, and a forecast that ignores it is just a straight line with confidence.
+The forecasts used the same clean history. For job-ad demand, the input was the count of ads per role family over time. For revenue and sales, it was the operational figures the business already recorded. Hiring and sales both follow the calendar, so we checked for seasonality before choosing a method. A forecast that ignores the calendar can't anticipate the recurring peaks.
 
-Every model was tested against periods it had not seen, and the dashboards showed actual against forecast rather than the forecast alone. Power BI can add a forecast directly to a line chart from the Analytics pane, including a confidence band ([Analytics pane in Power BI](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-analytics-pane)), and both that built-in option and models run in Python followed the same rule: forecast a range and keep the history visible. Stakeholders saw a range and the history behind it, which is what a time series can honestly offer ([Forecasting in Power BI](https://visualitics.it/forecasting-power-bi/?lang=en)).
+The forecasting models and the other predictive and machine-learning work were built in Python. Each model was tested against held-back periods before the business saw its output. Reports showed forecasts next to actuals, as a range rather than a single line.
+
+Power BI also has a built-in forecast for line charts in its Analytics pane, with settings such as forecast length and confidence interval ([Analytics pane in Power BI](https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-analytics-pane)). Visualitics' guide compares that built-in option with models written in R or Python and run inside Power BI. It also walks through splitting history into training and validation periods ([Forecasting in Power BI](https://visualitics.it/forecasting-power-bi/?lang=en)). That split is the same discipline we applied before any forecast reached a report.
 
 ## How we worked with the client
 
-The work ran inside the client's SAFe organisation. Analysis requests were kept as a prioritised backlog, planned alongside the other work in the increment, and demonstrated to the business at the end of it. SAFe's PI Planning describes the same rhythm: business context first, then team plans and dependencies agreed before the work starts ([PI Planning](https://scaledagileframework.com/pi-planning/)).
+The work ran inside the client's SAFe organisation. Analysis requests were kept as a prioritised backlog and planned with the rest of the work in each increment. SAFe describes PI Planning as a cadence-based event that aligns teams and stakeholders to shared objectives, ties development to business context and surfaces dependencies between teams ([PI Planning](https://scaledagileframework.com/pi-planning/)).
 
-That structure mattered for definitions more than for scheduling. A KPI is a shared agreement, and the quickest way to get one is to put the analyst, the person who owns the number and the person who uses it in the same planning conversation. AI-assisted analysis tooling helped with the repetitive parts, such as drafting queries and checking extraction rules, but the numbers were always verified against the database before they reached a dashboard.
+That structure mattered more for definitions than for scheduling. A KPI is a shared agreement. The fastest way to reach one was to have the analyst, the owner of the number and the people who use it in the same planning conversation. AI-assisted analysis tools took on routine work, such as drafting queries and reviewing extraction rules. Their output was checked against the database before it reached a report.
 
 ## Conclusion
 
-The client ended up with a job-ad analytics stack rather than a set of reports: ads normalised in PostgreSQL, text turned into structured fields by Python, refreshes automated on AWS, KPIs defined once in a Power BI semantic model, and forecasts for demand, revenue and sales that showed their own uncertainty.
+The client ended up with a working job-ad analytics path rather than a set of one-off reports. Ads were normalised in PostgreSQL, and Python turned their text into structured fields. Refreshes ran automatically on AWS. KPIs were defined once in a Power BI semantic model, and the forecasts for demand, revenue and sales showed their uncertainty.
 
-The durable part was the path. A new ad now enters the same pipeline, lands in the same tables and appears in the same measures as every ad before it, so the next question about the market starts from a shared answer instead of a fresh spreadsheet.
+The path was the part that lasted. Every new ad entered the same pipeline, landed in the same tables and fed the same measures as every ad before it. Each new question about the market started from a shared definition rather than a fresh extract.
 
 ## Sources
 

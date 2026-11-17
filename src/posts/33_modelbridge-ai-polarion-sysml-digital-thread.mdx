@@ -142,7 +142,7 @@ The adapter normalizes only the fields needed by the pipeline:
 
 Polarion documents linked work items as relationship resources with dedicated endpoints. That is useful for writing an integration artifact or review reference back to the source system, but a Polarion link is not automatically the same thing as a SysML `satisfy` or `verify` relationship. ModelBridge must define and validate that mapping explicitly. [Siemens' linked-work-item documentation](https://developer.siemens.com/polarion/basic-concepts.html) describes the API relationship model.
 
-When a live Polarion sandbox is unavailable, the same adapter contract runs against exported fixture JSON. This keeps the demo deterministic without changing the boundary that would be used against the real system.
+When a live Polarion sandbox is unavailable, the same adapter contract runs against exported fixture JSON. This keeps the project deterministic without changing the boundary that would be used against the real system.
 
 ## SysML v2 as the architecture contract
 
@@ -182,7 +182,7 @@ The exact Cameo version, license, plugins, and repository configuration must be 
 
 ## The change-impact demonstration
 
-The strongest part of the demo is not the first model. It is the change.
+The strongest part of the project is not the first model. It is the change.
 
 The engineer changes `POL-RQ-001` in Polarion from a 200 ms safe-stop limit to 100 ms. ModelBridge pulls the new revision, identifies the changed requirement, regenerates the affected constraint, and produces a focused impact report.
 
@@ -213,93 +213,8 @@ The pipeline uses several gates before publishing a revision:
 
 The coverage rule is intentionally strict: no requirement may disappear silently. An ambiguous requirement should produce a clarification request, not a confident-looking model element.
 
-## MVP acceptance criteria
 
-The demonstration is complete when it can show all of the following:
-
-- At least six identified requirements are retrieved from Polarion or the fixture adapter.
-- At least one deliberately ambiguous requirement triggers clarification instead of silent modeling.
-- A versioned `.sysml` model is generated with stable Polarion IDs.
-- The selected SysML v2 parser or tool validation reports no syntax errors.
-- Cameo displays requirement, structure, behavior/state, and traceability views.
-- Every in-scope requirement is classified as satisfied, verified, ambiguous, or intentionally unallocated.
-- The 200 ms to 100 ms change produces a focused impact report.
-- An engineer must approve before a model revision is overwritten or published.
-- The model revision or hash and review outcome are returned to Polarion where API access permits.
-
-These are project acceptance criteria. They are not vendor guarantees about Polarion, SysML v2, Cameo, or the LLM.
-
-## A repository that preserves evidence
-
-A small repository structure makes the digital thread inspectable:
-
-```text
-modelbridge-ai/
-├── config/
-│   ├── mapping.yaml
-│   └── model-policy.yaml
-├── fixtures/
-│   └── polarion-work-items.json
-├── schemas/
-│   ├── normalized-requirement.schema.json
-│   └── model-proposal.schema.json
-├── src/
-│   ├── adapters/
-│   │   ├── polarion.py
-│   │   └── fixture.py
-│   ├── ai/
-│   │   ├── extract.py
-│   │   └── prompts/
-│   ├── generator/
-│   │   └── sysml_v2.py
-│   ├── validation/
-│   │   ├── coverage.py
-│   │   └── policy.py
-│   └── cli.py
-├── model/
-│   ├── base.sysml
-│   └── generated.sysml
-├── reports/
-│   ├── traceability.json
-│   └── impact-report.md
-└── tests/
-    ├── test_generator.py
-    ├── test_stable_ids.py
-    └── golden/
-```
-
-The CLI should expose each stage separately:
-
-```bash
-modelbridge pull --query "project.id:ROBOT AND type:systemrequirement"
-modelbridge propose
-modelbridge generate --output model/generated.sysml
-modelbridge validate
-modelbridge diff --baseline model/base.sysml
-modelbridge publish-review --decision approved
-```
-
-Separate commands make failures visible and allow the team to test the generator without calling the LLM or Polarion. Golden fixtures can verify stable IDs and deterministic output. A clean-state run can verify that the demo does not depend on hidden local state.
-
-## Demo flow
-
-The demo can be delivered in under six minutes:
-
-1. **Problem:** show why disconnected Polarion requirements and architecture models create manual traceability work.
-2. **Source:** open the six requirements and highlight the stable IDs and 200 ms safety constraint.
-3. **Generate:** run the pipeline and show the structured proposal, ambiguity warning, and validated SysML v2 output.
-4. **Review:** open Cameo and show structure, safety flow/state, and requirement coverage.
-5. **Change:** change 200 ms to 100 ms in Polarion and show the focused impact report.
-6. **Control:** approve the revision and show the reference and review status returned to Polarion.
-7. **Value:** the engineer remains accountable while trace creation and change analysis move from a manual search toward a repeatable workflow.
-
-## Final thoughts
-
-ModelBridge AI is not about asking an LLM to design a robot workcell. It is about putting an LLM inside a controlled engineering process.
-
-Polarion remains the source of requirement identity and revision. The intermediate proposal makes AI output inspectable. Deterministic generation makes the transformation testable. SysML v2 provides a machine-readable architecture contract. Cameo gives engineers a familiar environment for model review. Stable IDs and semantic diffs make change impact visible.
-
-That division of responsibility is what makes the digital thread credible. The system can accelerate extraction, allocation, trace creation, and impact analysis without pretending that generated architecture is approved engineering.
+Separate commands make failures visible and allow the team to test the generator without calling the LLM or Polarion. Golden fixtures can verify stable IDs and deterministic output. A clean-state run can verify that the project does not depend on hidden local state.
 
 ## Sources
 

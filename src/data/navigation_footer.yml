@@ -7,7 +7,7 @@
 - title: Reviews
   link: /#features
 - title: Contact
-  link: /contact
+  link: /contact/
 - title: Privacy Policy
   link: /privacy-policy
 - title: © {new Date().getFullYear()} CypherX. All rights reserved.

@@ -105,7 +105,7 @@ The organizations above are working in different products and risk categories, y
 - Record the prompt, tool call, policy decision, result, and reviewer action together.
 - Test the path where the user is tricked into making the request, because model detectors may see that request as legitimate.
 
-This is what real agent security looks like in practice. It is a set of boring constraints placed around useful work. The model can still summarize, search, draft, classify, and write code. The system decides whether those outputs can cross a boundary or change state.
+For a concise review framework, use this [agent access-control checklist](/blog/access-control-is-the-real-architecture-problem-in-agent-systems/). This is what real agent security looks like in practice. It is a set of boring constraints placed around useful work. The model can still summarize, search, draft, classify, and write code. The system decides whether those outputs can cross a boundary or change state.
 
 A good first review of an agent asks three questions. What untrusted material can enter the context? Which private data can the run reach? Which tools can create an external effect? If all three answers are "anything," the design is relying on the model to police its own authority. The cases above offer a better starting point: reduce the reachable surface, make exceptions visible, and let evidence earn only the next permission.
 

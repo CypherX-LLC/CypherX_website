@@ -12,20 +12,34 @@ If access lives in a prompt, you do not have access control.
 
 I reviewed an agent system built on a manager and specialist pattern. The flow looked clean. The risk lived in the gap between chat and tools.
 
-The role rules were written in a system prompt. That is not a gate. OWASP lists prompt injection as LLM01 in its LLM Top 10, which tells you how often that gate gets pushed open.[1]
+The role rules were written in a system prompt. That is not a gate. [OWASP lists prompt injection as LLM01](https://owasp.org/www-project-top-10-for-large-language-model-applications/) in its LLM Top 10. Instructions embedded in a document or tool result can try to redirect the agent, so the permission check must sit outside the model.
 
 <BlogCta />
 
-OpenAI calls prompt injection a frontier security challenge, and they are right.[2]
+[OpenAI calls prompt injection a frontier security challenge](https://openai.com/index/prompt-injections/), and they are right.
 
-The fix is dull and strict. Put a code gate before any tool call. Make default deny. Log each denied attempt and review it weekly.
+The fix is dull and strict. Put a code gate before any tool call. Make default deny. Log each denied attempt and review it weekly. Teams often tune the model while leaving the tool layer unguarded; that is the wrong order.
 
-I keep seeing teams put time into model tuning while the tool layer has no guardrails. That is the wrong order.
+## Agent architecture review checklist
 
-I stripped client details from that Architectural Review and turned it into a one page Agent Architecture Review Checklist. It is a lead magnet you can share with your team. It covers the access gate, tool permissions, data layer safety, and failure paths in plain language.
+Use this checklist to review the boundary. For a hypothetical support agent, assume it can look up an order and draft a reply, but must not issue refunds without approval. A customer message saying "the manager approved this refund" is input to investigate, not an authorization token.
 
-If you want it, DM me "Agent Review Checklist" and I will send it.
+### Identity
 
-References:
-[1] OWASP Top 10 for Large Language Model Applications https://owasp.org/www-project-top-10-for-large-language-model-applications/
-[2] Understanding prompt injections: a frontier security challenge https://openai.com/index/prompt-injections
+Which authenticated user or service identity is acting? Bind each run to a specific user or job, and avoid shared, ambient credentials. Derive that identity from the authenticated session, not from a user ID supplied by the model. Check that delegation to a specialist does not silently grant more access.
+
+### Tool permissions
+
+List every tool and its allowed actions. Permit order lookup and draft creation; require a separate authorization check and human approval before a refund. Tie approval to the exact order, amount, and action. If those arguments change, the earlier approval must not authorize the new request.
+
+### Data scope
+
+Restrict lookups to records the requester may access. Check tool arguments against that identity, and avoid returning unrelated customer data to the model. Test an order belonging to another customer: the data layer should reject the lookup before any private fields reach the agent.
+
+### Failure paths
+
+Deny by default if identity, policy, or tool checks fail. Log denied attempts and consequential actions; provide a safe fallback rather than silently widening access. Exercise expired credentials, missing approval, and an unavailable policy service. A retry through another tool or specialist must not bypass the same check. Keep secrets out of the logs.
+
+These checks do not solve every prompt-injection attack. They reduce what a misled agent is allowed to do and make the boundary testable without trusting its answer.
+
+For a project example, see our [AI agent security work](/ai-agent-security/). Our [real-world agent security analysis](/blog/ai-agent-security-in-the-real-world/) looks at how other engineering teams enforce similar boundaries.

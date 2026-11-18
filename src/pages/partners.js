@@ -430,7 +430,7 @@ const Partners = () => {
               will tell you quickly whether CypherX is the right technical fit.
             </p>
             <Actions>
-              <Button to="/contact">Share a project</Button>
+              <Button to="/contact/">Share a project</Button>
               <SecondaryButton
                 href="https://calendly.com/selim_cypherx_tech"
                 target="_blank"
@@ -512,7 +512,7 @@ const Partners = () => {
               enough to start the conversation.
             </p>
             <Actions>
-              <Button to="/contact">Start a partner conversation</Button>
+              <Button to="/contact/">Start a partner conversation</Button>
               <SecondaryButton
                 href="https://calendly.com/selim_cypherx_tech"
                 target="_blank"

@@ -51,7 +51,7 @@ const EditorialHome = ({ posts }) => {
             <div className="editorial-actions">
               <Link
                 className="editorial-button editorial-button-primary"
-                to="/contact"
+                to="/contact/"
               >
                 Talk through your challenge <span aria-hidden="true">↗</span>
               </Link>
@@ -163,8 +163,8 @@ const EditorialHome = ({ posts }) => {
             in your way?
           </h2>
           <p className="editorial-lead">
-            We start with the business problem and bring in the engineering expertise
-            it actually needs.
+            We start with the business problem and bring in the engineering
+            expertise it actually needs.
           </p>
         </div>
         <div>
@@ -334,7 +334,7 @@ const EditorialHome = ({ posts }) => {
             needs to change.
           </p>
         </div>
-        <Link className="editorial-button" to="/contact">
+        <Link className="editorial-button" to="/contact/">
           Start a conversation <span aria-hidden="true">↗</span>
         </Link>
       </section>

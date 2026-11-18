@@ -98,6 +98,21 @@ for (const file of htmlFiles) {
       meta(html, /<meta name="twitter:title"[^>]+content="([^"]+)"/),
       `${file}: twitter:title`
     );
+    assert.match(
+      html,
+      /<meta name="robots"[^>]+content="index,follow"/,
+      `${file}: robots index,follow`
+    );
+    for (const match of html.matchAll(/<a\b[^>]*href="([^"]+)"/g)) {
+      const link = new URL(decodeHtml(match[1]), `${site}${route}`);
+      if (link.origin === site) {
+        assert.notEqual(
+          link.pathname,
+          "/contact",
+          `${file}: internal contact link must use /contact/`
+        );
+      }
+    }
     const schema = parseSchema(html, file);
     if (route.startsWith("/blog/") && route !== "/blog/") {
       assert.ok(
@@ -238,9 +253,41 @@ for (const target of [...llms.matchAll(/\]\((https:\/\/[^)]+)\)/g)].map(
   );
 }
 const contact = read("public/contact/index.html");
+assert.match(contact, /Tell us about your project/);
+assert.match(contact, /mailto:contact@cypherx\.tech/);
 for (const id of ["contact-name", "contact-email", "contact-message"]) {
   assert.match(contact, new RegExp(`for=\\"${id}\\"`));
   assert.match(contact, new RegExp(`id=\\"${id}\\"`));
+}
+const checklistArticle = read(
+  "public/blog/access-control-is-the-real-architecture-problem-in-agent-systems/index.html"
+);
+for (const heading of [
+  "Identity",
+  "Tool permissions",
+  "Data scope",
+  "Failure paths",
+]) {
+  assert.ok(
+    checklistArticle.includes(heading),
+    `access-control article: missing checklist heading ${heading}`
+  );
+}
+for (const [source, route] of [
+  ["src/portfolio/ai-agent-manager-system.mdx", "/ai-agent-manager-system/"],
+  [
+    "src/posts/21_ai-agent-security-in-the-real-world.mdx",
+    "/blog/ai-agent-security-in-the-real-world/",
+  ],
+]) {
+  const html = read(
+    path.join("public", route.replace(/^\//, ""), "index.html")
+  );
+  assert.match(
+    html,
+    /href="(?:https:\/\/cypherx\.tech)?\/blog\/access-control-is-the-real-architecture-problem-in-agent-systems\/"/,
+    `${source}: canonical checklist inbound link`
+  );
 }
 assert.equal(
   read("public/robots.txt").trim(),

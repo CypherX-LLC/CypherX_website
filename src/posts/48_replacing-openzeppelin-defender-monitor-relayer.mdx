@@ -11,7 +11,7 @@ slug: replacing-openzeppelin-defender-monitor-relayer
 
 ## Defender is already gone
 
-There is no Defender left to configure. OpenZeppelin announced the sunset on 30 June 2025, closed new sign-ups the same day, and retired the hosted service on 1 July 2026 ([Defender sunset FAQ](https://www.openzeppelin.com/news/defender-sunset-faq)).
+There is no Defender left to configure. OpenZeppelin announced the sunset on 30 June 2025, closed new sign-ups the same day, and retired the hosted service on 1 July 2026 ([Defender sunset FAQ](https://www.openzeppelin.com/news/defender-sunset-faq)). A year of warning before the lights went out is more than most vendors manage.
 
 What survived is open source: [Monitor](https://github.com/OpenZeppelin/openzeppelin-monitor) (the old Sentinels), [Relayer](https://github.com/OpenZeppelin/openzeppelin-relayer), and [Role Manager](https://github.com/OpenZeppelin/role-manager), all AGPL-3.0, plus a paid Managed Service that runs Monitor and Relayer for you at a price OpenZeppelin does not publish.
 
@@ -26,9 +26,9 @@ Defender was never one product. It was nine modules: Monitor, Actions, Relayers,
 | Monitor (ex-Sentinels) | [OpenZeppelin Monitor](https://github.com/OpenZeppelin/openzeppelin-monitor), [Lido `onchain-mon`](https://github.com/lidofinance/onchain-mon), [Forta](https://forta.org) | Tenderly Monitor, KeeperHub, Hypernative, Chainalysis Hexagate, BlockSec Phalcon |
 | Actions (ex-Autotasks) | Relayer plugins, or your own cron job with a KMS signer | Tenderly Web3 Actions, KeeperHub, Mimic |
 | Relayers | OpenZeppelin Relayer | thirdweb Transactions, Turnkey, Fireblocks |
-| Deploy | Hardhat or Foundry with the OpenZeppelin Upgrades plugins | — |
+| Deploy | Hardhat or Foundry with the OpenZeppelin Upgrades plugins | none |
 | Transaction proposals | Safe with its transaction-hash check | Den |
-| Access control | [OpenZeppelin Role Manager](https://github.com/OpenZeppelin/role-manager), [Zodiac Roles Modifier](https://github.com/gnosisguild/zodiac) | — |
+| Access control | [OpenZeppelin Role Manager](https://github.com/OpenZeppelin/role-manager), [Zodiac Roles Modifier](https://github.com/gnosisguild/zodiac) | none |
 | Code inspection | Slither and Aderyn in CI | Audit firms |
 | Address book | A versioned JSON file in the repo | Safe's address book |
 
@@ -42,9 +42,9 @@ To prove the loop rather than describe it, we rebuilt the same stack on a local 
 
 A Defender setup answered three questions. The replacement has to answer the same three:
 
-1. **Is anything odd happening on our contracts?** Monitor watches the contract for the events that matter.
-2. **Does the right person find out?** The alert carries the transaction hash and goes to a place people read, not a dashboard nobody opens.
-3. **Can we stop the damage without waking three people up?** The guard service turns the alert into a signed `pause()` sent through the Relayer.
+1. Is anything odd happening on our contracts? Monitor watches the contract for the events that matter.
+2. Does the right person find out? The alert carries the transaction hash and goes to a place people read, not a dashboard nobody opens.
+3. Can we stop the damage without waking three people up? The guard service turns the alert into a signed `pause()` sent through the Relayer.
 
 End to end, it runs like this:
 
@@ -232,13 +232,13 @@ The point of the split is that the automated path can only ever stop things. Any
 
 ## Running it day to day
 
-The tooling is the easy half. These habits keep the setup working on a customer's infrastructure:
+The tooling is the easy half. Two thresholds do most of the work. Below a hard limit, the guard pauses on its own. Above it, the decision goes to the multisig, so a false positive costs a signature instead of halting a market.
 
-- **Two thresholds.** Below a hard limit, let the guard pause automatically. Above it, route the decision to the multisig, so a false positive costs a signature rather than a halted market.
-- **Test the pause path every month.** Pause on a fork, confirm the alert fires, confirm the transaction confirms, unpause. A drill you have run is worth more than a config you have only read.
-- **Watch the checkpoint, not only the contract.** A stalled monitor is silent. Alert when the last processed block falls more than N blocks behind the chain head, or when the process has not written a metric in N minutes.
-- **One endpoint per producer.** Give the monitor's alerts and the relayer's status updates separate webhook URLs, so the guard only ever parses one payload shape.
-- **Pin the images.** `latest` is convenient on day one and a surprise on day ninety. Pin the versions you tested.
+Then drill it. Once a month, pause on a fork, watch the alert arrive, watch the transaction confirm, unpause. A drill you have run is worth more than a config you have only read.
+
+The failure that bites is the quiet one. A stalled monitor sends nothing at all, so watch the checkpoint and not only the contract: page someone when the last processed block falls more than N blocks behind the chain head, or when the process stops writing a metric.
+
+Two housekeeping notes. Give the monitor's alerts and the relayer's status updates separate webhook URLs, because one guard parsing two payload shapes is a bug waiting for a busy night. And pin the images. `latest` is convenient on day one and a surprise on day ninety.
 
 ## Gotchas we hit
 
@@ -258,13 +258,17 @@ Each of these cost us time:
 
 ## Which option fits
 
-- **Small team, one hot wallet, no DevOps budget.** OpenZeppelin Monitor and Relayer in Docker on one box, with the guard service above. No licence cost; you own the RPC keys and the on-call rota.
-- **No appetite for infrastructure.** [KeeperHub](https://keeperhub.com/pricing) publishes its prices and starts free, with paid tiers from $49 a month. Tenderly fits better if you already debug transactions there, but its free plan is browser-only and API access needs a paid, custom-quoted plan ([Tenderly API FAQ](https://docs.tenderly.co/troubleshooting/api)).
-- **Real money at risk.** Self-hosted Monitor matches the rules you write and nothing else. Look at [Hypernative](https://www.hypernative.io/product/onchain-monitoring-automated-response), [Hexagate with GateSigner](https://www.chainalysis.com/product/gatesigner/) or [Phalcon](https://blocksec.com/phalcon/security) alongside your own execution layer, and expect a negotiation rather than a price list.
+A small team with one hot wallet and no DevOps budget should run Monitor and Relayer in Docker on one box, with the guard service in front of the Relayer. There is no licence cost. The RPC keys and the on-call rota are yours.
 
-## Conclusion
+If nobody wants to own that box, [KeeperHub](https://keeperhub.com/pricing) publishes its prices and starts free, with paid tiers from $49 a month. Tenderly is the better fit if you already debug transactions there, but its free plan is browser-only and API access needs a custom-quoted plan ([Tenderly API FAQ](https://docs.tenderly.co/troubleshooting/api)).
 
-Defender cannot be replaced with one purchase. It is nine decisions, and the open-source Monitor and Relayer cover the two that used to page someone at 3am: watch the contract, and act on it with a key that can only do one thing. The setup in this article pauses a token end to end on infrastructure you own, for the cost of an RPC plan and a small server. What you lose is the dashboard and the vendor on call. Budget for the alert that watches the watcher, and drill the pause path until it is boring.
+Where real money is at risk, self-hosting buys you less than it looks: Monitor matches the rules you wrote, and nothing else. Put [Hypernative](https://www.hypernative.io/product/onchain-monitoring-automated-response), [Hexagate with GateSigner](https://www.chainalysis.com/product/gatesigner/) or [Phalcon](https://blocksec.com/phalcon/security) next to your execution layer, and expect a negotiation rather than a price list.
+
+## Where to start
+
+Nobody sells you Defender back. What you can buy is the same loop, split into parts you control: Monitor watches, the guard decides, the Relayer signs with a key that can only pause. We ran that loop on a local chain and it did the one thing that matters at 3am, which is stop the token before anyone reads a dashboard.
+
+The bill is an RPC plan and a small server. The real cost is attention: nobody else is watching your monitor, so build the heartbeat alert first, then drill the pause path until it is boring. Boring is the goal here.
 
 ## Sources
 

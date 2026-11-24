@@ -1,0 +1,306 @@
+---
+title: "Replacing OpenZeppelin Defender in 2026: what is left, what it costs, and a monitor-and-pause setup we tested"
+date: 2026-11-24
+description: OpenZeppelin Defender is retired. A comparison of what replaced each module, the published prices, and a self-hosted Monitor, Relayer and guard-service setup that pauses a token end to end.
+image: /images/blog/replacing-openzeppelin-defender-monitor-relayer.png
+type: blog
+slug: replacing-openzeppelin-defender-monitor-relayer
+---
+
+# Replacing OpenZeppelin Defender in 2026: what is left, what it costs, and a monitor-and-pause setup we tested
+
+## Defender is already gone
+
+There is no Defender left to configure. OpenZeppelin announced the sunset on 30 June 2025, closed new sign-ups the same day, and retired the hosted service on 1 July 2026 ([Defender sunset FAQ](https://www.openzeppelin.com/news/defender-sunset-faq)). Defender's documentation and migration guide were removed from docs.openzeppelin.com in October 2026, so the old playbooks no longer resolve.
+
+What survived is open source: [Monitor](https://github.com/OpenZeppelin/openzeppelin-monitor) (the old Sentinels), [Relayer](https://github.com/OpenZeppelin/openzeppelin-relayer), and [Role Manager](https://github.com/OpenZeppelin/role-manager), all AGPL-3.0, plus a paid Managed Service that runs Monitor and Relayer for you at a price OpenZeppelin does not publish.
+
+For the job most teams relied on Defender for, watching a contract and pausing it when something looks wrong, the practical answer is to self-host Monitor and Relayer with a small guard service between them. We built that stack and ran it against a local chain. This article maps every Defender module to its replacement, lists what the paid options publish about price, and walks through the stack, its configuration, and the problems we hit.
+
+## Nine modules, nine answers
+
+Defender was never one product. It was nine modules: Monitor, Actions, Relayers, Deploy, Transaction Proposals, Access Control, Code Inspector, Address Book, and the audit add-on. Each one now needs its own answer, and that is the most useful thing to know before you shop.
+
+| Defender module | Free or self-hosted | Paid |
+|---|---|---|
+| Monitor (ex-Sentinels) | [OpenZeppelin Monitor](https://github.com/OpenZeppelin/openzeppelin-monitor), [Lido `onchain-mon`](https://github.com/lidofinance/onchain-mon), [Forta](https://forta.org) | Tenderly Monitor, KeeperHub, Hypernative, Chainalysis Hexagate, BlockSec Phalcon |
+| Actions (ex-Autotasks) | Relayer plugins, or your own cron job with a KMS signer | Tenderly Web3 Actions, KeeperHub, Mimic |
+| Relayers | OpenZeppelin Relayer | thirdweb Transactions, Turnkey, Fireblocks |
+| Deploy | Hardhat or Foundry with the OpenZeppelin Upgrades plugins | — |
+| Transaction proposals | Safe with its transaction-hash check | Den |
+| Access control | [OpenZeppelin Role Manager](https://github.com/OpenZeppelin/role-manager), [Zodiac Roles Modifier](https://github.com/gnosisguild/zodiac) | — |
+| Code inspection | Slither and Aderyn in CI | Audit firms |
+| Address book | A versioned JSON file in the repo | Safe's address book |
+
+The open-source column covers most of it. The catch is that you now own what Defender owned for you: RPC keys, uptime, on-call, and the alert that tells you the alerting stopped.
+
+## The customer setup: watch, alert, pause
+
+The setup we build for a customer project has three parts: OpenZeppelin Monitor, OpenZeppelin Relayer, and a small guard service. It assumes a token on an EVM chain, an ops group on call, a Safe that holds the admin roles, and one hot key whose only on-chain permission is to pause. In the setup we deliver, that hot key signs nothing else: no minting, no upgrades, no unpausing.
+
+To prove the loop rather than describe it, we rebuilt the same stack on a local Anvil chain with a stand-in ERC-20 of about 60 lines and one pauser address. The files below are the customer configuration; for the test run we pointed them at the local chain and replaced the addresses.
+
+A Defender setup answered three questions. The replacement has to answer the same three:
+
+1. **Is anything odd happening on our contracts?** Monitor watches the contract for the events that matter.
+2. **Does the right person find out?** The alert carries the transaction hash and goes to a place people read, not a dashboard nobody opens.
+3. **Can we stop the damage without waking three people up?** The guard service turns the alert into a signed `pause()` sent through the Relayer.
+
+End to end, it runs like this:
+
+1. Monitor polls the network on a cron schedule, pulls each new confirmed block, and matches logs and transactions against the rule's expressions.
+2. A match fires the rule's triggers. The guard service receives a webhook with the event, the value and the transaction hash.
+3. The guard checks the event type and the value against its own threshold, then calls the Relayer API with an idempotency key for the action.
+4. Relayer picks a nonce, prices the transaction, signs with the scoped key from its keystore, submits, and tracks the status.
+5. Relayer posts status updates to its own webhook, so the ops channel sees `pending`, `sent`, `confirmed` without anyone refreshing a page.
+
+Everything the pauser key cannot do, such as unpausing, minting or upgrading, stays with a multisig. [Zodiac's Roles Modifier](https://github.com/gnosisguild/zodiac) can enforce that kind of scope on-chain rather than in a dashboard.
+
+## How we built it
+
+We ran the whole loop while writing this: a local Anvil chain, the test token, the `openzeppelin/openzeppelin-monitor:latest` and `openzeppelin/openzeppelin-relayer:latest` Docker images (relayer 1.10.0), and the guard service in Node. The files below are that configuration, pointed at a local chain for the test with addresses and URLs replaced by placeholders.
+
+<BlogCta />
+
+### 1. Network definition
+
+Monitor reads each network from its own JSON file. `confirmation_blocks` is the important field: it decides how many blocks the alert waits before firing.
+
+```json
+{
+  "network_type": "EVM",
+  "slug": "client_mainnet",
+  "name": "Client Mainnet",
+  "rpc_urls": [
+    { "type_": "rpc", "url": { "type": "plain", "value": "https://your-rpc" }, "weight": 100 }
+  ],
+  "chain_id": 8453,
+  "block_time_ms": 2000,
+  "confirmation_blocks": 3,
+  "cron_schedule": "*/10 * * * * *",
+  "max_past_blocks": 100,
+  "store_blocks": false,
+  "recovery_config": { "enabled": true, "cron_schedule": "0 */5 * * * *", "max_blocks_per_run": 10, "max_block_age": 1000, "max_retries": 3, "retry_delay_ms": 1000 }
+}
+```
+
+### 2. The monitor rule
+
+Rules are JSON: an address and the events you care about, then expressions over their arguments. This one fires on transfers above 100 tokens and on every `Paused` event, and it only looks at successful transactions.
+
+```json
+{
+  "name": "Large transfer or pause on the asset token",
+  "paused": false,
+  "networks": ["client_mainnet"],
+  "addresses": [
+    {
+      "address": "0xYourToken",
+      "contract_spec": [
+        { "anonymous": false, "type": "event", "name": "Transfer",
+          "inputs": [
+            { "indexed": true, "internalType": "address", "name": "from", "type": "address" },
+            { "indexed": true, "internalType": "address", "name": "to", "type": "address" },
+            { "indexed": false, "internalType": "uint256", "name": "value", "type": "uint256" }
+          ] },
+        { "anonymous": false, "type": "event", "name": "Paused",
+          "inputs": [{ "indexed": true, "internalType": "address", "name": "account", "type": "address" }] }
+      ]
+    }
+  ],
+  "match_conditions": {
+    "functions": [],
+    "events": [
+      { "signature": "Transfer(address,address,uint256)", "expression": "value > 100000000000000000000" },
+      { "signature": "Paused(address)", "expression": null }
+    ],
+    "transactions": [{ "status": "Success", "expression": null }]
+  },
+  "trigger_conditions": [],
+  "triggers": ["guard_webhook"]
+}
+```
+
+`triggers` is a list, so the same match can also go to the ops channel through a second trigger. The same pattern of `signature` plus `expression` covers `RoleGranted`, a proxy's `Upgraded` event, or any other event on the contract.
+
+### 3. The webhook trigger
+
+The trigger's message template can reference the monitor and the matched event. That is how the guard receives the value and the transaction hash.
+
+```json
+{
+  "guard_webhook": {
+    "name": "Guard service",
+    "trigger_type": "webhook",
+    "config": {
+      "url": { "type": "plain", "value": "https://guard.internal/alert" },
+      "method": "POST",
+      "secret": { "type": "environment", "value": "GUARD_WEBHOOK_SECRET" },
+      "headers": { "Content-Type": "application/json" },
+      "message": {
+        "title": "${monitor.name} fired",
+        "body": "event=${events.0.signature} value=${events.0.args.value} tx=${transaction.hash}"
+      }
+    }
+  }
+}
+```
+
+### 4. The relayer
+
+The Relayer holds the signing key and the per-network policy. You give it a signer and point it at the same network definitions.
+
+```json
+{
+  "relayers": [
+    {
+      "id": "asset-pauser",
+      "name": "Asset Pauser",
+      "network": "client_mainnet",
+      "paused": false,
+      "notification_id": "ops-webhook",
+      "signer_id": "pauser",
+      "network_type": "evm",
+      "policies": { "min_balance": 0 }
+    }
+  ],
+  "signers": [
+    {
+      "id": "pauser",
+      "type": "local",
+      "config": {
+        "path": "config/keys/pauser.json",
+        "passphrase": { "type": "env", "value": "KEYSTORE_PASSPHRASE" }
+      }
+    }
+  ],
+  "notifications": [
+    { "id": "ops-webhook", "type": "webhook", "url": "https://ops.internal/relayer", "signing_key": { "type": "env", "value": "WEBHOOK_SIGNING_KEY" } }
+  ],
+  "networks": "./config/networks",
+  "plugins": []
+}
+```
+
+We used a local keystore. In production the key should not sit in a file on the box; the [Relayer repository](https://github.com/OpenZeppelin/openzeppelin-relayer) lists the managed signers it supports.
+
+The signing key matters more than the tool. The relayer address only ever gets the pauser role. If any on-chain allowlist still names Defender's old relayer address, it needs the new one.
+
+### 5. The guard service
+
+The piece nobody sells you is the decision between "alert" and "act". Ours is a small service with one job: take the monitor webhook, check it again, and call the relayer. On the customer project it also gates the second path: above the hard limit it opens a Safe proposal instead of pausing on its own.
+
+```js
+const RELAYER_ID = 'asset-pauser';
+const PAUSE_SELECTOR = '0x8456cb59'; // pause()
+const THRESHOLD = 100n * 10n ** 18n; // 100 tokens, same as the monitor rule
+
+// body: the message body rendered by the guard_webhook template
+const value = BigInt((body.match(/value=(\d+)/) || [])[1] || '0');
+if (!body.includes('event=Transfer') || value <= THRESHOLD) return;
+
+await fetch(`${RELAYER_URL}/relayers/${RELAYER_ID}/transactions`, {
+  method: 'POST',
+  headers: {
+    'content-type': 'application/json',
+    authorization: `Bearer ${process.env.RELAYER_API_KEY}`,
+    'idempotency-key': `pause:${TOKEN}`,
+  },
+  body: JSON.stringify({ to: TOKEN, value: 0, data: PAUSE_SELECTOR, gas_limit: 200000, speed: 'fast' }),
+});
+```
+
+That snippet makes two deliberate choices. First, the guard re-checks the threshold instead of trusting the monitor's expression, so a template change cannot widen the action. Second, the idempotency key names the action, not the triggering transaction, so a burst of matching transfers or a retried webhook sends one pause rather than several.
+
+### 6. What happened when we ran it
+
+On the local chain, a 10-token transfer produced no alert. A 250-token transfer produced the monitor alert and a `pause()` transaction signed by the relayer from its own address. The transaction confirmed, and `paused()` then read `true` on the token. The relayer's webhook reported `pending` → `sent` → `submitted` → `mined` → `confirmed` for the same transaction.
+
+That is the Defender Actions loop running on infrastructure you own. The recurring cost is the RPC plan and the box it runs on.
+
+### 7. How it plays out in an incident
+
+On a customer deployment, the same loop reads like this:
+
+1. A transfer above the limit lands at 02:14. Monitor fires once the configured confirmations pass.
+2. The ops channel gets the alert with the transaction hash and the amount; the guard calls the relayer.
+3. The relayer signs `pause()` with the pauser key and the token stops moving. The channel gets `sent`, then `confirmed`.
+4. The treasury on call reviews the transaction in the block explorer. If it was genuine traffic, unpausing is one Safe transaction, because the hot key cannot unpause.
+5. If the movement was above the auto-response limit, nobody's key moved: the guard opened a Safe proposal, and two signers decide.
+
+The point of the split is that the automated path can only ever stop things. Anything that starts them again goes through people.
+
+## Running it day to day
+
+The tooling is the easy half. These habits keep the setup working on a customer's infrastructure:
+
+- **Two thresholds.** Below a hard limit, let the guard pause automatically. Above it, route the decision to the multisig, so a false positive costs a signature rather than a halted market.
+- **Test the pause path every month.** Pause on a fork, confirm the alert fires, confirm the transaction confirms, unpause. A drill you have run is worth more than a config you have only read.
+- **Watch the checkpoint, not only the contract.** A stalled monitor is silent. Alert when the last processed block falls more than N blocks behind the chain head, or when the process has not written a metric in N minutes.
+- **One endpoint per producer.** Give the monitor's alerts and the relayer's status updates separate webhook URLs, so the guard only ever parses one payload shape.
+- **Pin the images.** `latest` is convenient on day one and a surprise on day ninety. Pin the versions you tested.
+
+## Gotchas we hit
+
+Each of these cost us time:
+
+- `confirmation_blocks` adds that many blocks of latency. With `3`, the alert waits three blocks after the transaction.
+- `functions` and `trigger_conditions` must be present in a monitor rule, even as empty arrays. Omitting them fails config validation with `missing field` errors.
+- On an idle local chain, Monitor logs `Duplicate block detected` every poll. It is noisy, not fatal.
+- Monitor logs warnings for plain-HTTP and unauthenticated webhooks. That is a fair reminder that the guard endpoint should use HTTPS and a shared secret.
+- Relayer rejects a transaction that carries no `speed`, `gas_price` or EIP-1559 fields: `Transaction must specify either gasPrice, speed, or EIP1559 parameters`.
+- `API_KEY` must be at least 32 characters. Shorter values panic at startup with a security error rather than a config hint.
+- A keystore produced by ethers v6 writes `Crypto` with a capital C, and the relayer's keystore parser expects `crypto`. Lowercase the key before mounting the file.
+- Idempotency belongs to the action, not the trigger. Keyed on the transaction hash, a burst of matching transfers sent several pause transactions in a row. Keyed on the action, it sent one.
+- Message templates print placeholders literally when the event has no such argument. A `Paused(address)` alert printed `${events.0.args.value}` until we gave it its own template.
+- The two configs spell secrets differently. Monitor wants `{"type": "environment"}`; the Relayer wants `{"type": "env"}`. Copy one into the other and Monitor fails with `data did not match any variant of untagged enum TriggerTypeConfig`, which does not point at the secret.
+- AGPL-3.0 covers Monitor, Relayer and Role Manager. Running them internally is fine; distributing a modified version means publishing the modification.
+
+## Dead ends and prices
+
+Four services teams still plan around are gone or abandoned, and Chainlink's successor needs approval before you can deploy anything.
+
+| Service | Status | What to use instead |
+|---|---|---|
+| Gelato Web3 Functions and Automate | Ended 31 March 2026 ([third-party record](https://nonceworks.com/migrations.html)) | KeeperHub, Tenderly Actions, or your own cron |
+| Chainlink Automation | v1.x ended 30 June 2026, v2.1 on 31 July 2026 ([migration docs](https://docs.chain.link/cre/reference/cla-migration-ts)) | Chainlink CRE, which needs [Early Access approval to deploy](https://docs.chain.link/cre/guides/operations/deploy-access) and has no public price |
+| thirdweb Engine (self-hosted) | Repository archived on 9 September 2026 ([GitHub](https://github.com/thirdweb-dev/engine)) | OpenZeppelin Relayer |
+| Keep3r Network | No commits since 2022 | KeeperHub, or your own cron |
+
+Among the services still running, few publish prices. KeeperHub does:
+
+- 5,000 executions a month free;
+- $49 a month for 25,000 ($39 billed annually);
+- $299 a month for 250,000;
+- $0.01 per execution ([KeeperHub pricing](https://keeperhub.com/pricing)).
+
+Tenderly's free plan is browser-only, and API access needs a paid, custom-quoted plan ([Tenderly API FAQ](https://docs.tenderly.co/troubleshooting/api)). [Hypernative](https://www.hypernative.io/product/onchain-monitoring-automated-response), [Chainalysis Hexagate with GateSigner](https://www.chainalysis.com/product/gatesigner/), [BlockSec Phalcon](https://blocksec.com/phalcon/security) and OpenZeppelin's Managed Service all quote privately.
+
+## Which option fits
+
+- **Small team, one hot wallet, no DevOps budget.** OpenZeppelin Monitor and Relayer in Docker on one box, with the guard service above. No licence cost; you own the RPC keys and the on-call rota.
+- **No appetite for infrastructure.** KeeperHub publishes its prices and starts free, with paid tiers from $49 a month. Tenderly fits better if you already debug transactions there, but budget for a sales conversation.
+- **Real money at risk.** Self-hosted Monitor matches the rules you write and nothing else. Look at Hypernative, Hexagate or Phalcon alongside your own execution layer, and expect a negotiation rather than a price list.
+
+## Conclusion
+
+Defender cannot be replaced with one purchase. It is nine decisions, and the open-source Monitor and Relayer cover the two that used to page someone at 3am: watch the contract, and act on it with a key that can only do one thing. The setup in this article pauses a token end to end on infrastructure you own, for the cost of an RPC plan and a small server. What you lose is the dashboard and the vendor on call. Budget for the alert that watches the watcher, and drill the pause path until it is boring.
+
+## Sources
+
+- https://www.openzeppelin.com/news/defender-sunset-faq
+- https://github.com/OpenZeppelin/openzeppelin-monitor
+- https://github.com/OpenZeppelin/openzeppelin-relayer
+- https://github.com/OpenZeppelin/role-manager
+- https://github.com/gnosisguild/zodiac
+- https://github.com/lidofinance/onchain-mon
+- https://forta.org
+- https://keeperhub.com/pricing
+- https://docs.tenderly.co/troubleshooting/api
+- https://docs.chain.link/cre/guides/operations/deploy-access
+- https://docs.chain.link/cre/reference/cla-migration-ts
+- https://github.com/thirdweb-dev/engine
+- https://nonceworks.com/migrations.html
+- https://www.hypernative.io/product/onchain-monitoring-automated-response
+- https://www.chainalysis.com/product/gatesigner/
+- https://blocksec.com/phalcon/security

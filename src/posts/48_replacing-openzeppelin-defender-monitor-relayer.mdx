@@ -1,21 +1,21 @@
 ---
-title: "Replacing OpenZeppelin Defender in 2026: what is left, what it costs, and a monitor-and-pause setup we tested"
-date: 2026-11-24
-description: OpenZeppelin Defender is retired. A comparison of what replaced each module, the published prices, and a self-hosted Monitor, Relayer and guard-service setup that pauses a token end to end.
+title: "Replacing OpenZeppelin Defender in 2026: what is left, what replaced it, and a monitor-and-pause setup we tested"
+date: 2026-08-27
+description: OpenZeppelin Defender is retired. What replaced each of its nine modules, and a self-hosted Monitor, Relayer and guard-service setup that pauses a token end to end.
 image: /images/blog/replacing-openzeppelin-defender-monitor-relayer.png
 type: blog
 slug: replacing-openzeppelin-defender-monitor-relayer
 ---
 
-# Replacing OpenZeppelin Defender in 2026: what is left, what it costs, and a monitor-and-pause setup we tested
+# Replacing OpenZeppelin Defender in 2026: what is left, what replaced it, and a monitor-and-pause setup we tested
 
 ## Defender is already gone
 
-There is no Defender left to configure. OpenZeppelin announced the sunset on 30 June 2025, closed new sign-ups the same day, and retired the hosted service on 1 July 2026 ([Defender sunset FAQ](https://www.openzeppelin.com/news/defender-sunset-faq)). Defender's documentation and migration guide were removed from docs.openzeppelin.com in October 2026, so the old playbooks no longer resolve.
+There is no Defender left to configure. OpenZeppelin announced the sunset on 30 June 2025, closed new sign-ups the same day, and retired the hosted service on 1 July 2026 ([Defender sunset FAQ](https://www.openzeppelin.com/news/defender-sunset-faq)).
 
 What survived is open source: [Monitor](https://github.com/OpenZeppelin/openzeppelin-monitor) (the old Sentinels), [Relayer](https://github.com/OpenZeppelin/openzeppelin-relayer), and [Role Manager](https://github.com/OpenZeppelin/role-manager), all AGPL-3.0, plus a paid Managed Service that runs Monitor and Relayer for you at a price OpenZeppelin does not publish.
 
-For the job most teams relied on Defender for, watching a contract and pausing it when something looks wrong, the practical answer is to self-host Monitor and Relayer with a small guard service between them. We built that stack and ran it against a local chain. This article maps every Defender module to its replacement, lists what the paid options publish about price, and walks through the stack, its configuration, and the problems we hit.
+For the job most teams relied on Defender for, watching a contract and pausing it when something looks wrong, the practical answer is to self-host Monitor and Relayer with a small guard service between them. We built that stack and ran it against a local chain. This article maps every Defender module to its replacement and walks through the stack, its configuration, and the problems we hit.
 
 ## Nine modules, nine answers
 
@@ -58,7 +58,7 @@ Everything the pauser key cannot do, such as unpausing, minting or upgrading, st
 
 ## How we built it
 
-We ran the whole loop while writing this: a local Anvil chain, the test token, the `openzeppelin/openzeppelin-monitor:latest` and `openzeppelin/openzeppelin-relayer:latest` Docker images (relayer 1.10.0), and the guard service in Node. The files below are that configuration, pointed at a local chain for the test with addresses and URLs replaced by placeholders.
+We ran the whole loop while writing this: a local Anvil chain, the test token, the `openzeppelin/openzeppelin-monitor:latest` and `openzeppelin/openzeppelin-relayer:latest` Docker images, and the guard service in Node. The files below are that configuration, pointed at a local chain for the test with addresses and URLs replaced by placeholders.
 
 <BlogCta />
 
@@ -256,31 +256,11 @@ Each of these cost us time:
 - The two configs spell secrets differently. Monitor wants `{"type": "environment"}`; the Relayer wants `{"type": "env"}`. Copy one into the other and Monitor fails with `data did not match any variant of untagged enum TriggerTypeConfig`, which does not point at the secret.
 - AGPL-3.0 covers Monitor, Relayer and Role Manager. Running them internally is fine; distributing a modified version means publishing the modification.
 
-## Dead ends and prices
-
-Four services teams still plan around are gone or abandoned, and Chainlink's successor needs approval before you can deploy anything.
-
-| Service | Status | What to use instead |
-|---|---|---|
-| Gelato Web3 Functions and Automate | Ended 31 March 2026 ([third-party record](https://nonceworks.com/migrations.html)) | KeeperHub, Tenderly Actions, or your own cron |
-| Chainlink Automation | v1.x ended 30 June 2026, v2.1 on 31 July 2026 ([migration docs](https://docs.chain.link/cre/reference/cla-migration-ts)) | Chainlink CRE, which needs [Early Access approval to deploy](https://docs.chain.link/cre/guides/operations/deploy-access) and has no public price |
-| thirdweb Engine (self-hosted) | Repository archived on 9 September 2026 ([GitHub](https://github.com/thirdweb-dev/engine)) | OpenZeppelin Relayer |
-| Keep3r Network | No commits since 2022 | KeeperHub, or your own cron |
-
-Among the services still running, few publish prices. KeeperHub does:
-
-- 5,000 executions a month free;
-- $49 a month for 25,000 ($39 billed annually);
-- $299 a month for 250,000;
-- $0.01 per execution ([KeeperHub pricing](https://keeperhub.com/pricing)).
-
-Tenderly's free plan is browser-only, and API access needs a paid, custom-quoted plan ([Tenderly API FAQ](https://docs.tenderly.co/troubleshooting/api)). [Hypernative](https://www.hypernative.io/product/onchain-monitoring-automated-response), [Chainalysis Hexagate with GateSigner](https://www.chainalysis.com/product/gatesigner/), [BlockSec Phalcon](https://blocksec.com/phalcon/security) and OpenZeppelin's Managed Service all quote privately.
-
 ## Which option fits
 
 - **Small team, one hot wallet, no DevOps budget.** OpenZeppelin Monitor and Relayer in Docker on one box, with the guard service above. No licence cost; you own the RPC keys and the on-call rota.
-- **No appetite for infrastructure.** KeeperHub publishes its prices and starts free, with paid tiers from $49 a month. Tenderly fits better if you already debug transactions there, but budget for a sales conversation.
-- **Real money at risk.** Self-hosted Monitor matches the rules you write and nothing else. Look at Hypernative, Hexagate or Phalcon alongside your own execution layer, and expect a negotiation rather than a price list.
+- **No appetite for infrastructure.** [KeeperHub](https://keeperhub.com/pricing) publishes its prices and starts free, with paid tiers from $49 a month. Tenderly fits better if you already debug transactions there, but its free plan is browser-only and API access needs a paid, custom-quoted plan ([Tenderly API FAQ](https://docs.tenderly.co/troubleshooting/api)).
+- **Real money at risk.** Self-hosted Monitor matches the rules you write and nothing else. Look at [Hypernative](https://www.hypernative.io/product/onchain-monitoring-automated-response), [Hexagate with GateSigner](https://www.chainalysis.com/product/gatesigner/) or [Phalcon](https://blocksec.com/phalcon/security) alongside your own execution layer, and expect a negotiation rather than a price list.
 
 ## Conclusion
 
@@ -297,10 +277,6 @@ Defender cannot be replaced with one purchase. It is nine decisions, and the ope
 - https://forta.org
 - https://keeperhub.com/pricing
 - https://docs.tenderly.co/troubleshooting/api
-- https://docs.chain.link/cre/guides/operations/deploy-access
-- https://docs.chain.link/cre/reference/cla-migration-ts
-- https://github.com/thirdweb-dev/engine
-- https://nonceworks.com/migrations.html
 - https://www.hypernative.io/product/onchain-monitoring-automated-response
 - https://www.chainalysis.com/product/gatesigner/
 - https://blocksec.com/phalcon/security

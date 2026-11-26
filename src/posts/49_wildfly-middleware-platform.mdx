@@ -1,0 +1,58 @@
+---
+title: A managed WildFly platform for Java applications
+date: 2026-11-26
+description: "A middleware case study: Ansible automated WildFly host setup, domain mode managed Java deployments, JCliff applied settings from Git, and mod_cluster routed traffic."
+image: /images/blog/wildfly-middleware-platform.png
+type: blog
+slug: wildfly-middleware-platform
+---
+
+# A managed WildFly platform for Java applications
+
+The client ran Java applications on WildFly. Every server had been built by hand, the rebuild steps hadn't been documented in Git, and every change to the server's XML configuration needed a maintenance window. Replacing a host meant reconstructing how it had been set up. Changing a shared setting meant checking that each server got the same change.
+
+We built a managed WildFly platform for the middleware administrators who looked after those servers and the application teams who released code onto them. Ansible automated host setup. WildFly domain mode gave administrators a central place to manage server groups and deployments, and JCliff applied selected settings from files in Git. Application teams deployed their own WAR and EAR packages. mod_cluster routed incoming requests to the WildFly instances serving each web application.
+
+## Where Ansible stops and domain mode starts
+
+We used Ansible with the [WildFly collection for Ansible](https://github.com/ansible-middleware/wildfly) to automate host preparation and WildFly installation. That gave the middleware team a repeatable way to set up a machine instead of retracing someone's manual steps. The collection itself doesn't support domain mode, as its README says, and its `wildfly_app_deploy` role deploys to standalone servers. None of its stock roles covers the domain layer.
+
+In [WildFly domain mode](https://docs.jboss.org/author/display/WFLY/Core%20management%20concepts.html), the domain controller holds the shared configuration. Each machine has a host controller that starts and stops its local WildFly instances. A server group ties instances to a common profile and set of deployments. The group can span multiple machines, so a release can target the group rather than a list of hosts.
+
+<BlogCta />
+
+## How a new host starts serving traffic
+
+Take a replacement host that needs to run an application already assigned to a server group. This example shows how the components fit together; the inventory layout and service setup depend on the environment.
+
+1. An administrator adds the machine to the Ansible inventory and runs the host setup playbook. This prepares the machine and installs WildFly. At this point, the host has the software but isn't serving the application yet.
+2. The host controller starts and registers with the domain controller. In a typical setup, its `host.xml` identifies the controller to contact and defines the local server instances and their group membership.
+3. The host controller starts the local WildFly instances. An instance assigned to the existing server group runs with that group's profile and deployments. The administrator doesn't need to upload the same application to the replacement host separately.
+4. Once mod_cluster registers the instance and reports the deployed web application to the proxy, the proxy can send requests for that application to it. A running server and a server that can handle a request for a particular application are two different things.
+
+## Configuration as code with JCliff
+
+We kept one JCliff configuration file per managed subsystem in Git. Middleware configuration changes went through Git rather than being made directly on a server. That left a record of what was supposed to change without making the live server the only place to look up a setting.
+
+[JCliff](https://github.com/bserdar/jcliff) reads the current settings, compares them with the desired configuration and applies the differences through the WildFly management interface. Take logging as an example. If a logging file calls for `DEBUG` and the current level is `INFO`, JCliff applies the change. If the level is already `DEBUG`, it skips the write. To put the previous level back, the administrator changes the file back to `INFO` and applies it again. The same comparison handles both changes.
+
+The scope matters as much as the value. A logging setting on a shared domain profile affects the server groups that use that profile, which can include instances on several hosts. Before applying a change, an administrator needs to know which configuration it targets. The file in Git records the desired setting; the domain configuration determines which servers it reaches.
+
+## How a deployment reached users
+
+Application teams deployed their own WAR and EAR packages through the domain controller. They targeted the server group that ran the application rather than deploying separately to each machine. That managed where the application was supposed to run. The proxy still needed to know which instances were serving its web endpoints at any given moment.
+
+With [mod_cluster](https://www.modcluster.io/), application servers send load information and web application lifecycle events back to the proxy over the Mod-Cluster Management Protocol (MCMP). When an instance deploys and enables a web application, the proxy can include that instance when routing requests for the application. When the application is undeployed, the proxy stops routing requests for it to that instance. The instance can still receive requests for other applications it serves.
+
+That distinction matters during maintenance. An instance can still be running after an application has been removed from it. A proxy that only knows which servers are up can't tell those two states apart. With mod_cluster, the proxy can continue sending requests to other instances that still serve the application, without someone updating a proxy list by hand.
+
+## What changed for the middleware team
+
+The team had a repeatable way to prepare hosts and a Git history for middleware configuration changes. Application teams kept responsibility for their own releases, and a release targeted a server group rather than a collection of individually configured machines. The useful boundary was between what should run and what can serve a request right now. WildFly managed the first; mod_cluster handled the second.
+
+## Sources
+
+- [WildFly collection for Ansible](https://github.com/ansible-middleware/wildfly)
+- [WildFly core management concepts](https://docs.jboss.org/author/display/WFLY/Core%20management%20concepts.html)
+- [JCliff](https://github.com/bserdar/jcliff)
+- [Project mod_cluster](https://www.modcluster.io/)

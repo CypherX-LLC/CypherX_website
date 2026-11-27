@@ -1,0 +1,61 @@
+---
+title: A Django project management system for infrastructure teams
+date: 2026-08-22
+description: How we built a Django application for infrastructure projects, with PostgreSQL for project records, Pentaho Kettle for batch updates, and Ansible for cloud infrastructure.
+image: /images/blog/infrastructure-project-management.png
+type: blog
+slug: infrastructure-project-management
+---
+
+# A Django project management system for infrastructure teams
+
+A project spreadsheet can tell you what someone entered on Friday. It gets harder to trust once a contract has changed, work has moved under a different parent project, or the same person has been put on two jobs. The client's project teams needed one shared place to track projects, contracts, staff assignments and status, with the links between those records kept intact.
+
+We built a web application for managing the client's infrastructure projects. These projects had hierarchies and dependencies, several stakeholders, various contracts and staff assigned across them. Project teams used the Django application for daily tracking. PostgreSQL stored the related records and enforced referential integrity, and Pentaho Kettle loaded batches of updates from external data into the same database. Teams checked the latest project data available in one application. We managed the cloud infrastructure behind the system with Ansible.
+
+## Why spreadsheets were a poor fit
+
+A project hierarchy answers one question: which larger project does this work belong to? A dependency answers another: what other work does this project rely on? A spreadsheet can represent both, but a note in a cell is easy to miss when the project is moved or the sheet is copied. The same problem applies to staffing. A person can be assigned to several projects, and keeping a separate roster on each sheet makes it hard to see those assignments together.
+
+Several stakeholders were involved in the work. A contract update and a staffing change can affect the same project without coming from the same team. A shared project record gave those changes somewhere to meet.
+
+## How an update reached the project team
+
+The application supported two ways of working with data. People used the web interface for daily project tracking, and Kettle handled updates that arrived in batches. A batch with changes to existing projects shows how the two paths met:
+
+1. Pentaho Kettle read the incoming batch and transformed its data into the shape the application used. This is the extract, transform and load step described in the [Pentaho Data Integration documentation](https://docs.pentaho.com/pdia-data-integration).
+2. The batch updates were written to PostgreSQL, where project records and their relationships were stored. A batch updated the same underlying data the web application worked with, rather than producing another spreadsheet for teams to compare.
+3. A team member opened the project in the web application and checked its status. The project's hierarchy, dependencies and assignments gave context for what the update touched.
+
+The timing distinction matters. The application showed the data stored at the moment someone opened a project, not a live view of the external sources. Anything that arrived through Kettle was as fresh as the most recent batch loaded. That is worth saying plainly: "current" in a project tool is easy to read as "real time", and here it meant current in the database.
+
+<BlogCta />
+
+## Where the business rules lived
+
+Django provided the web interface and the business logic. It let project teams work with a project as a set of related records rather than a single flat row.
+
+PostgreSQL was responsible for referential integrity. A [foreign key constraint](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK) is PostgreSQL's standard mechanism for this: it stops a row from referencing a row in another table that does not exist. Applied to project data, a record such as a staff assignment cannot point at a missing project. The rule sits in the database, so it holds for a Kettle batch as well as for the Django application.
+
+Kettle had a different job. An external batch doesn't have to arrive with the same field names or formats the application uses. The transformation step is where those differences can be handled before the data is written. That kept bulk synchronisation separate from the interface people used every day.
+
+## Managing the cloud infrastructure with Ansible
+
+We managed the cloud infrastructure with Ansible, so changes to the environment went through automation rather than being made by hand. That was a separate workflow from the batch imports. Kettle updated project data; Ansible managed the infrastructure the application ran on.
+
+[Ansible playbooks](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_intro.html) describe the tasks to run. An [inventory](https://docs.ansible.com/projects/ansible/latest/inventory_guide/intro_inventory.html) lists the managed hosts, organised into groups, that those tasks run against. For tasks that check whether the requested state is already in place, rerunning the playbook can leave matching settings alone. That matters when only part of a setup needs to change.
+
+Take a replacement application host as an example. Once the host is available, an operator can put it in the relevant inventory group and run a setup playbook to install the software and apply its configuration. The group tells Ansible which setup applies to that machine. The playbook records the setup instead of leaving the operator to reconstruct it from the old host.
+
+The example shows where the responsibility stops. Configuring a replacement host is different from restoring the project data it needs. In this system, Ansible handled the environment, PostgreSQL held the records, and Kettle brought in external updates. Keeping those jobs apart makes it clearer what to check when an environment change and a data update happen around the same time.
+
+## What the client ended up with
+
+Project teams had a web application for daily tracking, where a project could be read alongside its hierarchy, dependencies, contracts and staff assignments. PostgreSQL kept the links between those records valid. External data had a batch path into the same database, and the cloud infrastructure had an automation path of its own in Ansible. The difference was practical: someone checking a project looked at its current stored relationships in one place instead of reconstructing them from a set of files.
+
+## Sources
+
+- [Pentaho Data Integration documentation](https://docs.pentaho.com/pdia-data-integration)
+- [PostgreSQL foreign key constraints](https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK)
+- [Ansible playbooks](https://docs.ansible.com/projects/ansible/latest/playbook_guide/playbooks_intro.html)
+- [Ansible inventory](https://docs.ansible.com/projects/ansible/latest/inventory_guide/intro_inventory.html)
